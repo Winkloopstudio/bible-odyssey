@@ -439,11 +439,11 @@ button:active { transform: scale(0.98); filter: brightness(.95); }
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(-12px);
-  max-width: 160px;
+width:270px;
   background: #fff;
   border-radius: 12px;
   padding: 10px;
-  font-size: 0.9em;
+  font-size: 1.1em;
   text-align: center;
   color: #333;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
