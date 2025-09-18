@@ -13,12 +13,16 @@ html, body {
 #home-screen {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;   /* works reliably across devices */
+    justify-content: space-between; /* Footer at bottom */
+  min-height: 100dvh;
+  overflow: hidden;
 }
 
 @supports (min-height: 100dvh) {
   #home-screen {
-    min-height: 100dvh; /* only use dvh if the browser supports it properly */
+      justify-content: space-between; /* Footer at bottom */
+  min-height: 100dvh;
+  overflow: hidden;/* only use dvh if the browser supports it properly */
   }
 }
 
