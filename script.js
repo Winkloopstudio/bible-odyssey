@@ -1,31 +1,47 @@
 // script.js - Bible Odyssey
 
 /* Verse rotation */
-const verses = [
-  "The Lord is my shepherd; I shall not want. – Psalm 23:1",
-  "Trust in the Lord with all your heart. – Proverbs 3:5",
-  "I can do all things through Christ. – Philippians 4:13",
-  "Your word is a lamp to my feet. – Psalm 119:105"
+const shortVerses = [
+  "God is love — 1 Jn 4:8",
+  "Rejoice always — 1 Th 5:16",
+  "Pray continually — 1 Th 5:17"
 ];
-let verseIndex = 0;
-function rotateVerse() {
-  const banner = document.getElementById("verse-banner");
-  banner.textContent = verses[verseIndex];
-  verseIndex = (verseIndex + 1) % verses.length;
-}
-setInterval(rotateVerse, 5000);
-rotateVerse();
+
+const mediumVerses = [
+  "Trust in the Lord — Prov 3:5",
+  "The Lord is my shepherd — Ps 23:1",
+  "Be strong and courageous — Josh 1:9"
+];
+
+const longVerses = [
+  "I can do all things through Christ — Phil 4:13",
+  "Your word is a lamp to my feet — Ps 119:105",
+  "The Lord bless you and keep you — Num 6:24"
+];
+
+// Assign verses to clouds based on size
+document.querySelectorAll('.cloud').forEach(cloud => {
+  let verse = "";
+  if (cloud.classList.contains("cloud-small")) {
+    verse = shortVerses[Math.floor(Math.random() * shortVerses.length)];
+  } else if (cloud.classList.contains("cloud-medium")) {
+    verse = mediumVerses[Math.floor(Math.random() * mediumVerses.length)];
+  } else {
+    verse = longVerses[Math.floor(Math.random() * longVerses.length)];
+  }
+  cloud.querySelector('.cloud-verse').textContent = verse;
+});
 
 /* Stories */
 const stories = [
-  { title: "Creation", text: "God made the heavens and the earth—light, sky, land, plants, stars, animals, and people. God’s world is good!" },
-  { title: "Noah's Ark", text: "Noah obeyed God and built an ark. God kept Noah’s family and the animals safe through the flood. God keeps His promises." },
+  { title: "Creation", text: "God made the heavens and the earth—light, sky, land, plants, stars, animals, and people. God's world is good!" },
+  { title: "Noah's Ark", text: "Noah obeyed God and built an ark. God kept Noah's family and the animals safe through the flood. God keeps His promises." },
   { title: "David & Goliath", text: "David trusted God and defeated the giant Goliath with a sling. With faith, even little ones can do big things." },
   { title: "Daniel in the Lions' Den", text: "Daniel prayed to God and was protected from the lions. God watches over those who trust Him." },
   { title: "Jonah & the Big Fish", text: "Jonah ran away, but God showed mercy. When we turn back to God, He forgives and guides us." },
   { title: "Birth of Jesus", text: "Jesus was born in Bethlehem—good news of great joy for everyone. God sent His Son because He loves us." },
   { title: "Jesus' Miracles", text: "Jesus healed the sick, calmed storms, and fed the hungry. Nothing is impossible for Him." },
-  { title: "The Good Samaritan", text: "Jesus taught us to love our neighbor—help others, even when it’s hard." },
+  { title: "The Good Samaritan", text: "Jesus taught us to love our neighbor—help others, even when it's hard." },
   { title: "The Easter Story", text: "Jesus died for our sins and rose again. He is alive! We can have new life in Him." }
 ];
 const LS_KEY = "bibleOdysseyProgress";
@@ -107,66 +123,145 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove("show"), 1400);
 }
 
+/* Interactive Clouds with clamped dragging - FIXED VERSION */
 /* Interactive Clouds with clamped dragging */
-document.querySelectorAll('.cloud').forEach(cloud => {
-  let dragging = false;
-  let offsetX = 0, offsetY = 0;
+let dragging = false;
+let currentCloud = null;
+let offsetX = 0, offsetY = 0;
 
-  // Mouse
+document.querySelectorAll('.cloud').forEach(cloud => {
+  // Mouse events
   cloud.addEventListener('mousedown', e => {
     dragging = true;
+    currentCloud = cloud;
     offsetX = e.offsetX;
     offsetY = e.offsetY;
     cloud.style.cursor = "grabbing";
-    cloud.style.animation = "none"; // pause float
-  });
-  document.addEventListener('mouseup', () => {
-    if (dragging) {
-      dragging = false;
-      cloud.style.cursor = "grab";
-      cloud.style.animation = "float 25s linear infinite"; // resume float
-    }
-  });
-  document.addEventListener('mousemove', e => {
-    if (dragging) {
-      e.preventDefault();
-      const maxX = window.innerWidth - cloud.offsetWidth;
-      const maxY = window.innerHeight - cloud.offsetHeight;
-      let x = e.clientX - offsetX;
-      let y = e.clientY - offsetY;
-      x = Math.max(0, Math.min(x, maxX));
-      y = Math.max(0, Math.min(y, maxY));
-      cloud.style.left = x + "px";
-      cloud.style.top  = y + "px";
-    }
+    pauseDrift(cloud); // pause float
+    e.stopPropagation();
   });
 
-  // Touch
+  // Touch events
   cloud.addEventListener('touchstart', e => {
     dragging = true;
+    currentCloud = cloud;
     const touch = e.touches[0];
     offsetX = touch.clientX - cloud.getBoundingClientRect().left;
     offsetY = touch.clientY - cloud.getBoundingClientRect().top;
-    cloud.style.animation = "none";
+    pauseDrift(cloud);
+    e.stopPropagation();
   });
-  document.addEventListener('touchend', () => {
-    if (dragging) {
-      dragging = false;
-      cloud.style.animation = "float 25s linear infinite";
-    }
-  });
-  document.addEventListener('touchmove', e => {
-    if (dragging) {
-      e.preventDefault();
-      const touch = e.touches[0];
-      const maxX = window.innerWidth - cloud.offsetWidth;
-      const maxY = window.innerHeight - cloud.offsetHeight;
-      let x = touch.clientX - offsetX;
-      let y = touch.clientY - offsetY;
-      x = Math.max(0, Math.min(x, maxX));
-      y = Math.max(0, Math.min(y, maxY));
-      cloud.style.left = x + "px";
-      cloud.style.top  = y + "px";
-    }
-  }, { passive: false });
 });
+
+
+// Global mouse/touch handlers - but with proper cloud checking
+document.addEventListener('mouseup', (e) => {
+  document.querySelectorAll('.cloud').forEach(cloud => {
+    cloud.style.cursor = "grab";
+  });
+  // Reset all dragging states
+  dragging = false;
+  currentCloud = null;
+});
+
+document.addEventListener('mousemove', e => {
+  // Only process if we're actually dragging a cloud
+  if (!dragging || !currentCloud) return;
+  
+  // Check if we're dragging over a panel - if so, stop dragging
+  if (e.target.closest('.panel')) {
+    dragging = false;
+    currentCloud = null;
+    return;
+  }
+
+  e.preventDefault();
+  const maxX = window.innerWidth - currentCloud.offsetWidth;
+  const maxY = window.innerHeight - currentCloud.offsetHeight;
+  let x = e.clientX - offsetX;
+  let y = e.clientY - offsetY;
+  x = Math.max(0, Math.min(x, maxX));
+  y = Math.max(0, Math.min(y, maxY));
+  currentCloud.style.left = x + "px";
+  currentCloud.style.top  = y + "px";
+});
+
+document.addEventListener('touchend', () => {
+  document.querySelectorAll('.cloud').forEach(cloud => {
+  });
+  // Reset all dragging states
+  dragging = false;
+  currentCloud = null;
+});
+
+document.addEventListener('touchmove', e => {
+  // Only process if we're actually dragging a cloud
+  if (!dragging || !currentCloud) return;
+  
+  // Check if we're dragging over a panel - if so, stop dragging
+  if (e.target.closest('.panel')) {
+    dragging = false;
+    currentCloud = null;
+    return;
+  }
+
+  e.preventDefault();
+  const touch = e.touches[0];
+  const maxX = window.innerWidth - currentCloud.offsetWidth;
+  const maxY = window.innerHeight - currentCloud.offsetHeight;
+  let x = touch.clientX - offsetX;
+  let y = touch.clientY - offsetY;
+  x = Math.max(0, Math.min(x, maxX));
+  y = Math.max(0, Math.min(y, maxY));
+  currentCloud.style.left = x + "px";
+  currentCloud.style.top  = y + "px";
+}, { passive: false });
+
+// Bible mascot click event
+const mascot = document.getElementById("bible-mascot");
+const mouth = document.getElementById("mascot-mouth");
+const verseBubble = document.getElementById("verse-bubble");
+
+const verses = [
+  "Be kind to one another — Eph 4:32",
+  "Trust in the Lord — Prov 3:5",
+  "I can do all things — Phil 4:13"
+];
+
+mascot.addEventListener("click", () => {
+  // show verse bubble
+  const verse = verses[Math.floor(Math.random() * verses.length)];
+  verseBubble.textContent = verse;
+  verseBubble.classList.remove("hidden");
+
+  // animate smile
+  mouth.setAttribute("d", "M55 105 Q70 130 85 105"); // big smile
+  setTimeout(() => {
+    mouth.setAttribute("d", "M55 105 Q70 120 85 105"); // return to normal
+  }, 1200);
+});
+
+// Additional fix: Reset dragging state when panels open/close
+const originalOpenStorySelect = openStorySelect;
+const originalOpenSettings = openSettings;
+
+openStorySelect = function() {
+  dragging = false;
+  currentCloud = null;
+  originalOpenStorySelect();
+};
+
+openSettings = function() {
+  dragging = false;
+  currentCloud = null;
+  originalOpenSettings();
+};
+
+// Pause/resume just the drifting part
+function pauseDrift(cloud) {
+  cloud.style.animationPlayState = "paused, running"; // pause floatAcross, keep bob running
+}
+
+function resumeDrift(cloud) {
+  cloud.style.animationPlayState = "running, running";
+}

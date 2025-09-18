@@ -118,17 +118,18 @@ button:active { transform: scale(0.98); filter: brightness(.95); }
 
 /* Panels */
 .panel {
-  position: fixed;   /* ignore flexbox from home-screen */
+  position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;               /* higher than verse banner & UI */
-  background: rgba(0,0,0,0.35); /* dim background */
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* horizontal center */
+  z-index: 5000;
+  background: rgba(0,0,0,0.35);
+  overflow: hidden;         /* no scrollbars */
 }
 
+/* Card is flex child, no transforms or absolute */
 .panel .card {
-  position: relative;
   width: 90%;
   max-width: 370px;
   background: #fff;
@@ -136,9 +137,11 @@ button:active { transform: scale(0.98); filter: brightness(.95); }
   padding: 22px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.3);
   text-align: center;
+  margin: 0;                /* important: no auto margins pushing it */
+  position: relative;       /* default positioning, stable */
+  top: auto; left: auto;    /* reset any stray values */
+  transform: none;          /* no translations */
 }
-
-
 
 .hidden { display: none; }
 
@@ -184,39 +187,112 @@ button:active { transform: scale(0.98); filter: brightness(.95); }
 }
 
 /* Clouds */
+/* ===== Clouds (puff shapes + sizes) ===== */
 .cloud {
   position: absolute;
-  display: flex;
+  display: flex;                 /* lets puffs sit in a row */
   align-items: center;
   cursor: grab;
-  animation: float 25s linear infinite;
+  /* leave your float/drag styles as-is elsewhere */
 }
+
 .cloud .puff {
   background: #fff;
   border-radius: 50%;
   display: block;
 }
-.cloud .puff.big   { width: 70px; height: 60px; }
-.cloud .puff.mid   { width: 55px; height: 45px; margin-left: -15px; margin-top: 5px; }
-.cloud .puff.small { width: 40px; height: 35px; margin-left: -10px; margin-top: -5px; }
-.cloud .puff.tiny  { width: 25px; height: 25px; margin-left: -5px; margin-top: 8px; }
 
-.cloud:nth-of-type(1) { animation-duration: 20s; }
-.cloud:nth-of-type(2) { animation-duration: 28s; }
-.cloud:nth-of-type(3) { animation-duration: 24s; }
-
-.cloud .puff {
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.cloud:hover .puff {
-  transform: scale(1.1);
-  box-shadow: 0 0 12px rgba(255,255,255,0.8);
+/* Use CSS variables so we can resize clouds by class */
+.cloud {
+  --puff-big:   70px;  /* default = medium */
+  --puff-mid:   55px;
+  --puff-small: 40px;
 }
 
-@keyframes float {
-  from { transform: translateX(-160px); }
-  to   { transform: translateX(calc(100vw + 160px)); }
+/* Actual puff sizes (slightly elliptical for nice look) */
+.cloud .puff.big   { width: var(--puff-big);   height: calc(var(--puff-big) * 0.8); }
+.cloud .puff.mid   { width: var(--puff-mid);   height: calc(var(--puff-mid) * 0.82);  margin-left: -16px; margin-top: 6px; }
+.cloud .puff.small { width: var(--puff-small); height: calc(var(--puff-small) * 0.85); margin-left: -12px; margin-top: -5px; }
+
+/* Size variants */
+.cloud-small  { --puff-big: 56px; --puff-mid: 44px; --puff-small: 32px; }
+.cloud-medium { --puff-big: 70px; --puff-mid: 55px; --puff-small: 40px; }
+.cloud-large  { --puff-big: 88px; --puff-mid: 70px; --puff-small: 52px; }
+
+/* Verse text inside clouds */
+.cloud-verse{
+  position: absolute;            /* sits on top of the puffs */
+  text-align: center;
+  font-size: clamp(0.6em, 1.5vw, 0.9em);
+  font-weight: 700;
+  color: #333;
+  text-shadow: 0 0 3px #fff;     /* readability on white */
+  line-height: 1.2em;
+  padding: 2px 6px;
+  pointer-events: none;          /* dragging still works */
+  max-width: 90%;
 }
+
+/* tighter max width per cloud size so text wraps nicely */
+.cloud-small  .cloud-verse { max-width: 70px; }
+.cloud-medium .cloud-verse { max-width: 100px; }
+.cloud-large  .cloud-verse { max-width: 130px; }
+
+/* ===== Cloud animations ===== */
+
+/* Drift across the screen */
+@keyframes floatAcross {
+  0%   { transform: translateX(-150px); }
+  100% { transform: translateX(110vw); }
+}
+
+/* Bobbing up and down */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.cloud {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+
+  /* Run two animations at once: drift + bob */
+  animation:
+    floatAcross var(--float-dur, 35s) linear infinite,
+    bob 4s ease-in-out infinite;
+  will-change: transform;
+  z-index: 1;
+}
+
+/* Different drift speeds */
+.cloud-small  { --float-dur: 25s; }
+.cloud-medium { --float-dur: 35s; }
+.cloud-large  { --float-dur: 45s; }
+
+
+
+
+/* UI stays above clouds */
+.ui, .content, h1, .menu-buttons {
+  position: relative;
+  z-index: 5;
+}
+
+/* Different speeds for variety */
+.cloud-small  { --float-dur: 25s; }
+.cloud-medium { --float-dur: 35s; }
+.cloud-large  { --float-dur: 45s; }
+
+/* Pause while dragging */
+.cloud:active { animation-play-state: paused; }
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .cloud { animation: none; }
+}
+
 
 /* Stars */
 .star {
@@ -244,3 +320,166 @@ button:active { transform: scale(0.98); filter: brightness(.95); }
   #verse-banner { font-size: 0.9em; min-height: 36px; }
   #footer { font-size: 0.75em; }
 }
+
+
+/* Bible Mascot */
+#bible-mascot {
+  position: relative;
+  margin: 0 auto 20px auto;
+  width: 90px;
+  height: 120px;
+  cursor: pointer;
+  animation: mascotBounce 3s ease-in-out infinite;
+  z-index: 10;
+}
+
+/* Book body */
+.book-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #6dd5ed, #2193b0);
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Eyes & Smile */
+.eyes {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 40%;
+  height: 10px;
+  display: flex;
+  justify-content: space-between;
+  transform: translateX(-50%);
+}
+.eyes::before, .eyes::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+}
+
+.eye {
+  transform-origin: center;
+  animation: blink 5s infinite;
+}
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+
+.smile {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  width: 40px;
+  height: 20px;
+  border-bottom: 4px solid #000;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.mouth { transition: d 0.3s ease; }
+.mouth.smile { d: path("M45,115 Q70,135 95,115"); } /* bigger smile */
+
+
+/* Arms & Legs */
+.arm, .leg {
+  position: absolute;
+  background: #2193b0;
+}
+.arm {
+  width: 20px; height: 8px;
+  top: 40%;
+}
+.left-arm { left: -20px; transform-origin: right center; animation: wave 2s infinite alternate; }
+.right-arm { right: -20px; transform-origin: left center; animation: wave 2s infinite alternate-reverse; }
+.leg {
+  width: 12px; height: 20px;
+  bottom: -20px;
+}
+.left-leg { left: 20px; }
+.right-leg { right: 20px; }
+
+/* Hands & Feet */
+.hand, .foot {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.left-arm .hand {
+  width: 12px; height: 12px;
+  left: -12px; top: -2px;
+}
+.right-arm .hand {
+  width: 12px; height: 12px;
+  right: -12px; top: -2px;
+}
+.left-leg .foot {
+  width: 14px; height: 8px;
+  bottom: -8px; left: -2px;
+  border-radius: 50% 50% 0 0;
+}
+.right-leg .foot {
+  width: 14px; height: 8px;
+  bottom: -8px; right: -2px;
+  border-radius: 50% 50% 0 0;
+}
+
+
+/* Verse bubble */
+#verse-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+  max-width: 160px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 0.9em;
+  text-align: center;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+
+  z-index: 9999; /* make sure it’s always on top */
+}
+
+
+
+#verse-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0 10px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+.hidden { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+#mascot-wrapper {
+  display: inline-block;
+  position: relative;   /* required for child absolute */
+  z-index: 2000;        /* way above menus */
+  animation: bob 3s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
