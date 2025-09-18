@@ -13,9 +13,13 @@ html, body {
 #home-screen {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Footer at bottom */
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;   /* works reliably across devices */
+}
+
+@supports (min-height: 100dvh) {
+  #home-screen {
+    min-height: 100dvh; /* only use dvh if the browser supports it properly */
+  }
 }
 
 .content {
