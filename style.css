@@ -1,0 +1,246 @@
+/* style.css - Bible Odyssey */
+
+/* Base layout */
+:root { --ui-max: 480px; }
+
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+  background: linear-gradient(to bottom, #87CEFA, #ffffff);
+  overflow: hidden;
+}
+
+#home-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Footer at bottom */
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ui {
+  flex: 1; /* Take space between header and footer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--ui-max);
+  padding: 20px;
+  text-align: center;
+  z-index: 5;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0 0 10px;
+  color: #fff;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+}
+
+/* Bible icon */
+.bible-icon {
+  font-size: 4em;
+  margin-bottom: 12px;
+  color: #FFD700;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* Verse banner */
+#verse-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 42px;   /* Locks banner height */
+  padding: 10px 18px;
+  margin: 20px auto;
+  font-size: 1.05em;
+  font-style: italic;
+  color: #2a2a2a;
+  background: linear-gradient(to right, #ffffff, #f0f0f0);
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.7);
+  animation: fadeVerse 0.6s ease;
+}
+@keyframes fadeVerse {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* Menu buttons */
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.menu-item .tagline {
+  margin: 5px 0 15px;
+  font-size: 0.9em;
+  font-style: italic;
+  opacity: 0.85;
+}
+.menu-item .tagline.story { color: #2e7d32; }
+.menu-item .tagline.journey { color: #1565c0; }
+
+button {
+  padding: 16px;
+  font-size: 1.2em; font-weight: 700;
+  border: 0; border-radius: 35px;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.3);
+  cursor: pointer; transition: transform .15s, box-shadow .15s, filter .15s;
+}
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35), 0 0 10px rgba(0,180,255,0.6);
+}
+button:active { transform: scale(0.98); filter: brightness(.95); }
+
+.btn-primary { background: linear-gradient(145deg,#6dd5ed,#2193b0); }
+.btn-secondary { background: linear-gradient(145deg,#56ccf2,#2f80ed); }
+.btn-neutral { background: linear-gradient(145deg,#bdbdbd,#7a7a7a); }
+
+/* Panels */
+.panel {
+  position: fixed;   /* ignore flexbox from home-screen */
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;               /* higher than verse banner & UI */
+  background: rgba(0,0,0,0.35); /* dim background */
+}
+
+.panel .card {
+  position: relative;
+  width: 90%;
+  max-width: 370px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+
+
+.hidden { display: none; }
+
+/* Story list */
+#story-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+.story-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1em;
+  border-radius: 25px;
+  background: linear-gradient(145deg,#6dd5ed,#2193b0);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+.story-btn[data-locked="true"] {
+  background: linear-gradient(145deg,#bdbdbd,#a7a7a7);
+  cursor: not-allowed;
+}
+.story-btn[data-locked="true"]::before { content: "🔒 "; }
+.story-btn.done::after { content: " ✓"; font-weight: bold; }
+
+/* Footer */
+#footer {
+  text-align: center;
+  padding: 12px 0;
+  flex-shrink: 0;
+}
+#footer img { height: 60px; margin-bottom: 4px; }
+#footer p {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  font-variant: small-caps;
+  background: linear-gradient(to right,#d4af37,#b8860b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  animation: float 25s linear infinite;
+}
+.cloud .puff {
+  background: #fff;
+  border-radius: 50%;
+  display: block;
+}
+.cloud .puff.big   { width: 70px; height: 60px; }
+.cloud .puff.mid   { width: 55px; height: 45px; margin-left: -15px; margin-top: 5px; }
+.cloud .puff.small { width: 40px; height: 35px; margin-left: -10px; margin-top: -5px; }
+.cloud .puff.tiny  { width: 25px; height: 25px; margin-left: -5px; margin-top: 8px; }
+
+.cloud:nth-of-type(1) { animation-duration: 20s; }
+.cloud:nth-of-type(2) { animation-duration: 28s; }
+.cloud:nth-of-type(3) { animation-duration: 24s; }
+
+.cloud .puff {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cloud:hover .puff {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(255,255,255,0.8);
+}
+
+@keyframes float {
+  from { transform: translateX(-160px); }
+  to   { transform: translateX(calc(100vw + 160px)); }
+}
+
+/* Stars */
+.star {
+  position: absolute;
+  font-size: 1.4em;
+  color: #FFD700;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle { from { opacity: .35;} to { opacity: 1;} }
+
+/* Toast */
+#toast {
+  position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.8); color: #fff;
+  padding: 10px 14px; border-radius: 14px;
+  font-size: .95em; z-index: 50;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#toast.show { opacity: 1; }
+
+/* --- Responsive Adjustments --- */
+@media (max-height: 680px) {
+  h1 { font-size: 2.2em; }
+  .menu-buttons button { padding: 10px 18px; font-size: 0.95em; }
+  #verse-banner { font-size: 0.9em; min-height: 36px; }
+  #footer { font-size: 0.75em; }
+}

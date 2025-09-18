@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bible Odyssey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="home-screen">
+    <!-- Decorations -->
+<!-- Cloud 1 -->
+<div class="cloud" style="top:60px; left:80px;">
+  <span class="puff big"></span>
+  <span class="puff mid"></span>
+  <span class="puff big"></span>
+  <span class="puff mid"></span>
+</div>
+
+<!-- Cloud 2 -->
+<div class="cloud" style="top:140px; left:200px;">
+  <span class="puff big"></span>
+  <span class="puff mid"></span>
+</div>
+
+<!-- Cloud 3 -->
+<div class="cloud" style="top:230px; left:320px;">
+ <span class="puff big"></span>
+  <span class="puff mid"></span>
+  <span class="puff mid"></span>
+</div>
+
+
+
+    <div class="star"  style="top:30px; left:80%;">✦</div>
+    <div class="star"  style="top:110px; left:10%;">✦</div>
+    <div class="star"  style="top:180px; left:72%;">✦</div>
+	<div class="star"  style="top:30px; left:60%;">✦</div>
+    <div class="star"  style="top:110px; left:10%;">✦</div>
+    <div class="star"  style="top:180px; left:45%;">✦</div>
+
+    <!-- UI -->
+	<div class="content">
+    <div class="ui">
+      <div class="bible-icon">📖</div>
+      <h1>Bible Odyssey</h1>
+      <div id="verse-banner">Loading verse...</div>
+
+      <div class="menu-buttons">
+        <div class="menu-item">
+          <button class="btn-primary" onclick="openStorySelect()">Story Mode</button>
+          <p class="tagline story">Best for Kids</p>
+        </div>
+
+        <div class="menu-item">
+          <button class="btn-secondary" onclick="comingSoon()">Journey Mode</button>
+          <p class="tagline journey">For Older Kids & Teens (Coming Soon)</p>
+        </div>
+
+        <div class="menu-item">
+          <button class="btn-neutral" onclick="openSettings()">Settings</button>
+        </div>
+      </div>
+    </div>
+	</div>
+
+    <!-- Footer branding -->
+    <div id="footer">
+      <img src="assets/believe33-logo.png" alt="Believe 33 Logo" />
+      <p>Faith-Based Games</p>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="panel hidden">
+    <div class="card">
+      <h2 style="color:#333; margin:0 0 12px;">Settings</h2>
+      <label style="display:block; margin:10px 0; font-size:1.05em;">
+        <input type="checkbox" id="sound-toggle" checked />
+        Sound On
+      </label>
+
+      <label style="display:block; margin:10px 0; font-size:1.05em;">
+        Font Size:
+        <select id="font-size">
+          <option value="small">Small</option>
+          <option value="medium" selected>Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </label>
+
+      <div style="margin-top:14px; display:flex; gap:10px; justify-content:center;">
+        <button class="btn-secondary" onclick="closeSettings()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story Select Menu -->
+  <div id="story-select" class="panel hidden">
+    <div class="card">
+      <h2 style="color:#2a4d9c; margin:0 0 10px;">Select a Story</h2>
+      <div id="story-list"></div>
+      <div style="margin-top:14px;">
+        <button class="btn-secondary" onclick="closeStorySelect()">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storybook Page -->
+  <div id="story-page" class="panel hidden">
+    <div class="card">
+      <h2 id="story-title"></h2>
+      <p id="story-text"></p>
+      <div style="display:flex; gap:10px; justify-content:center;">
+        <button class="btn-primary" onclick="nextPage()">Next Page</button>
+        <button class="btn-secondary" onclick="closeStoryPage()">Back to Stories</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast">Progress saved!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
