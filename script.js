@@ -124,40 +124,39 @@ function showToast(msg) {
 }
 
 /* Interactive Clouds with clamped dragging - FIXED VERSION */
-/* Interactive Clouds with clamped dragging */
-let dragging = false;
-let currentCloud = null;
-let offsetX = 0, offsetY = 0;
-
 document.querySelectorAll('.cloud').forEach(cloud => {
-  // Mouse events
+  let dragging = false;
+  let offsetX = 0, offsetY = 0;
+  let currentCloud = null; // Track which cloud is being dragged
+
+  // Mouse events - attached directly to each cloud
   cloud.addEventListener('mousedown', e => {
     dragging = true;
     currentCloud = cloud;
     offsetX = e.offsetX;
     offsetY = e.offsetY;
     cloud.style.cursor = "grabbing";
-    pauseDrift(cloud); // pause float
-    e.stopPropagation();
+    cloud.style.animation = "none"; // pause float
+    e.stopPropagation(); // Prevent event bubbling
   });
 
-  // Touch events
+  // Touch events - attached directly to each cloud  
   cloud.addEventListener('touchstart', e => {
     dragging = true;
     currentCloud = cloud;
     const touch = e.touches[0];
     offsetX = touch.clientX - cloud.getBoundingClientRect().left;
     offsetY = touch.clientY - cloud.getBoundingClientRect().top;
-    pauseDrift(cloud);
-    e.stopPropagation();
+    cloud.style.animation = "none";
+    e.stopPropagation(); // Prevent event bubbling
   });
 });
-
 
 // Global mouse/touch handlers - but with proper cloud checking
 document.addEventListener('mouseup', (e) => {
   document.querySelectorAll('.cloud').forEach(cloud => {
     cloud.style.cursor = "grab";
+    cloud.style.animation = "float 25s linear infinite";
   });
   // Reset all dragging states
   dragging = false;
@@ -188,6 +187,7 @@ document.addEventListener('mousemove', e => {
 
 document.addEventListener('touchend', () => {
   document.querySelectorAll('.cloud').forEach(cloud => {
+    cloud.style.animation = "float 25s linear infinite";
   });
   // Reset all dragging states
   dragging = false;
@@ -256,12 +256,24 @@ openSettings = function() {
   currentCloud = null;
   originalOpenSettings();
 };
-
-// Pause/resume just the drifting part
-function pauseDrift(cloud) {
-  cloud.style.animationPlayState = "paused, running"; // pause floatAcross, keep bob running
+// Continue button logic
+function continueStory() {
+  if (progress > 0) {
+    playStory(progress - 1);
+  } else {
+    openStorySelect();
+  }
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  if (progress > 0) {
+    document.getElementById("continue-container").style.display = "block";
+  }
+});
+
+function pauseDrift(cloud) {
+  cloud.style.animationPlayState = "paused, running";
+}
 function resumeDrift(cloud) {
   cloud.style.animationPlayState = "running, running";
 }
