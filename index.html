@@ -547,15 +547,16 @@ header strong {
 .accordion-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.4s ease, padding 0.3s ease;
   background: #fffbe8;
   padding: 0 12px;
 }
 
 .accordion-body.open {
   padding: 12px;
-  max-height: 400px; /* enough room for text */
+  max-height: 1000px; /* big enough to fit long text */
 }
+
 
 
 
