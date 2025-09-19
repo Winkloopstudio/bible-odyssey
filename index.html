@@ -641,11 +641,12 @@ function openStorybook(storyId) {
   if (!s) return;
 
   // Example pages (replace with real story text later)
-  storyPages = [
-    { text: `In the beginning, God created the heavens and the earth.`, art: s.art },
-    { text: `God said, "Let there be light," and there was light.`, art: s.art },
-    { text: `God made the animals, the plants, and people too!`, art: s.art }
-  ];
+storyPages = [
+  { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
+  { text: "God said, 'Let there be light,' and there was light.", art: "images/creation2.png" },
+  { text: "God made the animals, the plants, and people too!", art: "images/creation3.png" }
+];
+
   currentPage = 0;
   renderStoryPage();
 
