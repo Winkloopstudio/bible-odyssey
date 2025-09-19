@@ -501,33 +501,26 @@ header strong {
   font-size: 16px;
   line-height: 1.6;
 }
-.circle-info {
-  position: relative; /* sits inside header */
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+
+#openInfo {
   border: none;
-  background: linear-gradient(145deg, #3bb2ff, #2070b0); /* glossy blue */
+  background: transparent;
   color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.3);
+  font-size: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 10; /* sit above ticker */
+  transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
 }
 
-.circle-info:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.35), inset 0 -2px 4px rgba(0,0,0,0.4);
+#openInfo:hover {
+  transform: scale(1.2);
+  color: #fffae6; /* slightly warmer white */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
 }
 
-.circle-info:active {
-  transform: scale(0.95);
-  box-shadow: 0 3px 5px rgba(0,0,0,0.25) inset;
-}
+
+
 
   
 </style>
@@ -548,7 +541,7 @@ header strong {
   <header>
     <strong>Bible Odyssey</strong>
     <div class="ticker"><span id="verseTicker"></span></div>
-   <button id="openInfo" class="circle-info">ℹ️</button>
+   <button id="openInfo">ℹ️</button>
 
   </header>
 
@@ -1042,7 +1035,7 @@ $("#quitBtn").addEventListener("click", ()=>{
 });
 
 /* Settings gear simply opens pause for this prototype */
-$("#openSettings").addEventListener("click", ()=> showPause(true));
+$("#openInfo").addEventListener("click", ()=> showPause(true));
 
 /* -------------- Keyboard helpers for quick testing -------------- */
 document.addEventListener("keydown", (e)=>{
