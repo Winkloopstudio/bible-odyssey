@@ -226,13 +226,15 @@ header strong {
 
   /* Storybook */
 
-  .storybook {
+.storybook {
+  position: relative; /* NEW - makes children’s absolute positioning relative */
   display: flex;
   flex-direction: column;
   height: 100%;
   background: #fffbe8;
   padding: 12px;
 }
+
 
 .storybook-art {
   flex: 1.2;   /* slightly less space than before */
@@ -397,7 +399,7 @@ header strong {
 <section id="storybookView" class="hidden screen">
   <div class="storybook">
 
-    <button id="closeStory" class="nav-btn" style="position:absolute;top:12px;right:12px;background:#ef4444;box-shadow:0 4px 0 #7f1d1d;">
+    <button id="closeStory" class="nav-btn" style="position:absolute;top:12px;right:12px;background:#ef4444;box-shadow:0 4px 0 #7f1d1d; z-index:10;">
       ✖ Exit
     </button>
 
