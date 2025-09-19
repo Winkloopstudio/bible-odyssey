@@ -520,46 +520,43 @@ header strong {
 }
 
 
-.accordion-item {
+.accordion {
   border-bottom: 1px solid #ddd;
-  margin-bottom: 6px;
-}
-.accordion-toggle {
-  width: 100%;
-  background: skyblue;
-  background-color:skyblue;
-  border: none;
-  text-align: left;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px;
-  cursor: pointer;
-  color: #000000; /* deep red like your screenshot */
-}
-.accordion-toggle:hover {
-  background: #cdcdcd;
-}
-.accordion-body {
-  padding: 0 12px 12px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #333;
 }
 
-.info-footer {
-  margin-top: 20px;
-  padding-top: 12px;
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  border-top: 1px solid #ccc;
+.accordion-header {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  background: #f5d7a6;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.info-footer small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  color: #999;
+
+.accordion-header:hover {
+  background: ##cdcdcd;
 }
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: #fffbe8;
+  padding: 0 12px;
+}
+
+.accordion-body.open {
+  padding: 12px;
+  max-height: 400px; /* enough room for text */
+}
+
 
 
   
@@ -669,57 +666,75 @@ header strong {
   </main>
 
   <!-- INFO PANEL -->
-<div id="infoPanel" class="hidden">
-  <div class="info-header">
-    <h2>ℹ️ Information</h2>
-    <button id="closeInfo">✕</button>
-  </div>
+<div class="info-content">
 
-  <div class="info-content">
-    <div class="accordion">
-      <div class="accordion-item">
-        <button class="accordion-toggle">Info for Parents ▼</button>
-        <div class="accordion-body hidden">
-          <p>This app is designed to be safe for kids. We encourage parents to explore the Bible together with their children.</p>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-toggle">About Bible Odyssey ▼</button>
-        <div class="accordion-body hidden">
-          <p>Bible Odyssey is a faith-based adventure where children can enjoy games while learning God’s Word.</p>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-toggle">Terms of Use ▼</button>
-        <div class="accordion-body hidden">
-          <p>All content is provided as-is. By using this app, you agree to respect our guidelines and use it for personal, faith-based enrichment only.</p>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-toggle">Privacy Policy ▼</button>
-        <div class="accordion-body hidden">
-          <p>No personal data is collected beyond basic gameplay progress stored locally on your device.</p>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-toggle">Contact Us ▼</button>
-        <div class="accordion-body hidden">
-          <p>Email: joshua@believe33.org<br/>Website: www.believe33.org</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer Info -->
-    <div class="info-footer">
-      <p>2025 Believe 33 </p>
-      <small>Version: 1.0.0<br>Build: 101</small>
+  <div class="accordion">
+    <button class="accordion-header">ℹ️ Welcome</button>
+    <div class="accordion-body">
+      <p>Welcome to Bible Odyssey – a fun, faith-based way for kids to explore the Bible.</p>
     </div>
   </div>
+
+  <div class="accordion">
+    <button class="accordion-header">🎯 Our Mission</button>
+    <div class="accordion-body">
+      <p>We believe in creating engaging games and stories that help children grow in their knowledge of God’s Word while having fun.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">👨‍👩‍👧 For Parents</button>
+    <div class="accordion-body">
+      <p>This app is designed for safe, guided exploration. We encourage parents to read and play together with their children!</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">⚙️ Settings</button>
+    <div class="accordion-body">
+      <button id="toggleSound">🔊 Toggle Sound</button>
+      <button id="resetProgress">♻ Reset Progress</button>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">📜 Terms of Use</button>
+    <div class="accordion-body">
+      <p>Welcome to Bible Odyssey! By using this app, you agree to the following terms:</p>
+      <ul>
+        <li>This app is provided for personal, non-commercial use only.</li>
+        <li>All artwork, stories, and game content are the property of Believe 33.</li>
+        <li>Please use it responsibly and only on devices you own or control.</li>
+        <li>We are not responsible for damages or loss caused by use of the app.</li>
+        <li>These terms may be updated from time to time.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">🔒 Privacy Policy</button>
+    <div class="accordion-body">
+      <p>Your privacy is important to us. Here’s how Bible Odyssey handles your data:</p>
+      <ul>
+        <li>We do not collect personal information from children or users of this app.</li>
+        <li>Game progress is saved locally on your device, never sent to servers.</li>
+        <li>No data is sold, shared, or rented to third parties.</li>
+        <li>This app complies with child privacy laws (COPPA in the US).</li>
+        <li>Parents are encouraged to supervise gameplay and teach safe digital habits.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer style="margin-top:20px; font-size:13px; text-align:center; color:#555;">
+    ©2025 Believe 33 <br>
+    Version 1.0.0 | Build 1001
+  </footer>
+
 </div>
+
+
+
+
 
 
   <!-- BOTTOM NAV -->
@@ -1226,6 +1241,14 @@ $$(".accordion-toggle").forEach(btn => {
     } else {
       btn.textContent = btn.textContent.replace("▼", "▲");
     }
+  });
+});
+
+  // Accordion toggle logic
+$$(".accordion-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const body = header.nextElementSibling;
+    body.classList.toggle("open");
   });
 });
 
