@@ -766,11 +766,11 @@ function openStorybook(storyId) {
 function showStoryPages(storyId) {
   const s = STORIES[currentStoryIdx];
 
-   if (s.video) {
-    $("#replayVideoBtn").classList.remove("hidden");
-  } else {
-    $("#replayVideoBtn").classList.add("hidden");
-  }
+if (s.video) {
+  $("#replayRibbon").classList.remove("hidden");
+} else {
+  $("#replayRibbon").classList.add("hidden");
+}
 
   if (storyId === "creation") {
     storyPages = [
