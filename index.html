@@ -70,11 +70,13 @@
 }
 .ticker span {
   display: inline-block;
-  animation: scrollVerse 14s linear infinite;
   font-size: 15px;
   font-weight: 600;
   color: #fffde7;
+  white-space: nowrap;
+  will-change: transform;
 }
+
 @keyframes scrollVerse {
   from { transform: translateX(100%); }
   to   { transform: translateX(-100%); }
@@ -297,6 +299,33 @@ setTimeout(()=>{
 /* -------------- Ticker -------------- */
 let vi = 0;
 const tickerSpan = document.querySelector(".ticker span");
+let vi = 0;
+
+function showVerse() {
+  tickerSpan.innerText = VERSES[vi % VERSES.length];
+  vi++;
+
+  // Reset any old animation
+  tickerSpan.style.transition = "none";
+  tickerSpan.style.transform = "translateX(100%)";
+
+  // Force browser to reflow so transition restarts clean
+  void tickerSpan.offsetWidth;
+
+  // Calculate scroll distance
+  const distance = tickerSpan.offsetWidth + tickerSpan.parentElement.offsetWidth;
+  const duration = distance / 50; // speed = 50px/s (adjust as needed)
+
+  // Animate leftwards
+  tickerSpan.style.transition = `transform ${duration}s linear`;
+  tickerSpan.style.transform = `translateX(-${tickerSpan.offsetWidth}px)`;
+
+  // When done, schedule next verse
+  setTimeout(showVerse, duration * 1000 + 1000); // +1s pause
+}
+
+showVerse();
+
 
 function cycleTicker(){
   tickerSpan.innerText = VERSES[vi % VERSES.length];
