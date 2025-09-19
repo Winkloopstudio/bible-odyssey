@@ -382,6 +382,34 @@ header strong {
 }
 .dots span.active { background: #28c145; }
 
+  #videoOverlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  flex-direction: column;
+}
+#videoOverlay video {
+  max-width: 95%;
+  max-height: 80%;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+#skipVideo {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: #28c145;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -418,7 +446,12 @@ header strong {
       </div>
     </div>
 
-    <!-- STORYBOOK VIEW -->
+    <!-- Story Video VIEW -->
+    <div id="videoOverlay" class="hidden">
+  <video id="storyVideo" controls playsinline></video>
+  <button id="skipVideo">Skip ▶</button>
+</div>
+
 <!-- STORYBOOK VIEW -->
 <section id="storybookView" class="hidden screen">
   <div class="storybook">
@@ -501,9 +534,9 @@ const VERSES = [
 
 
 const STORIES = [
-  { id:"creation", name:"Creation", ref:"Genesis 1–2", art:"images/creation.png", levels:3 },
-  { id:"noah", name:"Noah’s Ark", ref:"Genesis 6–9", art:"images/noah.png", levels:3 },
-  { id:"david", name:"David & Goliath", ref:"1 Samuel 17", art:"images/david.png", levels:3 },
+  { id:"creation", name:"Creation", ref:"Genesis 1–2", art:"images/creation.png", levels:3,  video:"videos/creation.mp4 },
+  { id:"noah", name:"Noah’s Ark", ref:"Genesis 6–9", art:"images/noah.png", levels:3,  video:"videos/noah.mp4 },
+  { id:"david", name:"David & Goliath", ref:"1 Samuel 17", art:"images/david.png", levels:3,  video:"videos/david.mp4 },
   { id:"daniel", name:"Daniel & Lions", ref:"Daniel 6", art:"images/daniel.png", levels:3 },
   { id:"jonah", name:"Jonah & Fish", ref:"Jonah 1–2", art:"images/jonah.png", levels:3 },
   { id:"nativity", name:"Birth of Jesus", ref:"Luke 2", art:"images/nativity.png", levels:3 },
@@ -674,11 +707,23 @@ let storyPages = [];
 let currentPage = 0;
 
 function openStorybook(storyId) {
-  // keep state in sync for highlights, HUD, etc.
   activeStory = storyId;
   currentStoryIdx = STORIES.findIndex(st => st.id === storyId);
   const s = STORIES[currentStoryIdx];
   if (!s) return;
+
+  // Check for intro video
+  if (s.video && !progress[s.id]?.videoPlayed) {
+    playStoryVideo(s.video, () => {
+      // mark video as played
+      progress[s.id] = { ...progress[s.id], videoPlayed: true };
+      save();
+      showStoryPages(storyId);
+    });
+  } else {
+    showStoryPages(storyId);
+  }
+}
 
   if (storyId === "creation") {
     // 8-day Creation flow
@@ -898,6 +943,30 @@ const HIGHLIGHTS_STORY = {
   return highlighted;
 }
 
+    // video handling
+  function playStoryVideo(src, onFinish) {
+  const overlay = $("#videoOverlay");
+  const video = $("#storyVideo");
+
+  overlay.classList.remove("hidden");
+  video.src = src;
+  video.play();
+
+  // When finished, close and run callback
+  video.onended = () => {
+    overlay.classList.add("hidden");
+    onFinish();
+  };
+
+  // Skip button
+  $("#skipVideo").onclick = () => {
+    video.pause();
+    overlay.classList.add("hidden");
+    onFinish();
+  };
+}
+
+  
 </script>
 </body>
 </html>
