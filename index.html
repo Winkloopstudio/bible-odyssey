@@ -416,7 +416,7 @@ header strong {
   </main>
 
   <!-- BOTTOM NAV -->
-  <nav class="bottom">
+  <nav class="bottom hidden">
     <div class="dock">
       <button class="active" data-nav="home"><span class="ico">🏠</span><span>Home</span></button>
       <button data-nav="stories"><span class="ico">📚</span><span>Stories</span></button>
@@ -465,7 +465,9 @@ const save = () => localStorage.setItem(KEY, JSON.stringify(progress));
 setTimeout(()=>{ 
   $("#splash").classList.add("hidden");
   $("#app").classList.remove("hidden");
+  document.querySelector("nav.bottom").classList.remove("hidden"); 
 }, 2500);
+
 
 /* -------------- Ticker -------------- */
 let vi = 0;
@@ -631,26 +633,24 @@ function renderStoryPage() {
   const storyArt = $("#storyArt");
   const storyText = $("#storyText");
 
-  // Add exit animation classes
-  storyArt.classList.add("page-exit");
-  storyText.classList.add("page-exit");
+  // Exit animation
+  storyArt.classList.add("page-exit-active");
+  storyText.classList.add("page-exit-active");
 
   setTimeout(() => {
-    // Update content once exit animation is done
+    // Update content
     const page = storyPages[currentPage];
     storyArt.src = page.art;
     storyText.textContent = page.text;
 
-    // Reset and apply enter animation
-    storyArt.className = "";
-    storyText.className = "";
-    storyArt.classList.add("page-enter");
-    storyText.classList.add("page-enter");
+    // Reset and add enter animations (while keeping base style!)
+    storyArt.className = "page-enter-active";
+    storyText.className = "storybook-text page-enter-active";
 
-    // Clean up classes after animation finishes
+    // Cleanup after animation
     setTimeout(() => {
       storyArt.className = "";
-      storyText.className = "";
+      storyText.className = "storybook-text"; // keep base style
     }, 600);
 
     // --- Dots ---
@@ -666,8 +666,9 @@ function renderStoryPage() {
     $("#prevPage").disabled = currentPage === 0;
     $("#nextPage").textContent =
       currentPage === storyPages.length - 1 ? "Play ▶" : "Next ➡";
-  }, 200); // match exit animation speed
+  }, 200);
 }
+
 
 // Buttons
 $("#prevPage").addEventListener("click", () => {
