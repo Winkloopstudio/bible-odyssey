@@ -466,6 +466,43 @@ header strong {
   transform: translateY(-50%) scale(1.05);
 }
 
+  #infoPanel {
+  position: fixed;
+  inset: 0;
+  background: #fffbe8;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  padding: 12px 16px;
+  box-shadow: var(--shadow);
+}
+.info-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+#closeInfo {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+}
+.info-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+  
 </style>
 </head>
 <body>
@@ -569,6 +606,30 @@ header strong {
       </div>
     </section>
   </main>
+
+  <!-- INFO PANEL -->
+<div id="infoPanel" class="hidden">
+  <div class="info-header">
+    <h2>ℹ️ Information</h2>
+    <button id="closeInfo">✕</button>
+  </div>
+  <div class="info-content">
+    <h3>Welcome!</h3>
+    <p>Welcome to Bible Odyssey – a fun, faith-based way for kids to explore the Bible.</p>
+
+    <h3>Our Mission</h3>
+    <p>We believe in creating engaging games and stories that help children grow in their knowledge of God’s Word while having fun.</p>
+
+    <h3>For Parents</h3>
+    <p>This app is designed for safe, guided exploration. We encourage parents to read and play together with their children!</p>
+
+    <h3>Settings</h3>
+    <p>
+      <button id="toggleSound">🔊 Toggle Sound</button>
+      <button id="resetProgress">♻ Reset Progress</button>
+    </p>
+  </div>
+</div>
 
   <!-- BOTTOM NAV -->
   <nav class="bottom hidden">
@@ -1051,6 +1112,15 @@ const HIGHLIGHTS_STORY = {
     onFinish();
   };
 }
+
+  // Open info panel
+document.querySelector("#openSettings").addEventListener("click", () => {
+  document.querySelector("#infoPanel").classList.remove("hidden");
+});
+// Close info panel
+document.querySelector("#closeInfo").addEventListener("click", () => {
+  document.querySelector("#infoPanel").classList.add("hidden");
+});
 
   
 </script>
