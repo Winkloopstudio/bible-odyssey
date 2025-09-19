@@ -441,7 +441,31 @@ header strong {
   background: #2ea8ff;
   box-shadow: 0 4px 0 #1c6fa5;
 }
-  
+  .close-ribbon {
+  position: absolute;
+  top: 25%;         /* a little above replay */
+  right: 0;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 8px 5px;
+  background: linear-gradient(145deg, #ef4444, #b91c1c); /* red ribbon */
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+  z-index: 30;
+}
+
+.close-ribbon:hover {
+  background: linear-gradient(145deg, #f87171, #dc2626);
+  transform: translateY(-50%) scale(1.05);
+}
+
 </style>
 </head>
 <body>
@@ -488,11 +512,9 @@ header strong {
 <section id="storybookView" class="hidden screen">
   <div class="storybook">
 
-    <button id="closeStory">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
-    <path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7a1 1 0 1 0-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
-  </svg>
-    </button>
+    <button id="closeRibbon" class="close-ribbon">
+  ✕ Close
+</button>
 <button id="replayRibbon" class="replay-ribbon hidden">
   ⟳ Replay 🎬
 </button>
@@ -731,13 +753,20 @@ if(t.matches("[data-open]")){
   }
 
   // bottom nav (visual only in this prototype)
-  if(t.closest(".dock button")){
-    $$(".dock button").forEach(b=>b.classList.remove("active"));
-    t.closest(".dock button").classList.add("active");
-    if(t.closest("[data-nav='home'],[data-nav='stories']")){
-      $("#homeView").scrollIntoView({behavior:"smooth"});
-    }
+ // bottom nav
+if (t.closest(".dock button")) {
+  $$(".dock button").forEach(b => b.classList.remove("active"));
+  t.closest(".dock button").classList.add("active");
+
+  if (t.closest("[data-nav='home'],[data-nav='stories']")) {
+    // Always return to home if inside story
+    $("#storybookView").classList.add("hidden");
+    $("#game").style.display = "none";
+    $("#homeView").classList.remove("hidden");
+    $("#homeView").scrollIntoView({ behavior: "smooth" });
   }
+}
+
 });
 
 /* ----------------- Storybook Logic ----------------- */
@@ -864,11 +893,13 @@ $("#nextPage").addEventListener("click", () => {
     startGame(1); // Example: start level 1
   }
 });
-// Close button handler
-$("#closeStory").addEventListener("click", () => {
+
+// Close story handler
+$("#closeRibbon").addEventListener("click", () => {
   $("#storybookView").classList.add("hidden");
   $("#homeView").classList.remove("hidden");
 });
+
 
  // Replay video button handler
 $("#replayRibbon").addEventListener("click", () => {
