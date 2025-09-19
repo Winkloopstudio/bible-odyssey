@@ -309,7 +309,7 @@ header strong {
 .hl-enemy { color: #dc2626; font-weight: 700; }
 .hl-water { color: #0ea5e9; font-weight: 600; }
 .hl-promise { color: #10b981; font-weight: 700; }
-
+.hl-dark { color: #1f2937; font-weight: 700; } 
   
   /* Page flip animations */
 .page-enter {
@@ -646,11 +646,14 @@ let storyPages = [];
 let currentPage = 0;
 
 function openStorybook(storyId) {
-  const s = STORIES.find(st => st.id === storyId);
+  // keep state in sync for highlights, HUD, etc.
+  activeStory = storyId;
+  currentStoryIdx = STORIES.findIndex(st => st.id === storyId);
+  const s = STORIES[currentStoryIdx];
   if (!s) return;
 
-  // Creation story expanded into 8 pages
   if (storyId === "creation") {
+    // 8-day Creation flow
     storyPages = [
       { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
       { text: "Day 1 — God said, 'Let there be light!' And there was light. He called the light 'Day' and the darkness 'Night.'", art: "images/creation2.png" },
@@ -661,19 +664,25 @@ function openStorybook(storyId) {
       { text: "Day 6 — God made the animals on the land. Then God made Adam and Eve.", art: "images/creation7.png" },
       { text: "Day 7 — God rested. He blessed this day as special.", art: "images/creation8.png" }
     ];
-  } else {
-    // Example fallback for other stories until we expand them
+  } else if (storyId === "noah") {
+    // 8-page Noah flow (placeholders)
     storyPages = [
-      { text: `This is the beginning of the story of ${s.name}.`, art: s.art },
-      { text: `More about ${s.name} will go here.`, art: s.art },
-      { text: `The story of ${s.name} will continue...`, art: s.art }
+      { text: "God saw the world was full of sin, but Noah found favor with God.", art: "images/noah1.png" },
+      { text: "God told Noah to build a great Ark to save his family and the animals.", art: "images/noah2.png" },
+      { text: "Noah and his sons worked hard, building the Ark just as God commanded.", art: "images/noah3.png" },
+      { text: "Two of every kind of animal came to the Ark — lions, elephants, birds, and more!", art: "images/noah4.png" },
+      { text: "Rain poured for 40 days and 40 nights. The whole earth was covered with water.", art: "images/noah5.png" },
+      { text: "The Ark floated safely on the waters, carrying Noah, his family, and the animals.", art: "images/noah6.png" },
+      { text: "At last, the rain stopped, and the Ark rested on the mountains of Ararat.", art: "images/noah7.png" },
+      { text: "God placed a rainbow in the sky as a promise never to flood the whole earth again.", art: "images/noah8.png" }
     ];
+  } else {
+    // fallback (single page if some other story is clicked)
+    storyPages = [{ text: s.name, art: s.art }];
   }
 
   currentPage = 0;
   renderStoryPage();
-
-  // Hide home, show storybook
   $("#homeView").classList.add("hidden");
   $("#storybookView").classList.remove("hidden");
 }
@@ -824,12 +833,13 @@ const HIGHLIGHTS_STORY = {
     "Day": "hl-light",
     "Night": "hl-dark"
   },
-  "noah": {
-    "Noah": "hl-person",
-    "Ark": "hl-object",
-    "Flood": "hl-water",
-    "Rainbow": "hl-promise"
-  },
+"noah": {
+  "Noah": "hl-person",
+  "Ark": "hl-object",
+  "Flood": "hl-water",
+  "Rainbow": "hl-promise",
+  "Animal": "hl-person"
+},
   "david": {
     "David": "hl-person",
     "Goliath": "hl-enemy",
