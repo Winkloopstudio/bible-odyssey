@@ -260,11 +260,18 @@ header strong {
 }
 
 .storybook-nav {
+  position: fixed;
+  bottom: 90px; /* just above your dock height */
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  padding: 12px;
+  background: #fffbe8; /* match story background */
+  z-index: 5;
 }
+
 .nav-btn {
   background: #28c145;
   color: #fff;
