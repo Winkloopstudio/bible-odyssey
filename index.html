@@ -640,12 +640,26 @@ function openStorybook(storyId) {
   const s = STORIES.find(st => st.id === storyId);
   if (!s) return;
 
-  // Example pages (replace with real story text later)
-storyPages = [
-  { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
-  { text: "God said, 'Let there be light,' and there was light.", art: "images/creation2.png" },
-  { text: "God made the animals, the plants, and people too!", art: "images/creation3.png" }
-];
+  // Creation story expanded into 8 pages
+  if (storyId === "creation") {
+    storyPages = [
+      { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
+      { text: "Day 1 — God said, 'Let there be light!' And there was light. He called the light 'Day' and the darkness 'Night.'", art: "images/creation2.png" },
+      { text: "Day 2 — God made the sky above and the waters below.", art: "images/creation3.png" },
+      { text: "Day 3 — God gathered the waters to make seas, and dry land appeared. Plants and trees grew.", art: "images/creation4.png" },
+      { text: "Day 4 — God made the sun to shine by day, and the moon and stars to shine at night.", art: "images/creation5.png" },
+      { text: "Day 5 — God filled the sky with birds and the sea with fish.", art: "images/creation6.png" },
+      { text: "Day 6 — God made the animals on the land. Then God made Adam and Eve.", art: "images/creation7.png" },
+      { text: "Day 7 — God rested. He blessed this day as special.", art: "images/creation8.png" }
+    ];
+  } else {
+    // Example fallback for other stories until we expand them
+    storyPages = [
+      { text: `This is the beginning of the story of ${s.name}.`, art: s.art },
+      { text: `More about ${s.name} will go here.`, art: s.art },
+      { text: `The story of ${s.name} will continue...`, art: s.art }
+    ];
+  }
 
   currentPage = 0;
   renderStoryPage();
@@ -654,6 +668,7 @@ storyPages = [
   $("#homeView").classList.add("hidden");
   $("#storybookView").classList.remove("hidden");
 }
+
 
 function renderStoryPage() {
   const storyArt = $("#storyArt");
