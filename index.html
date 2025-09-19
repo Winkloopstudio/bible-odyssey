@@ -285,14 +285,25 @@ header strong {
   background: #fffbe8; /* match story background */
   z-index: 5;
 }
+  
 #closeStory {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
   background: #ef4444;
-  box-shadow: 0 4px 0 #7f1d1d;
-  z-index: 10;  /* make sure it's above header */
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 0 3px 0 #7f1d1d;
+  z-index: 20;
+  cursor: pointer;
 }
+
 
   
 .hl-god { color: #d97706; font-weight: 700; }       /* warm gold */
@@ -399,7 +410,7 @@ header strong {
 <section id="storybookView" class="hidden screen">
   <div class="storybook">
 
-    <button id="closeStory" class="nav-btn" style="position:absolute;top:12px;right:12px;background:#ef4444;box-shadow:0 4px 0 #7f1d1d; z-index:10;">
+    <button id="closeStory"  style="position:absolute;top:12px;right:12px;background:#ef4444;box-shadow:0 4px 0 #7f1d1d; z-index:10;">
       ✖ Exit
     </button>
 
