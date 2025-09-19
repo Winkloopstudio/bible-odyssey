@@ -181,9 +181,7 @@
 <!-- SPLASH -->
 <section id="splash" class="screen center">
   <div class="logo">
-    <div class="mark">
-      <span class="badge">33</span> Believe <span style="font-weight:800">33</span>
-    </div>
+ <img src="images/logo.png" alt="Bible Odyssey Logo" class="logo-img" />
     <small>Faith-Based Games</small>
     <div class="splash-sub">Loading goodness…</div>
   </div>
@@ -294,7 +292,7 @@ const save = () => localStorage.setItem(KEY, JSON.stringify(progress));
 setTimeout(()=>{ 
   $("#splash").classList.add("hidden");
   $("#app").classList.remove("hidden");
-}, 1200);
+}, 1800);
 
 /* -------------- Ticker -------------- */
 let vi = 0;
