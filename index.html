@@ -666,71 +666,102 @@ header strong {
   </main>
 
   <!-- INFO PANEL -->
+<!-- INFO PANEL -->
+<!-- INFO PANEL -->
+<div id="infoPanel" class="hidden">
+  <div class="info-header">
+    <h2>Information</h2>
+    <button id="closeInfo">✕</button>
+  </div>
+
+  <div class="info-content">
+    <div class="accordion">
+      <button class="accordion-header">ℹ️ Welcome ▼</button>
+      <div class="accordion-body">
+        <p>Welcome to Bible Odyssey – a fun, faith-based way for kids to explore the Bible.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-header">🎯 Our Mission ▼</button>
+      <div class="accordion-body">
+        <p>We believe in creating engaging games and stories that help children grow in their knowledge of God’s Word while having fun.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-header">👨‍👩‍👧 For Parents ▼</button>
+      <div class="accordion-body">
+        <p>This app is designed for safe, guided exploration. We encourage parents to read and play together with their children!</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-header">⚙️ Settings ▼</button>
+      <div class="accordion-body">
+        <button id="toggleSound">🔊 Toggle Sound</button>
+        <button id="resetProgress">♻ Reset Progress</button>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-header">📜 Terms of Use ▼</button>
+      <div class="accordion-body">
+        <p>Welcome to Bible Odyssey! By using this app, you agree to the following terms:</p>
+        <ul>
+          <li>This app is provided for personal, non-commercial use only.</li>
+          <li>All artwork, stories, and game content are the property of Believe 33.</li>
+          <li>Please use it responsibly and only on devices you own or control.</li>
+          <li>We are not responsible for damages or loss caused by use of the app.</li>
+          <li>These terms may be updated from time to time.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-header">🔒 Privacy Policy ▼</button>
+      <div class="accordion-body">
+        <p>Your privacy is important to us. Here’s how Bible Odyssey handles your data:</p>
+        <ul>
+          <li>We do not collect personal information from children or users of this app.</li>
+          <li>Game progress is saved locally on your device, never sent to servers.</li>
+          <li>No data is sold, shared, or rented to third parties.</li>
+          <li>This app complies with child privacy laws (COPPA in the US).</li>
+          <li>Parents are encouraged to supervise gameplay and teach safe digital habits.</li>
+        </ul>
+      </div>
+    </div>
 <div class="info-content">
 
-  <div class="accordion">
-    <button class="accordion-header">ℹ️ Welcome ▼</button>
-    <div class="accordion-body">
-      <p>Welcome to Bible Odyssey – a fun, faith-based way for kids to explore the Bible.</p>
-    </div>
-  </div>
+  <!-- (other accordions from earlier here: Welcome, Mission, Parents, Settings, Terms, Privacy) -->
 
   <div class="accordion">
-    <button class="accordion-header">🎯 Our Mission ▼</button>
+    <button class="accordion-header">✉️ Contact Us ▼</button>
     <div class="accordion-body">
-      <p>We believe in creating engaging games and stories that help children grow in their knowledge of God’s Word while having fun.</p>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <button class="accordion-header">👨‍👩‍👧 For Parents ▼</button>
-    <div class="accordion-body">
-      <p>This app is designed for safe, guided exploration. We encourage parents to read and play together with their children!</p>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <button class="accordion-header">⚙️ Settings ▼</button>
-    <div class="accordion-body">
-      <button id="toggleSound">🔊 Toggle Sound ▼</button>
-      <button id="resetProgress">♻ Reset Progress ▼</button>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <button class="accordion-header">📜 Terms of Use ▼</button>
-    <div class="accordion-body">
-      <p>Welcome to Bible Odyssey! By using this app, you agree to the following terms:</p>
+      <p>If you have questions, feedback, or suggestions about Bible Odyssey, please reach out:</p>
       <ul>
-        <li>This app is provided for personal, non-commercial use only.</li>
-        <li>All artwork, stories, and game content are the property of Believe 33.</li>
-        <li>Please use it responsibly and only on devices you own or control.</li>
-        <li>We are not responsible for damages or loss caused by use of the app.</li>
-        <li>These terms may be updated from time to time.</li>
+        <li>Email: <a href="mailto:joshua@believe33.org">joshua@believe33.org</a></li>
+        <li>Website: <a href="https://www.believe33.org" target="_blank">www.believe33.org</a></li>
       </ul>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <button class="accordion-header">🔒 Privacy Policy ▼</button>
-    <div class="accordion-body">
-      <p>Your privacy is important to us. Here’s how Bible Odyssey handles your data:</p>
-      <ul>
-        <li>We do not collect personal information from children or users of this app.</li>
-        <li>Game progress is saved locally on your device, never sent to servers.</li>
-        <li>No data is sold, shared, or rented to third parties.</li>
-        <li>This app complies with child privacy laws (COPPA in the US).</li>
-        <li>Parents are encouraged to supervise gameplay and teach safe digital habits.</li>
-      </ul>
+      <p>We value your input and will respond as quickly as possible.</p>
     </div>
   </div>
 
   <footer style="margin-top:20px; font-size:13px; text-align:center; color:#555;">
-    ©2025 Believe 33 <br>
+    ©2025 Believe 33<br>
     Version 1.0.0 | Build 1001
   </footer>
 
 </div>
+
+    <footer style="margin-top:20px; font-size:13px; text-align:center; color:#555;">
+      ©2025 Believe 33 <br>
+      Version 1.0.0 | Build 1001
+    </footer>
+  </div>
+</div>
+
+
 
 
 
@@ -1219,7 +1250,7 @@ const HIGHLIGHTS_STORY = {
   };
 }
 
-  // Open info panel
+// Open info panel
 document.querySelector("#openInfo").addEventListener("click", () => {
   document.querySelector("#infoPanel").classList.remove("hidden");
 });
@@ -1228,6 +1259,7 @@ document.querySelector("#openInfo").addEventListener("click", () => {
 document.querySelector("#closeInfo").addEventListener("click", () => {
   document.querySelector("#infoPanel").classList.add("hidden");
 });
+
 
 
 // Accordion toggle logic
