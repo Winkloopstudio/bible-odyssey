@@ -669,36 +669,36 @@ header strong {
 <div class="info-content">
 
   <div class="accordion">
-    <button class="accordion-header">ℹ️ Welcome</button>
+    <button class="accordion-header">ℹ️ Welcome ▼</button>
     <div class="accordion-body">
       <p>Welcome to Bible Odyssey – a fun, faith-based way for kids to explore the Bible.</p>
     </div>
   </div>
 
   <div class="accordion">
-    <button class="accordion-header">🎯 Our Mission</button>
+    <button class="accordion-header">🎯 Our Mission ▼</button>
     <div class="accordion-body">
       <p>We believe in creating engaging games and stories that help children grow in their knowledge of God’s Word while having fun.</p>
     </div>
   </div>
 
   <div class="accordion">
-    <button class="accordion-header">👨‍👩‍👧 For Parents</button>
+    <button class="accordion-header">👨‍👩‍👧 For Parents ▼</button>
     <div class="accordion-body">
       <p>This app is designed for safe, guided exploration. We encourage parents to read and play together with their children!</p>
     </div>
   </div>
 
   <div class="accordion">
-    <button class="accordion-header">⚙️ Settings</button>
+    <button class="accordion-header">⚙️ Settings ▼</button>
     <div class="accordion-body">
-      <button id="toggleSound">🔊 Toggle Sound</button>
-      <button id="resetProgress">♻ Reset Progress</button>
+      <button id="toggleSound">🔊 Toggle Sound ▼</button>
+      <button id="resetProgress">♻ Reset Progress ▼</button>
     </div>
   </div>
 
   <div class="accordion">
-    <button class="accordion-header">📜 Terms of Use</button>
+    <button class="accordion-header">📜 Terms of Use ▼</button>
     <div class="accordion-body">
       <p>Welcome to Bible Odyssey! By using this app, you agree to the following terms:</p>
       <ul>
@@ -712,7 +712,7 @@ header strong {
   </div>
 
   <div class="accordion">
-    <button class="accordion-header">🔒 Privacy Policy</button>
+    <button class="accordion-header">🔒 Privacy Policy ▼</button>
     <div class="accordion-body">
       <p>Your privacy is important to us. Here’s how Bible Odyssey handles your data:</p>
       <ul>
@@ -1229,28 +1229,24 @@ document.querySelector("#closeInfo").addEventListener("click", () => {
   document.querySelector("#infoPanel").classList.add("hidden");
 });
 
-  // Accordion toggle behavior
-$$(".accordion-toggle").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const body = btn.nextElementSibling;
-    body.classList.toggle("hidden");
 
-    // Update arrow
-    if (body.classList.contains("hidden")) {
-      btn.textContent = btn.textContent.replace("▲", "▼");
+// Accordion toggle logic
+$$(".accordion-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const body = header.nextElementSibling;
+
+    // Toggle body open/close
+    body.classList.toggle("open");
+
+    // Update arrow icon at the end of header text
+    if (body.classList.contains("open")) {
+      header.innerHTML = header.innerHTML.replace("▼", "▲");
     } else {
-      btn.textContent = btn.textContent.replace("▼", "▲");
+      header.innerHTML = header.innerHTML.replace("▲", "▼");
     }
   });
 });
 
-  // Accordion toggle logic
-$$(".accordion-header").forEach(header => {
-  header.addEventListener("click", () => {
-    const body = header.nextElementSibling;
-    body.classList.toggle("open");
-  });
-});
 
 </script>
 </body>
