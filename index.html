@@ -409,7 +409,25 @@ header strong {
   font-size: 16px;
   cursor: pointer;
 }
+#replayVideoBtn {
+  margin: 10px auto;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(180deg, #2ea8ff 0%, #1c7ed6 100%);
+  border-radius: 999px;
+  border: none;
+  color: #fff;
+  box-shadow: 0 3px 0 #155a8a;
+  cursor: pointer;
+  display: block;
+}
 
+#replayVideoBtn.hidden {
+  display: none;
+}
+
+  
 </style>
 </head>
 <body>
@@ -466,6 +484,9 @@ header strong {
       <img id="storyArt" src="" alt="Story illustration">
     </div>
     <div class="storybook-text" id="storyText"></div>
+
+    <button id="replayVideoBtn" class="nav-btn small hidden">🎥 Replay Video</button>
+
     <div class="storybook-nav">
       <button id="prevPage" class="nav-btn">⬅ Back</button>
       <div id="pageDots" class="dots"></div>
@@ -728,6 +749,12 @@ function openStorybook(storyId) {
 function showStoryPages(storyId) {
   const s = STORIES[currentStoryIdx];
 
+   if (s.video) {
+    $("#replayVideoBtn").classList.remove("hidden");
+  } else {
+    $("#replayVideoBtn").classList.add("hidden");
+  }
+
   if (storyId === "creation") {
     storyPages = [
       { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
@@ -826,7 +853,17 @@ $("#closeStory").addEventListener("click", () => {
   $("#homeView").classList.remove("hidden");
 });
 
-  
+ // Replay video button handler
+$("#replayVideoBtn").addEventListener("click", () => {
+  const s = STORIES[currentStoryIdx];
+  if (s.video) {
+    playStoryVideo(s.video, () => {
+      // After replay, just return to the same storybook
+      showStoryPages(s.id);
+    });
+  }
+});
+ 
 /* -------------- Game Flow (placeholder mini-game) -------------- */
 let currentLevel = 1;
 function startGame(level){
