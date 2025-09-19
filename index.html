@@ -249,15 +249,20 @@ header strong {
 
 .storybook-text {
   flex: 1;
-  background: #fff;
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.4;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+  background: #fffdf5;
+  margin-top: 16px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #3d2b1f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border: 3px solid #f7d58c;
+  font-family: "Comic Sans MS", "Comic Neue", cursive; /* playful book feel */
+  text-align: center; /* centered like story text */
 }
+
 
 .storybook-nav {
   position: fixed;
@@ -272,6 +277,27 @@ header strong {
   z-index: 5;
 }
 
+  /* Page flip animations */
+.page-enter {
+  opacity: 0;
+  transform: rotateY(90deg) scale(0.95);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: rotateY(0deg) scale(1);
+  transition: all 0.6s ease;
+}
+.page-exit {
+  opacity: 1;
+  transform: rotateY(0deg) scale(1);
+}
+.page-exit-active {
+  opacity: 0;
+  transform: rotateY(-90deg) scale(0.95);
+  transition: all 0.6s ease;
+}
+
+  
 .nav-btn {
   background: #28c145;
   color: #fff;
@@ -602,23 +628,45 @@ function openStorybook(storyId) {
 }
 
 function renderStoryPage() {
-  const page = storyPages[currentPage];
-  $("#storyArt").src = page.art;
-  $("#storyText").textContent = page.text;
+  const storyArt = $("#storyArt");
+  const storyText = $("#storyText");
 
-  // Dots
-  const dots = $("#pageDots");
-  dots.innerHTML = "";
-  storyPages.forEach((_, i) => {
-    const dot = document.createElement("span");
-    if (i === currentPage) dot.classList.add("active");
-    dots.appendChild(dot);
-  });
+  // Add exit animation classes
+  storyArt.classList.add("page-exit");
+  storyText.classList.add("page-exit");
 
-  // Button state
-  $("#prevPage").disabled = currentPage === 0;
-  $("#nextPage").textContent =
-    currentPage === storyPages.length - 1 ? "Play ▶" : "Next ➡";
+  setTimeout(() => {
+    // Update content once exit animation is done
+    const page = storyPages[currentPage];
+    storyArt.src = page.art;
+    storyText.textContent = page.text;
+
+    // Reset and apply enter animation
+    storyArt.className = "";
+    storyText.className = "";
+    storyArt.classList.add("page-enter");
+    storyText.classList.add("page-enter");
+
+    // Clean up classes after animation finishes
+    setTimeout(() => {
+      storyArt.className = "";
+      storyText.className = "";
+    }, 600);
+
+    // --- Dots ---
+    const dots = $("#pageDots");
+    dots.innerHTML = "";
+    storyPages.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === currentPage) dot.classList.add("active");
+      dots.appendChild(dot);
+    });
+
+    // --- Buttons ---
+    $("#prevPage").disabled = currentPage === 0;
+    $("#nextPage").textContent =
+      currentPage === storyPages.length - 1 ? "Play ▶" : "Next ➡";
+  }, 200); // match exit animation speed
 }
 
 // Buttons
