@@ -409,23 +409,32 @@ header strong {
   font-size: 16px;
   cursor: pointer;
 }
-#replayVideoBtn {
-  margin: 10px auto;
-  padding: 6px 14px;
-  font-size: 14px;
-  font-weight: 600;
-  background: linear-gradient(180deg, #2ea8ff 0%, #1c7ed6 100%);
-  border-radius: 999px;
-  border: none;
+
+.replay-ribbon {
+  position: absolute;
+  top: 40%;
+  right: 0;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;   /* vertical text */
+  text-orientation: mixed;
+  padding: 10px 6px;
+  background: linear-gradient(145deg, #2ea8ff, #1c6fa5);
   color: #fff;
-  box-shadow: 0 3px 0 #155a8a;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px 0 0 8px;   /* rounded left edge */
   cursor: pointer;
-  display: block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+  z-index: 30;
 }
 
-#replayVideoBtn.hidden {
-  display: none;
+.replay-ribbon:hover {
+  background: linear-gradient(145deg, #3bb2ff, #2070b0);
+  transform: translateY(-50%) scale(1.05);
 }
+
 .nav-btn.small {
   padding: 6px 12px;
   font-size: 14px;
@@ -484,7 +493,9 @@ header strong {
     <path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7a1 1 0 1 0-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
   </svg>
     </button>
-
+<button id="replayRibbon" class="replay-ribbon hidden">
+  ⟳ Replay
+</button>
     <div class="storybook-art">
       <img id="storyArt" src="" alt="Story illustration">
     </div>
@@ -495,7 +506,7 @@ header strong {
     <div class="storybook-nav">
       <button id="prevPage" class="nav-btn">⬅ Back</button>
       <div id="pageDots" class="dots"></div>
-          <button id="replayVideoBtn" class="nav-btn small hidden">🎥 Replay Video</button>
+          
       <button id="nextPage" class="nav-btn">Next ➡</button>
     </div>
   </div>
@@ -860,15 +871,16 @@ $("#closeStory").addEventListener("click", () => {
 });
 
  // Replay video button handler
-$("#replayVideoBtn").addEventListener("click", () => {
+$("#replayRibbon").addEventListener("click", () => {
   const s = STORIES[currentStoryIdx];
   if (s.video) {
     playStoryVideo(s.video, () => {
-      // After replay, just return to the same storybook
+      // don’t overwrite progress, just return to pages
       showStoryPages(s.id);
     });
   }
 });
+
  
 /* -------------- Game Flow (placeholder mini-game) -------------- */
 let currentLevel = 1;
