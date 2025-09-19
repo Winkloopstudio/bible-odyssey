@@ -299,7 +299,6 @@ setTimeout(()=>{
 /* -------------- Ticker -------------- */
 let vi = 0;
 const tickerSpan = document.querySelector(".ticker span");
-let vi = 0;
 
 function showVerse() {
   tickerSpan.innerText = VERSES[vi % VERSES.length];
@@ -325,14 +324,6 @@ function showVerse() {
 }
 
 showVerse();
-
-
-function cycleTicker(){
-  tickerSpan.innerText = VERSES[vi % VERSES.length];
-  vi++;
-}
-cycleTicker();
-setInterval(cycleTicker, 6000);
 
 
 /* -------------- Story Carousel Render -------------- */
