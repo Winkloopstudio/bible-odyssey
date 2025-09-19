@@ -715,7 +715,6 @@ function openStorybook(storyId) {
   // Check for intro video
   if (s.video && !progress[s.id]?.videoPlayed) {
     playStoryVideo(s.video, () => {
-      // mark video as played
       progress[s.id] = { ...progress[s.id], videoPlayed: true };
       save();
       showStoryPages(storyId);
@@ -725,8 +724,11 @@ function openStorybook(storyId) {
   }
 }
 
+// 👉 Move your page logic into its own helper
+function showStoryPages(storyId) {
+  const s = STORIES[currentStoryIdx];
+
   if (storyId === "creation") {
-    // 8-day Creation flow
     storyPages = [
       { text: "In the beginning, God created the heavens and the earth.", art: "images/creation1.png" },
       { text: "Day 1 — God said, 'Let there be light!' And there was light. He called the light 'Day' and the darkness 'Night.'", art: "images/creation2.png" },
@@ -738,7 +740,6 @@ function openStorybook(storyId) {
       { text: "Day 7 — God rested. He blessed this day as special.", art: "images/creation8.png" }
     ];
   } else if (storyId === "noah") {
-    // 8-page Noah flow (placeholders)
     storyPages = [
       { text: "God saw the world was full of sin, but Noah found favor with God.", art: "images/noah1.png" },
       { text: "God told Noah to build a great Ark to save his family and the animals.", art: "images/noah2.png" },
@@ -750,7 +751,6 @@ function openStorybook(storyId) {
       { text: "God placed a rainbow in the sky as a promise never to flood the whole earth again.", art: "images/noah8.png" }
     ];
   } else {
-    // fallback (single page if some other story is clicked)
     storyPages = [{ text: s.name, art: s.art }];
   }
 
