@@ -284,6 +284,24 @@ header strong {
   z-index: 5;
 }
 
+.hl-god { color: #d97706; font-weight: 700; }       /* warm gold */
+.hl-jesus { color: #e11d48; font-weight: 700; }    /* bold red */
+.hl-spirit { color: #0ea5e9; font-style: italic; } /* sky blue */
+.hl-light { color: #facc15; font-weight: 700; }    /* yellow */
+.hl-heaven { color: #3b82f6; font-weight: 600; }   /* blue */
+.hl-earth { color: #16a34a; font-weight: 600; }    /* green */
+.hl-love { color: #ec4899; font-weight: 700; }     /* pink */
+.hl-faith { color: #9333ea; font-weight: 700; }    /* purple */
+.hl-pray { text-decoration: underline; }
+.hl-forgive { color: #22c55e; font-weight: 700; }
+.hl-sin { color: #6b7280; font-style: italic; }
+.hl-person { color: #f97316; font-weight: 600; }
+.hl-object { color: #475569; font-weight: 600; }
+.hl-enemy { color: #dc2626; font-weight: 700; }
+.hl-water { color: #0ea5e9; font-weight: 600; }
+.hl-promise { color: #10b981; font-weight: 700; }
+
+  
   /* Page flip animations */
 .page-enter {
   opacity: 0;
@@ -648,7 +666,8 @@ function renderStoryPage() {
     // Update content
     const page = storyPages[currentPage];
     storyArt.src = page.art;
-    storyText.textContent = page.text;
+    storyText.innerHTML = highlightText(page.text, activeStory);
+
 
     // Reset and add enter animations (while keeping base style!)
     storyArt.className = "page-enter-active";
@@ -754,6 +773,66 @@ document.addEventListener("click",(e)=>{
   if(e.target.id==="toggleBgm"){ e.target.classList.toggle("ghost"); }
   if(e.target.id==="helpBtn"){ alert("Help: finish each story’s levels to unlock the next book."); }
 });
+
+  // Global keywords across all stories
+const HIGHLIGHTS_GLOBAL = {
+  "God": "hl-god",
+  "Lord": "hl-god",
+  "Jesus": "hl-jesus",
+  "Christ": "hl-jesus",
+  "Holy Spirit": "hl-spirit",
+  "Light": "hl-light",
+  "Heaven": "hl-heaven",
+  "Earth": "hl-earth",
+  "Love": "hl-love",
+  "Faith": "hl-faith",
+  "Pray": "hl-pray",
+  "Forgive": "hl-forgive",
+  "Sin": "hl-sin"
+};
+
+// Story-specific keywords
+const HIGHLIGHTS_STORY = {
+  "creation": {
+    "Adam": "hl-person",
+    "Eve": "hl-person",
+    "Day": "hl-light",
+    "Night": "hl-dark"
+  },
+  "noah": {
+    "Noah": "hl-person",
+    "Ark": "hl-object",
+    "Flood": "hl-water",
+    "Rainbow": "hl-promise"
+  },
+  "david": {
+    "David": "hl-person",
+    "Goliath": "hl-enemy",
+    "Stone": "hl-object"
+  },
+  // ...add more per story
+};
+
+  function highlightText(text, storyId) {
+  let highlighted = text;
+
+  // Apply global highlights
+  for (const [word, cls] of Object.entries(HIGHLIGHTS_GLOBAL)) {
+    const regex = new RegExp(`\\b${word}\\b`, "gi");
+    highlighted = highlighted.replace(regex, `<span class="${cls}">${word}</span>`);
+  }
+
+  // Apply story-specific highlights
+  if (HIGHLIGHTS_STORY[storyId]) {
+    for (const [word, cls] of Object.entries(HIGHLIGHTS_STORY[storyId])) {
+      const regex = new RegExp(`\\b${word}\\b`, "gi");
+      highlighted = highlighted.replace(regex, `<span class="${cls}">${word}</span>`);
+    }
+  }
+
+  return highlighted;
+}
+
 </script>
 </body>
 </html>
