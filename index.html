@@ -326,8 +326,14 @@ header strong {
     </div>
 
     <!-- STORYBOOK VIEW -->
+<!-- STORYBOOK VIEW -->
 <section id="storybookView" class="hidden screen">
   <div class="storybook">
+
+    <button id="closeStory" class="nav-btn" style="position:absolute;top:12px;right:12px;background:#ef4444;box-shadow:0 4px 0 #7f1d1d;">
+      ✖ Exit
+    </button>
+
     <div class="storybook-art">
       <img id="storyArt" src="" alt="Story illustration">
     </div>
@@ -337,10 +343,9 @@ header strong {
       <div id="pageDots" class="dots"></div>
       <button id="nextPage" class="nav-btn">Next ➡</button>
     </div>
-    <div class="story-nav">
-  <button id="prevPage" disabled>⬅ Back</button>
-  <button id="nextPage">Next ➡</button>
-</div>
+  </div>
+</section>
+
 
   </div>
 </section>
@@ -625,6 +630,11 @@ $("#nextPage").addEventListener("click", () => {
     $("#storybookView").classList.add("hidden");
     startGame(1); // Example: start level 1
   }
+});
+// Close button handler
+$("#closeStory").addEventListener("click", () => {
+  $("#storybookView").classList.add("hidden");
+  $("#homeView").classList.remove("hidden");
 });
 
   
