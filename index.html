@@ -426,7 +426,12 @@ header strong {
 #replayVideoBtn.hidden {
   display: none;
 }
-
+.nav-btn.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  background: #2ea8ff;
+  box-shadow: 0 4px 0 #1c6fa5;
+}
   
 </style>
 </head>
@@ -485,11 +490,12 @@ header strong {
     </div>
     <div class="storybook-text" id="storyText"></div>
 
-    <button id="replayVideoBtn" class="nav-btn small hidden">🎥 Replay Video</button>
+
 
     <div class="storybook-nav">
       <button id="prevPage" class="nav-btn">⬅ Back</button>
       <div id="pageDots" class="dots"></div>
+          <button id="replayVideoBtn" class="nav-btn small hidden">🎥 Replay Video</button>
       <button id="nextPage" class="nav-btn">Next ➡</button>
     </div>
   </div>
