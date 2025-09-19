@@ -344,7 +344,7 @@ function renderLevels(){
     const card = document.createElement("div");
     card.className = "level-card";
     card.innerHTML = `
-      <div class="level-thumb"></div>
+      <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
       <div class="level-foot">
         <span class="level-badge">LEVEL ${String(i).padStart(2,"0")}</span>
         <button class="big-btn playBtn" data-lvl="${i}">Play ▶</button>
