@@ -77,6 +77,34 @@
   animation: pulse 2s infinite;    /* make it animate */
 }
 
+  /* Splash */
+#splash {
+  background: var(--blue); /* Light blue from your logo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* space between logos */
+}
+
+.logo-img {
+  width: 260px; /* Bible Odyssey logo size */
+  height: auto;
+}
+
+.b33-logo {
+  width: 140px;   /* Believe 33 logo smaller */
+  height: auto;
+  opacity: 0.9;
+  animation: fadeIn 1.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+  
 @keyframes pulse {
   0%   { opacity: 1; transform: scale(1); }
   50%  { opacity: 0.7; transform: scale(1.05); }
@@ -568,11 +596,18 @@ header strong {
 <!-- SPLASH -->
 <section id="splash" class="screen center">
   <div class="logo">
- <img src="images/logo.png" alt="Bible Odyssey Logo" class="logo-img" />
+    <!-- Bible Odyssey logo -->
+    <img src="images/bible-odyssey-logo.png" alt="Bible Odyssey Logo" class="logo-img" />
+
+    <!-- Tagline -->
     <small>Faith-Based Games</small>
     <div class="splash-sub">Loading goodness…</div>
+
+    <!-- Believe 33 logo -->
+    <img src="images/believe33-logo.png" alt="Believe 33 Logo" class="b33-logo" />
   </div>
 </section>
+
 
 <!-- APP SHELL -->
 <section id="app" class="screen hidden">
