@@ -1851,12 +1851,13 @@ function renderBadges(){
   BADGES.forEach(b=>{
     const unlocked = b.unlock(profile);
     const div = document.createElement("div");
-    div.className = "badge" + (unlocked?"":" locked");
+    div.className = "badge " + (unlocked ? "unlocked" : "locked");
     div.innerHTML = `${b.icon}`;
-    div.title = unlocked? b.label : `Locked: ${b.label}`;
+    div.title = unlocked ? b.label : `Locked: ${b.label}`;
     grid.appendChild(div);
   });
 }
+
 
   function updateStreak(){
   const today = new Date().toDateString();
