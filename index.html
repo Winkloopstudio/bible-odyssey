@@ -683,8 +683,7 @@ header strong {
         </div>
       </div>
       <div class="game-stage">
-        <!-- Mini-game placeholder -->
-        <button id="finishLevel" class="big-btn">Complete Level</button>
+    
       </div>
 
       <!-- Pause Overlay -->
@@ -1198,6 +1197,17 @@ function endGameAndRecord(){
     `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
 
   $("#levelComplete").style.display = "flex";
+}
+
+  // Temporary: auto-finish level after 10 seconds
+function startGame(level){
+  currentLevel = level;
+  $("#hudTitle").textContent = `${STORIES[currentStoryIdx].name} — Level ${String(level).padStart(2,"0")}`;
+  $("#game").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  // simulate auto-complete after 10 seconds
+  setTimeout(endGameAndRecord, 10000);
 }
 
 $("#replayLevel").addEventListener("click", () => {
