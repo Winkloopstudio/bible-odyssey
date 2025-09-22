@@ -1527,20 +1527,28 @@ $("#changeAvatarBtn").addEventListener("click",()=>{
   $("#avatarOverlay").style.display="flex";
 });
 
-// Avatar choice
-$$(".avatarChoice").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    profile.character = btn.dataset.char;
-    saveProfile();
-    updateProfileUI();
+document.addEventListener("DOMContentLoaded", () => {
+  // Avatar choice
+  $$(".avatarChoice").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      profile.character = btn.dataset.char;
+      saveProfile();
+      updateProfileUI();
+      $("#avatarOverlay").style.display="none";
+    });
+  });
+
+  // Open avatar modal
+  $("#changeAvatarBtn").addEventListener("click",()=>{
+    $("#avatarOverlay").style.display="flex";
+  });
+
+  // Close avatar modal
+  $("#closeAvatarOverlay").addEventListener("click",()=>{
     $("#avatarOverlay").style.display="none";
   });
 });
 
-// Close avatar modal
-$("#closeAvatarOverlay").addEventListener("click",()=>{
-  $("#avatarOverlay").style.display="none";
-});
 
 
 /* -------- Add Stars on Level Complete -------- */
