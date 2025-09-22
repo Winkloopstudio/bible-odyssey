@@ -68,41 +68,46 @@
   letter-spacing: 0.5px;           /* space out slightly */
 }
 
+
+
+#splash1 {
+  background: radial-gradient(circle, #fff7e7 0%, #f7e6c7 100%); /* parchment look */
+  animation: fadeIn 1s ease;
+}
+#splash2 {
+  background: #2ea8ff; /* light blue */
+}
+
+.splash-content {
+  text-align: center;
+  animation: pop 0.9s cubic-bezier(.2,1.2,.2,1);
+}
+.splash-img {
+  width: 240px;
+  height: auto;
+}
+.subtitle {
+  display: block;
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+}
 .splash-sub {
   margin-top: 10px;
   font-size: 16px;
   font-weight: 600;
-  color: #f59e0b;                  /* use your orange accent */
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-  animation: pulse 2s infinite;    /* make it animate */
+  color: #ffd84a;
+  animation: pulse 2s infinite;
 }
+.hidden { display: none; }
 
-  /* Splash */
-#splash {
-  background: var(--blue); /* Light blue from your logo */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px; /* space between logos */
-}
-
-.logo-img {
-  width: 260px; /* Bible Odyssey logo size */
-  height: auto;
-}
-
-.b33-logo {
-  width: 140px;   /* Believe 33 logo smaller */
-  height: auto;
-  opacity: 0.9;
-  animation: fadeIn 1.2s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); }
+                   50% { opacity: 0.7; transform: scale(1.05); } }
 
   
 @keyframes pulse {
