@@ -677,7 +677,7 @@ header strong {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 60px;
   background: #fffbe8;   /* same bg as your other cards/views */
   z-index: 5;            /* above main container, below overlays */
   display: none;         /* hidden by default */
@@ -689,6 +689,10 @@ header strong {
   display: flex;
 }
 
+#profilePanel .info-header {
+  margin: -16px -16px 16px; /* cancel parent padding */
+  border-radius: 0;         /* square edges like top bar */
+}
 
 .profile-avatar {
   width: 120px;
