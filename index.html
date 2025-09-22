@@ -1171,6 +1171,17 @@ header strong {
   </div>
 </div>
 
+  <!-- Reward Info Modal -->
+<div id="rewardModal" class="overlay">
+  <div class="pause" style="max-width:340px; position:relative; text-align:center;">
+    <button id="closeRewardModal" class="x">✕</button>
+    <div id="rewardModalIcon" style="font-size:48px; margin:10px 0;"></div>
+    <h3 id="rewardModalTitle">Reward Title</h3>
+    <p id="rewardModalDesc" style="margin:10px 0; font-size:15px; line-height:1.5; color:#333;"></p>
+  </div>
+</div>
+
+
 <!-- Avatar Picker Modal -->
 <div id="avatarOverlay" class="overlay">
   <div class="pause" style="max-width:420px; position:relative; padding-top:40px;">
@@ -1815,7 +1826,8 @@ function updateProfileUI(){
   // Progress bar (steady climb toward big goal)
   const STAR_GOAL = 100;
   const percent = Math.min((profile.stars / STAR_GOAL) * 100, 100);
-  $("#starProgressBar").style.width = percent + "%";
+ animateProgressBar(percent);
+
 
   // Update reward text
   const nextGoal = STAR_GOAL;
@@ -1867,20 +1879,32 @@ function updateStarsScreen(){
   // Build milestones
   const track = $("#rewardTrack");
   track.innerHTML = "";
-  MILESTONES.forEach(m=>{
-    const unlocked = profile.stars >= m.stars;
-    const div = document.createElement("div");
-    div.className = "milestone " + (unlocked ? "unlocked" : "locked");
-    div.innerHTML = `
-      <div class="icon">${m.icon}</div>
-      <p><strong>${m.stars} Stars</strong></p>
-      <small>${m.label}</small>
-    `;
-    div.addEventListener("click", ()=>{
-      alert(`${unlocked ? "✅ Unlocked:" : "🔒 Locked:"} ${m.reward}`);
-    });
-    track.appendChild(div);
-  });
+MILESTONES.forEach(m=>{
+  const unlocked = profile.stars >= m.stars;
+  const div = document.createElement("div");
+  div.className = "milestone " + (unlocked ? "unlocked" : "locked");
+  div.innerHTML = `
+    <div class="icon">${m.icon}</div>
+    <p><strong>${m.stars} Stars</strong></p>
+    <small>${m.label}</small>
+  `;
+
+  // 🎉 Trigger confetti when you land exactly on this milestone
+  if (profile.stars === m.stars) {
+    launchConfetti();
+  }
+
+div.addEventListener("click", ()=>{
+  if (unlocked) {
+    showRewardModal("🎉 " + m.label, `Reward: ${m.reward}`, m.icon);
+  } else {
+    showRewardModal("🔒 Locked", `Reach ${m.stars} stars to unlock.`, "❌");
+  }
+});
+track.appendChild(div);
+});
+
+
 
   // Daily bonus text
   const today = new Date().toDateString();
@@ -2024,11 +2048,18 @@ updateProfileUI();
   $("#levelComplete").style.display = "flex";
 }
 
- const BADGES = [
+const BADGES = [
   { id:"ark", icon:"🛶", label:"Ark Builder", desc:"Play 10 games.", unlock:p=>p.gamesPlayed>=10 },
   { id:"giant", icon:"🪨", label:"Giant Slayer", desc:"Earn 50 stars.", unlock:p=>p.stars>=50 },
-  { id:"faithful", icon:"🤝", label:"Faithful Friend", desc:"Play 7 days in a row.", unlock:p=>p.streak>=7 }
+  { id:"faithful", icon:"🤝", label:"Faithful Friend", desc:"Play 7 days in a row.", unlock:p=>p.streak>=7 },
+  
+  // NEW ONES
+  { id:"bookworm", icon:"📚", label:"Bookworm", desc:"Finish 3 different stories.", unlock:p=>(p.storiesCompleted||0)>=3 },
+  { id:"worldtraveler", icon:"🌍", label:"World Traveler", desc:"Play stories from 5 books of the Bible.", unlock:p=>(p.booksPlayed||0)>=5 },
+  { id:"sharpshooter", icon:"🏹", label:"Sharpshooter", desc:"Defeat Goliath in David’s story.", unlock:p=>p.lastStory==="David & Goliath" },
+  { id:"rainbow", icon:"🌈", label:"Rainbow Keeper", desc:"Finish Noah’s Ark story.", unlock:p=>p.lastStory==="Noah’s Ark" }
 ];
+
 
 
 function renderBadges(){
@@ -2089,7 +2120,58 @@ function renderStreak(){
   $(id).classList.remove("hidden");
 }
 
+  function launchConfetti() {
+  for (let i = 0; i < 40; i++) {
+    const conf = document.createElement("div");
+    conf.textContent = "⭐";
+    conf.style.position = "fixed";
+    conf.style.left = Math.random() * window.innerWidth + "px";
+    conf.style.top = "-20px";
+    conf.style.fontSize = "20px";
+    conf.style.transition = "transform 2s ease, opacity 2s ease";
+    document.body.appendChild(conf);
 
+    requestAnimationFrame(() => {
+      conf.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random()*720}deg)`;
+      conf.style.opacity = "0";
+    });
+
+    setTimeout(()=>conf.remove(), 2200);
+  }
+}
+
+function showRewardModal(title, desc, icon) {
+  $("#rewardModalTitle").textContent = title;
+  $("#rewardModalDesc").textContent = desc;
+  $("#rewardModalIcon").textContent = icon || "🎁";
+  $("#rewardModal").style.display = "flex";
+}
+
+$("#closeRewardModal").addEventListener("click", ()=>{
+  $("#rewardModal").style.display = "none";
+});
+
+function animateProgressBar(newPercent) {
+  const bar = $("#starProgressBar");
+  const current = parseFloat(bar.style.width) || 0;
+  let progress = current;
+
+  const step = () => {
+    progress += (newPercent - progress) * 0.1; // ease towards target
+    bar.style.width = progress + "%";
+
+    if (Math.abs(progress - newPercent) > 0.5) {
+      requestAnimationFrame(step);
+    } else {
+      bar.style.width = newPercent + "%"; // snap to final
+    }
+  };
+
+  requestAnimationFrame(step);
+}
+
+
+  
 </script>
 </body>
 </html>
