@@ -673,8 +673,20 @@ header strong {
 }
 
 #profilePanel {
-  position: relative;      /* create stacking context */
-  z-index: 10;             /* higher than #viewContainer */
+  position: fixed;       /* anchor to viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fffbe8;   /* same bg as your other cards/views */
+  z-index: 5;            /* above main container, below overlays */
+  display: none;         /* hidden by default */
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 16px;
+}
+#profilePanel:not(.hidden) {
+  display: flex;
 }
 
 
@@ -1120,7 +1132,7 @@ main#viewContainer {
 </section>
 
     <!-- PROFILE PANEL -->
-<div id="profilePanel" class="hidden pad">
+<div id="profilePanel" class="hidden">
   <div class="info-header">
     <h2>My Profile</h2>
   </div>
