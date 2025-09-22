@@ -837,42 +837,51 @@ header strong {
 <div id="profilePanel" class="hidden">
   <div class="info-header">
     <h2>My Profile</h2>
-      </div>
+  </div>
 
   <div class="info-content" style="text-align:center;">
     <img id="profileAvatar" src="images/avatar-peter.png" 
          alt="Avatar" style="width:120px;height:120px;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,0.25);margin:20px auto;display:block;">
     <h3 id="profileName" style="margin:10px 0;">Peter</h3>
     <p id="profileStars">⭐ 0 Stars</p>
+
+    <!-- Progress -->
     <div style="margin:20px 0;">
-  <h4>Progress</h4>
-  <div style="background:#ddd;border-radius:12px;height:18px;overflow:hidden;">
-    <div id="starProgressBar" style="background:linear-gradient(90deg,#ffd84a,#f1b501);height:100%;width:0%;transition:width .4s;"></div>
-  </div>
-  <p style="margin:6px 0 0;font-size:14px;color:#555;">Next reward at 10 stars</p>
-</div>
+      <h4>Progress</h4>
+      <div style="background:#ddd;border-radius:12px;height:18px;overflow:hidden;">
+        <div id="starProgressBar" style="background:linear-gradient(90deg,#ffd84a,#f1b501);height:100%;width:0%;transition:width .4s;"></div>
+      </div>
+      <p style="margin:6px 0 0;font-size:14px;color:#555;">Next reward at 10 stars</p>
+    </div>
 
-<div style="margin:20px 0;">
-  <h4>Stats</h4>
-  <p id="favStory">📖 Favorite Story: None yet</p>
-  <p id="gamesPlayed">🎮 Games Played: 0</p>
-</div>
+    <!-- Stats -->
+    <div style="margin:20px 0;">
+      <h4>Stats</h4>
+      <p id="favStory">📖 Favorite Story: None yet</p>
+      <p id="gamesPlayed">🎮 Games Played: 0</p>
+    </div>
 
-
+    <!-- Trigger -->
     <button id="changeAvatarBtn" class="btn-wide">Change Avatar</button>
-
-<div id="avatarPicker" class="hidden" style="display:flex;justify-content:center;gap:12px;margin:16px 0;">
-  <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <img src="images/avatar-noah.png" data-char="noah" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <img src="images/avatar-david.png" data-char="david" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <img src="images/avatar-mary.png" data-char="mary" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-  <button id="closeAvatarPicker" class="btn-wide red">Close</button>
-</div>
-
   </div>
 </div>
+
+<!-- Avatar Picker Modal -->
+<div id="avatarOverlay" class="overlay">
+  <div class="pause" style="max-width:420px;">
+    <button class="x" id="closeAvatarOverlay">✕</button>
+    <h3>Choose Your Character</h3>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:12px;">
+      <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+      <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+      <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+      <img src="images/avatar-noah.png" data-char="noah" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+      <img src="images/avatar-david.png" data-char="david" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+      <img src="images/avatar-mary.png" data-char="mary" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+    </div>
+  </div>
+</div>
+
 
 
 
