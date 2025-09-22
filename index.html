@@ -673,11 +673,8 @@ header strong {
 }
 
 #profilePanel {
-  padding: 12px 14px 88px;  /* top, sides, bottom (88px for nav space) */
-  overflow-y: auto;
-  z-index: 2;   /* sits above main view container */
-  background: #fffbe8;
-  flex: 1;
+  position: relative;      /* create stacking context */
+  z-index: 10;             /* higher than #viewContainer */
 }
 
 
