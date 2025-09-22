@@ -625,6 +625,60 @@ header strong {
   z-index: 3000; /* make sure modal is above profile panel */
 }
 
+  #avatarOverlay .pause {
+  position: relative;
+  padding-top: 40px; /* room for the X */
+}
+
+#closeAvatarOverlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: none;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#closeAvatarOverlay:hover {
+  background: #dc2626;
+}
+
+
+.avatarOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  gap: 6px;
+  width: 90px;
+}
+
+.avatarOption img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.avatarOption.active img {
+  outline: 3px solid gold;
+  box-shadow: 0 0 10px rgba(255,215,0,0.8);
+  transform: scale(1.05);
+}
+
+.avatarOption span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #402d1f; /* dark ink color */
+}
 
 
   
@@ -895,19 +949,45 @@ header strong {
 
 <!-- Avatar Picker Modal -->
 <div id="avatarOverlay" class="overlay">
-  <div class="pause" style="max-width:420px;">
-    <button class="x" id="closeAvatarOverlay">✕</button>
+  <div class="pause" style="max-width:420px; position:relative; padding-top:40px;">
+    <button id="closeAvatarOverlay">✕</button>
     <h3>Choose Your Character</h3>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:12px;">
-      <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-noah.png" data-char="noah" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-david.png" data-char="david" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-mary.png" data-char="mary" class="avatarChoice" style="width:80px;height:80px;border-radius:50%;cursor:pointer;">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:12px;">
+      
+      <div class="avatarOption" data-char="peter">
+        <img src="images/avatar-peter.png" alt="Peter">
+        <span>Peter</span>
+      </div>
+      
+      <div class="avatarOption" data-char="jesus">
+        <img src="images/avatar-jesus.png" alt="Jesus">
+        <span>Jesus</span>
+      </div>
+      
+      <div class="avatarOption" data-char="paul">
+        <img src="images/avatar-paul.png" alt="Paul">
+        <span>Paul</span>
+      </div>
+      
+      <div class="avatarOption" data-char="noah">
+        <img src="images/avatar-noah.png" alt="Noah">
+        <span>Noah</span>
+      </div>
+      
+      <div class="avatarOption" data-char="david">
+        <img src="images/avatar-david.png" alt="David">
+        <span>David</span>
+      </div>
+      
+      <div class="avatarOption" data-char="mary">
+        <img src="images/avatar-mary.png" alt="Mary">
+        <span>Mary</span>
+      </div>
+      
     </div>
   </div>
 </div>
+
 
 
 
@@ -1548,12 +1628,16 @@ document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
 
 
 // Avatar choice
-$$(".avatarChoice").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    profile.character = btn.dataset.char;
+$$(".avatarOption").forEach(opt=>{
+  opt.addEventListener("click",()=>{
+    profile.character = opt.dataset.char;
     saveProfile();
     updateProfileUI();
-    highlightActiveAvatar();
+
+    // highlight active
+    $$(".avatarOption").forEach(o=>o.classList.remove("active"));
+    opt.classList.add("active");
+
     $("#avatarOverlay").style.display="none";
   });
 });
