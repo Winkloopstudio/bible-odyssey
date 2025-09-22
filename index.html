@@ -842,6 +842,14 @@ header strong {
   color: #7a4f2a;
 }
 
+  @keyframes sparkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.progress-bar div.sparkle {
+  animation: sparkle 0.4s ease-in-out 3;
+}
+
   
 </style>
 </head>
@@ -1277,11 +1285,15 @@ setTimeout(() => {
   document.getElementById("splash2").classList.remove("hidden");
 
   setTimeout(() => {
-    document.getElementById("splash2").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    document.querySelector("nav.bottom").classList.remove("hidden");
-  }, 2500);
+  document.getElementById("splash2").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.querySelector("nav.bottom").classList.remove("hidden");
+
+  // ✅ Update streak + bonus here
+  updateStreak();
+  updateProfileUI();
 }, 2500);
+
 
 /* -------------- Ticker -------------- */
 let vi = 0;
@@ -1783,7 +1795,10 @@ $$(".accordion-header").forEach(header => {
 
 /* -------- Profile System -------- */
 const PROFILE_KEY = "b33_kids_profile";
-let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{"character":"peter","stars":0}');
+let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || 
+  '{"character":"peter","stars":0,"streak":0,"gamesPlayed":0,"storiesCompleted":0,"booksPlayed":0}'
+);
+
 function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
 
 const CHARACTER_INFO = {
@@ -1908,16 +1923,12 @@ track.appendChild(div);
 
   // Daily bonus text
   const today = new Date().toDateString();
-  if(profile.lastPlayed === today){
+  if (profile.lastPlayed === today) {
     $("#dailyBonusText").textContent = "✅ You already collected today's bonus!";
   } else {
     $("#dailyBonusText").textContent = "🎁 Log in today to earn +1 bonus star!";
-    // Award daily login bonus automatically
-    profile.stars += 1;
-    profile.lastPlayed = today;
-    saveProfile();
-    updateProfileUI();
   }
+
 
   // Achievements summary (show same badges here for context)
   const ach = $("#starsAchievements");
@@ -2036,10 +2047,20 @@ function endGameAndRecord(){
 
   // ⭐ Reward stars (for now: 1 per level)
 profile.stars += 1;
+profile.stars += 1;
 profile.gamesPlayed = (profile.gamesPlayed || 0) + 1;
 profile.lastStory = s.name;
+
+// ✅ Increment completed stories/books if level is last in story
+if (currentLevel === s.levels) {
+  profile.storiesCompleted = (profile.storiesCompleted || 0) + 1;
+  // simple version: just increment for now
+  profile.booksPlayed = (profile.booksPlayed || 0) + 1;
+}
+
 saveProfile();
 updateProfileUI();
+
 
 
 
@@ -2092,17 +2113,32 @@ function renderBadges(){
 
 
 
-  function updateStreak(){
+function updateStreak(){
   const today = new Date().toDateString();
-  if(profile.lastPlayed !== today){
-    const last = new Date(profile.lastPlayed || today);
-    const diff = (new Date(today) - last) / (1000*60*60*24);
-    if(diff === 1){ profile.streak = (profile.streak||0)+1; }
-    else { profile.streak = 1; }
+  const last = profile.lastPlayed || null;
+
+  if (last !== today) {
+    if (last) {
+      const diff = (new Date(today) - new Date(last)) / (1000*60*60*24);
+      if (diff === 1) {
+        profile.streak = (profile.streak || 0) + 1;
+      } else {
+        profile.streak = 1;
+      }
+    } else {
+      profile.streak = 1;
+    }
+
+    // Award daily login bonus ⭐
+    profile.stars += 1;
     profile.lastPlayed = today;
+
     saveProfile();
+    updateProfileUI();
   }
 }
+
+  
 
 function renderStreak(){
   $("#streakText").textContent = `🔥 Current Streak: ${profile.streak||0} days`;
@@ -2163,12 +2199,18 @@ function animateProgressBar(newPercent) {
     if (Math.abs(progress - newPercent) > 0.5) {
       requestAnimationFrame(step);
     } else {
-      bar.style.width = newPercent + "%"; // snap to final
+      // ✅ Snap to final value
+      bar.style.width = newPercent + "%";
+
+      // ✨ Trigger sparkle animation
+      bar.classList.add("sparkle");
+      setTimeout(() => bar.classList.remove("sparkle"), 1200);
     }
   };
 
   requestAnimationFrame(step);
 }
+
 
 
   
