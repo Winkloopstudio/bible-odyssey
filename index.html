@@ -1187,7 +1187,15 @@ $("#replayRibbon").addEventListener("click", () => {
  
 /* -------------- Game Flow (placeholder mini-game) -------------- */
 let currentLevel = 1;
-function startGame(level){
+let gameTimer = null; // track active timer
+
+function startGame(level) {
+  // 🔄 Reset old state
+  if (gameTimer) {
+    clearTimeout(gameTimer);
+    gameTimer = null;
+  }
+
   currentLevel = level;
   const s = STORIES[currentStoryIdx];
 
@@ -1195,12 +1203,15 @@ function startGame(level){
   $("#game").style.display = "flex";
   document.body.style.overflow = "hidden";
 
+  // Clear anything left over in stage
+  $(".game-stage").innerHTML = "";
+
   // If this is the first level and it should auto-complete (storybook reading)
   if (level === 1 && s.autoCompleteFirst) {
     endGameAndRecord();   // instantly mark complete
   } else {
     // For now, still simulate mini-game with 10s timer (until real gameplay is added)
-    setTimeout(endGameAndRecord, 10000);
+    gameTimer = setTimeout(endGameAndRecord, 10000);
   }
 }
 
@@ -1222,18 +1233,10 @@ function endGameAndRecord(){
 
 
 $("#replayLevel").addEventListener("click", () => {
-  // Hide the "level complete" overlay
   $("#levelComplete").style.display = "none";
-
-  // Hide the game area briefly to reset state
-  $("#game").style.display = "none";
-
-  // Force a reflow so the browser applies the hide before restarting
-  void $("#game").offsetWidth;
-
-  // Show game again and restart the same level
-  startGame(currentLevel);
+  startGame(currentLevel);  // this will now always reset fresh
 });
+
 
 $("#nextLevel").addEventListener("click", () => {
   const s = STORIES[currentStoryIdx];
