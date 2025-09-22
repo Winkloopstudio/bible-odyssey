@@ -1280,20 +1280,23 @@ const $$ = sel => Array.from(document.querySelectorAll(sel));
 const save = () => localStorage.setItem(KEY, JSON.stringify(progress));
 
 /* -------------- Splash -> App -------------- */
+// Outer splash1 → splash2
 setTimeout(() => {
   document.getElementById("splash1").classList.add("hidden");
   document.getElementById("splash2").classList.remove("hidden");
 
+  // Inner splash2 → app
   setTimeout(() => {
-  document.getElementById("splash2").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.querySelector("nav.bottom").classList.remove("hidden");
+    document.getElementById("splash2").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.querySelector("nav.bottom").classList.remove("hidden");
 
-  // ✅ Update streak + bonus here
-  updateStreak();
-  updateProfileUI();
-}, 2500);
-}); 
+    // ✅ Update streak + bonus here
+    updateStreak();
+    updateProfileUI();
+  }, 2500);   // splash2 stays for 2.5s
+}, 2000);     // splash1 stays for 2s
+
 
 /* -------------- Ticker -------------- */
 let vi = 0;
