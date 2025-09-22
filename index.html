@@ -598,18 +598,18 @@ header strong {
 </head>
 <body>
 
-<!-- SPLASH -->
-<section id="splash" class="screen center">
-  <div class="logo">
-    <!-- Bible Odyssey logo -->
-    <img src="images/bible-odyssey-logo.png" alt="Bible Odyssey Logo" class="logo-img" />
+<!-- SPLASH SCREENS -->
+<section id="splash1" class="screen center">
+  <div class="splash-content">
+    <img src="images/logo.png" alt="Believe 33 Logo" class="splash-img">
+    <small class="subtitle">Faith-Based Games</small>
+  </div>
+</section>
 
-    <!-- Tagline -->
-    <small>Faith-Based Games</small>
+<section id="splash2" class="screen center hidden">
+  <div class="splash-content">
+    <img src="images/bible-odyssey-logo.png" alt="Bible Odyssey Logo" class="splash-img">
     <div class="splash-sub">Loading goodness…</div>
-
-    <!-- Believe 33 logo -->
-    <img src="images/logo.png" alt="Believe 33 Logo" class="b33-logo" />
   </div>
 </section>
 
@@ -862,11 +862,18 @@ const $$ = sel => Array.from(document.querySelectorAll(sel));
 const save = () => localStorage.setItem(KEY, JSON.stringify(progress));
 
 /* -------------- Splash -> App -------------- */
-setTimeout(()=>{ 
-  $("#splash").classList.add("hidden");
-  $("#app").classList.remove("hidden");
-  document.querySelector("nav.bottom").classList.remove("hidden"); 
-}, 2000);
+
+setTimeout(() => {
+  document.getElementById("splash1").classList.add("hidden");
+  document.getElementById("splash2").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("splash2").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.querySelector("nav.bottom").classList.remove("hidden");
+  }, 1500); // time for splash2
+}, 1500); // time for splash1
+</script>
 
 
 /* -------------- Ticker -------------- */
