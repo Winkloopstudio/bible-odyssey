@@ -862,7 +862,6 @@ const $$ = sel => Array.from(document.querySelectorAll(sel));
 const save = () => localStorage.setItem(KEY, JSON.stringify(progress));
 
 /* -------------- Splash -> App -------------- */
-
 setTimeout(() => {
   document.getElementById("splash1").classList.add("hidden");
   document.getElementById("splash2").classList.remove("hidden");
@@ -871,10 +870,8 @@ setTimeout(() => {
     document.getElementById("splash2").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.querySelector("nav.bottom").classList.remove("hidden");
-  }, 1500); // time for splash2
-}, 1500); // time for splash1
-</script>
-
+  }, 1500);
+}, 1500);
 
 /* -------------- Ticker -------------- */
 let vi = 0;
