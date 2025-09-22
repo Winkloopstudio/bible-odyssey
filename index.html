@@ -1234,8 +1234,22 @@ function endGameAndRecord(){
 
 $("#replayLevel").addEventListener("click", () => {
   $("#levelComplete").style.display = "none";
-  startGame(currentLevel);  // this will now always reset fresh
+
+  const s = STORIES[currentStoryIdx];
+
+  if (currentLevel === 1) {
+    // 👉 Replay storybook instead of jumping back into the game
+    $("#game").style.display = "none";
+    document.body.style.overflow = "";
+    showStoryPages(s.id);
+  } else {
+    // 👉 Normal replay of game levels
+    $("#game").style.display = "none";
+    void $("#game").offsetWidth; // force reflow
+    startGame(currentLevel);
+  }
 });
+
 
 
 $("#nextLevel").addEventListener("click", () => {
