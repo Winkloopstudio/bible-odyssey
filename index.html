@@ -1281,22 +1281,6 @@ function startGame(level) {
 }
 
 
-
-function endGameAndRecord(){
-  // mark cleared
-  const s = STORIES[currentStoryIdx];
-  const cleared = progress[s.id]?.clearedLevels || 0;
-  progress[s.id] = { clearedLevels: Math.max(cleared, currentLevel) };
-  save();
-
-  // Show celebration overlay
-  $("#levelCompleteMsg").textContent =
-    `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
-
-  $("#levelComplete").style.display = "flex";
-}
-
-
 $("#replayLevel").addEventListener("click", () => {
   $("#levelComplete").style.display = "none";
 
@@ -1504,9 +1488,18 @@ function updateProfileUI(){
   $("#profileName").textContent = map[profile.character] || "Adventurer";
   $("#profileStars").textContent = `⭐ ${profile.stars} Stars`;
 
-  // Progress bar (example: out of 10 stars per milestone)
-  const percent = Math.min((profile.stars % 10) * 10, 100);
-  $("#starProgressBar").style.width = percent + "%";
+// Progress bar (steady climb toward big goal)
+const STAR_GOAL = 100; // adjust this if you want bigger/smaller milestones
+const percent = Math.min((profile.stars / STAR_GOAL) * 100, 100);
+$("#starProgressBar").style.width = percent + "%";
+
+// Update reward text
+const nextGoal = STAR_GOAL;
+document.querySelector("#nextRewardText").textContent =
+  profile.stars >= STAR_GOAL
+    ? "🎉 You reached the reward milestone!"
+    : `Next reward at ${nextGoal} stars`;
+
 
   // Stats
   $("#favStory").textContent = `📖 Favorite Story: ${profile.lastStory || "None yet"}`;
@@ -1540,12 +1533,6 @@ document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
   updateProfileUI();
 });
 
-
-// Open avatar modal
-$("#changeAvatarBtn").addEventListener("click",()=>{
-  $("#avatarOverlay").style.display="flex";
-  highlightActiveAvatar();
-});
 
 // Avatar choice
 $$(".avatarChoice").forEach(btn=>{
