@@ -846,11 +846,15 @@ header strong {
     <p id="profileStars">⭐ 0 Stars</p>
 
     <h4>Choose Character</h4>
-    <div style="display:flex;justify-content:center;gap:12px;margin:16px 0;">
-      <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-      <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
-    </div>
+   <div style="display:flex;justify-content:center;gap:12px;margin:16px 0;">
+  <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-noah.png" data-char="noah" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-david.png" data-char="david" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-mary.png" data-char="mary" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+</div>
+
 
     <button id="changeAvatarBtn" class="btn-wide">Change Avatar</button>
 
@@ -858,6 +862,9 @@ header strong {
   <img src="images/avatar-peter.png" data-char="peter" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
   <img src="images/avatar-jesus.png" data-char="jesus" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
   <img src="images/avatar-paul.png" data-char="paul" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-noah.png" data-char="noah" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-david.png" data-char="david" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
+  <img src="images/avatar-mary.png" data-char="mary" class="avatarChoice" style="width:70px;height:70px;border-radius:50%;cursor:pointer;">
   <button id="closeAvatarPicker" class="btn-wide red">Close</button>
 </div>
 
@@ -1465,12 +1472,20 @@ let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{"character":"pet
 function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
 
 function updateProfileUI(){
-  const map = { peter:"Peter", jesus:"Jesus", paul:"Paul" };
+  const map = { 
+    peter: "Peter", 
+    jesus: "Jesus", 
+    paul: "Paul",
+    noah: "Noah",
+    david: "David",
+    mary: "Mother Mary"
+  };
   $("#profileAvatar").src = `images/avatar-${profile.character}.png`;
   $("#profileName").textContent = map[profile.character] || "Adventurer";
   $("#profileStars").textContent = `⭐ ${profile.stars} Stars`;
   updateStarHUD();
 }
+
 
 function updateStarHUD(){
   if ($("#hudStars")) {
