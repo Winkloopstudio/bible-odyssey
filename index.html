@@ -673,16 +673,10 @@ header strong {
 }
 
 #profilePanel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 88px;   /* leave room for nav (same as .pad screens) */
+  padding: 12px 14px 88px;  /* top, sides, bottom (88px for nav space) */
   overflow-y: auto;
   background: #fffbe8;
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
+  flex: 1;
 }
 
 
@@ -1114,7 +1108,7 @@ header strong {
 </section>
 
     <!-- PROFILE PANEL -->
-<div id="profilePanel" class="hidden">
+<div id="profilePanel" class="hidden pad">
   <div class="info-header">
     <h2>My Profile</h2>
   </div>
