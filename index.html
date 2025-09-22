@@ -1222,7 +1222,16 @@ function endGameAndRecord(){
 
 
 $("#replayLevel").addEventListener("click", () => {
+  // Hide the "level complete" overlay
   $("#levelComplete").style.display = "none";
+
+  // Hide the game area briefly to reset state
+  $("#game").style.display = "none";
+
+  // Force a reflow so the browser applies the hide before restarting
+  void $("#game").offsetWidth;
+
+  // Show game again and restart the same level
   startGame(currentLevel);
 });
 
