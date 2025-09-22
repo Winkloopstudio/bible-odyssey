@@ -783,6 +783,20 @@ header strong {
   box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
 
+  /* Reuse overlay + pause styles you already have */
+#badgeModal .pause {
+  background: #fffbe8;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+#badgeModal h3 {
+  margin: 6px 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #7a4f2a;
+}
+
   
 </style>
 </head>
@@ -1068,6 +1082,15 @@ header strong {
   </div>
 </div>
 
+<!-- Badge Info Modal -->
+<div id="badgeModal" class="overlay">
+  <div class="pause" style="max-width:340px; position:relative; text-align:center;">
+    <button id="closeBadgeModal" class="x">✕</button>
+    <div id="badgeModalIcon" style="font-size:48px; margin:10px 0;"></div>
+    <h3 id="badgeModalTitle">Badge Name</h3>
+    <p id="badgeModalDesc" style="margin:10px 0; font-size:15px; line-height:1.5; color:#333;"></p>
+  </div>
+</div>
 
 <!-- Avatar Picker Modal -->
 <div id="avatarOverlay" class="overlay">
@@ -1839,11 +1862,12 @@ updateProfileUI();
   $("#levelComplete").style.display = "flex";
 }
 
-  const BADGES = [
-  { id:"ark", icon:"🛶", label:"Ark Builder", unlock:p=>p.gamesPlayed>=10 },
-  { id:"giant", icon:"🪨", label:"Giant Slayer", unlock:p=>p.stars>=50 },
-  { id:"faithful", icon:"🤝", label:"Faithful Friend", unlock:p=>p.streak>=7 }
+ const BADGES = [
+  { id:"ark", icon:"🛶", label:"Ark Builder", desc:"Play 10 games.", unlock:p=>p.gamesPlayed>=10 },
+  { id:"giant", icon:"🪨", label:"Giant Slayer", desc:"Earn 50 stars.", unlock:p=>p.stars>=50 },
+  { id:"faithful", icon:"🤝", label:"Faithful Friend", desc:"Play 7 days in a row.", unlock:p=>p.streak>=7 }
 ];
+
 
 function renderBadges(){
   const grid = $("#badgeGrid");
@@ -1853,10 +1877,26 @@ function renderBadges(){
     const div = document.createElement("div");
     div.className = "badge " + (unlocked ? "unlocked" : "locked");
     div.innerHTML = `${b.icon}`;
-    div.title = unlocked ? b.label : `Locked: ${b.label}`;
+    div.title = b.label;
+
+    // On click → show modal
+    div.addEventListener("click", ()=>{
+      $("#badgeModal").style.display = "flex";
+      $("#badgeModalIcon").textContent = b.icon;
+      $("#badgeModalTitle").textContent = b.label;
+      $("#badgeModalDesc").textContent = unlocked
+        ? `✅ Unlocked! ${b.label} earned by completing: ${b.desc || "special milestone"}.`
+        : `🔒 Locked — ${b.desc || "Earn this badge by playing more."}`;
+    });
+
     grid.appendChild(div);
   });
 }
+
+  $("#closeBadgeModal").addEventListener("click", ()=>{
+  $("#badgeModal").style.display = "none";
+});
+
 
 
   function updateStreak(){
