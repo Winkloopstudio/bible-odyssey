@@ -674,14 +674,17 @@ header strong {
 
 #profilePanel {
   position: absolute;
-  inset: 0;
-  padding-bottom: 100px;  /* enough space for nav */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 88px;   /* leave room for nav (same as .pad screens) */
   overflow-y: auto;
   background: #fffbe8;
   z-index: 200;
   display: flex;
   flex-direction: column;
 }
+
 
 .profile-avatar {
   width: 120px;
