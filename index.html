@@ -1796,7 +1796,7 @@ $$(".accordion-header").forEach(header => {
 /* -------- Profile System -------- */
 const PROFILE_KEY = "b33_kids_profile";
 let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || 
-  '{"character":"peter","stars":0,"streak":0,"gamesPlayed":0,"storiesCompleted":0,"booksPlayed":0}'
+  '{"character":"peter","stars":0,"streak":0,"gamesPlayed":0,"storiesCompleted":0,"booksPlayed":[]}'
 );
 
 function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
@@ -1936,9 +1936,21 @@ track.appendChild(div);
   BADGES.forEach(b=>{
     const unlocked = b.unlock(profile);
     const badge = document.createElement("div");
-    badge.className = "badge " + (unlocked ? "unlocked" : "locked");
-    badge.textContent = b.icon;
-    ach.appendChild(badge);
+badge.className = "badge " + (unlocked ? "unlocked" : "locked");
+badge.textContent = b.icon;
+
+// ✅ Add modal click here
+badge.addEventListener("click", ()=>{
+  $("#badgeModal").style.display = "flex";
+  $("#badgeModalIcon").textContent = b.icon;
+  $("#badgeModalTitle").textContent = b.label;
+  $("#badgeModalDesc").textContent = unlocked
+    ? `✅ Unlocked! ${b.label} earned by completing: ${b.desc || "special milestone"}.`
+    : `🔒 Locked — ${b.desc || "Earn this badge by playing more."}`;
+});
+
+ach.appendChild(badge);
+
   });
 
   // Fun fact unlock
@@ -1952,10 +1964,12 @@ track.appendChild(div);
 
 
 function highlightActiveAvatar() {
-  $$(".avatarChoice").forEach(btn=>{
+  $$(".avatarOption").forEach(btn=>{
     btn.classList.toggle("active", btn.dataset.char === profile.character);
   });
 }
+
+
 
 
 function updateStarHUD(){
@@ -2046,28 +2060,30 @@ function endGameAndRecord(){
   save();
 
   // ⭐ Reward stars (for now: 1 per level)
-profile.stars += 1;
-profile.stars += 1;
-profile.gamesPlayed = (profile.gamesPlayed || 0) + 1;
-profile.lastStory = s.name;
+  profile.stars += 1;   // <– keep only ONE line
 
-// ✅ Increment completed stories/books if level is last in story
-if (currentLevel === s.levels) {
-  profile.storiesCompleted = (profile.storiesCompleted || 0) + 1;
-  // simple version: just increment for now
-  profile.booksPlayed = (profile.booksPlayed || 0) + 1;
-}
+  profile.gamesPlayed = (profile.gamesPlayed || 0) + 1;
+  profile.lastStory = s.name;
 
-saveProfile();
-updateProfileUI();
+  // ✅ Increment completed stories/books if level is last in story
+  if (currentLevel === s.levels) {
+    profile.storiesCompleted = (profile.storiesCompleted || 0) + 1;
 
+    
+    if (!profile.booksPlayed.includes(s.id)) {
+      profile.booksPlayed.push(s.id);
+    }
+    
+  }
 
-
+  saveProfile();
+  updateProfileUI();
 
   $("#levelCompleteMsg").textContent =
     `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
   $("#levelComplete").style.display = "flex";
 }
+
 
 const BADGES = [
   { id:"ark", icon:"🛶", label:"Ark Builder", desc:"Play 10 games.", unlock:p=>p.gamesPlayed>=10 },
@@ -2076,7 +2092,10 @@ const BADGES = [
   
   // NEW ONES
   { id:"bookworm", icon:"📚", label:"Bookworm", desc:"Finish 3 different stories.", unlock:p=>(p.storiesCompleted||0)>=3 },
-  { id:"worldtraveler", icon:"🌍", label:"World Traveler", desc:"Play stories from 5 books of the Bible.", unlock:p=>(p.booksPlayed||0)>=5 },
+  { id:"worldtraveler", icon:"🌍", label:"World Traveler", desc:"Play stories from 5 books of the Bible.", unlock:p=>(p.booksPlayed||{ id:"worldtraveler", icon:"🌍", label:"World Traveler",
+  desc:"Play stories from 5 different books of the Bible.",
+  unlock:p=>(p.booksPlayed?.length || 0) >= 5 }
+0)>=5 },
   { id:"sharpshooter", icon:"🏹", label:"Sharpshooter", desc:"Defeat Goliath in David’s story.", unlock:p=>p.lastStory==="David & Goliath" },
   { id:"rainbow", icon:"🌈", label:"Rainbow Keeper", desc:"Finish Noah’s Ark story.", unlock:p=>p.lastStory==="Noah’s Ark" }
 ];
