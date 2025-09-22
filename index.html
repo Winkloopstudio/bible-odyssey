@@ -672,16 +672,16 @@ header strong {
   color: #402d1f; /* dark ink color */
 }
 
-  #profilePanel {
-  position: absolute; /* instead of fixed */
-  inset: 0 0 60px 0;  /* leave room at bottom for nav */
+#profilePanel {
+  position: absolute;
+  inset: 0;
+  padding-bottom: 100px;  /* enough space for nav */
   overflow-y: auto;
   background: #fffbe8;
-  z-index: 200; 
+  z-index: 200;
   display: flex;
   flex-direction: column;
 }
-
 
 .profile-avatar {
   width: 120px;
