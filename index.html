@@ -844,6 +844,20 @@ header strong {
          alt="Avatar" style="width:120px;height:120px;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,0.25);margin:20px auto;display:block;">
     <h3 id="profileName" style="margin:10px 0;">Peter</h3>
     <p id="profileStars">⭐ 0 Stars</p>
+    <div style="margin:20px 0;">
+  <h4>Progress</h4>
+  <div style="background:#ddd;border-radius:12px;height:18px;overflow:hidden;">
+    <div id="starProgressBar" style="background:linear-gradient(90deg,#ffd84a,#f1b501);height:100%;width:0%;transition:width .4s;"></div>
+  </div>
+  <p style="margin:6px 0 0;font-size:14px;color:#555;">Next reward at 10 stars</p>
+</div>
+
+<div style="margin:20px 0;">
+  <h4>Stats</h4>
+  <p id="favStory">📖 Favorite Story: None yet</p>
+  <p id="gamesPlayed">🎮 Games Played: 0</p>
+</div>
+
 
     <button id="changeAvatarBtn" class="btn-wide">Change Avatar</button>
 
@@ -1462,18 +1476,24 @@ function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile
 
 function updateProfileUI(){
   const map = { 
-    peter: "Peter", 
-    jesus: "Jesus", 
-    paul: "Paul",
-    noah: "Noah",
-    david: "David",
-    mary: "Mother Mary"
+    peter: "Peter", jesus: "Jesus", paul: "Paul",
+    noah: "Noah", david: "David", mary: "Mother Mary"
   };
   $("#profileAvatar").src = `images/avatar-${profile.character}.png`;
   $("#profileName").textContent = map[profile.character] || "Adventurer";
   $("#profileStars").textContent = `⭐ ${profile.stars} Stars`;
+
+  // Progress bar (example: out of 10 stars per milestone)
+  const percent = Math.min((profile.stars % 10) * 10, 100);
+  $("#starProgressBar").style.width = percent + "%";
+
+  // Stats
+  $("#favStory").textContent = `📖 Favorite Story: ${profile.lastStory || "None yet"}`;
+  $("#gamesPlayed").textContent = `🎮 Games Played: ${profile.gamesPlayed || 0}`;
+
   updateStarHUD();
 }
+
 
 
 function updateStarHUD(){
@@ -1524,8 +1544,11 @@ function endGameAndRecord(){
 
   // ⭐ Reward stars (for now: 1 per level)
 profile.stars += 1;
+profile.gamesPlayed = (profile.gamesPlayed || 0) + 1;
+profile.lastStory = s.name;
 saveProfile();
-updateProfileUI();   // this already calls updateStarHUD()
+updateProfileUI();
+
 
 
   $("#levelCompleteMsg").textContent =
