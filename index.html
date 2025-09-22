@@ -935,6 +935,14 @@ header strong {
 
     </div>
 
+    <!-- Character Bio -->
+<div id="profileBio" style="margin:20px 0; font-size:15px; line-height:1.6; color:#333;
+     background:#fffbe8; border-radius:12px; padding:12px 14px;
+     box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+  <h4>About Peter</h4>
+  <p>The disciple Peter was a fisherman whom Jesus called to follow Him. Though he denied Jesus three times, he later became a bold leader in the early Church.</p>
+</div>
+
     <!-- Stats -->
     <div style="margin:20px 0;">
       <h4>Stats</h4>
@@ -1572,6 +1580,34 @@ const PROFILE_KEY = "b33_kids_profile";
 let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{"character":"peter","stars":0}');
 function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
 
+const CHARACTER_INFO = {
+  peter: {
+    name: "Peter",
+    bio: "Peter was a fisherman whom Jesus called to follow Him. Though he denied Jesus three times, he later became a bold leader in the early Church."
+  },
+  jesus: {
+    name: "Jesus",
+    bio: "Jesus Christ is the Son of God, Savior of the world. He taught with love, healed the sick, and gave His life for us."
+  },
+  paul: {
+    name: "Paul",
+    bio: "Paul spread the Gospel across the Roman world. He wrote many letters that are now books of the New Testament."
+  },
+  noah: {
+    name: "Noah",
+    bio: "Noah was faithful to God and built an Ark to save his family and animals from the flood."
+  },
+  david: {
+    name: "David",
+    bio: "David defeated Goliath with a sling and became king of Israel. He wrote many of the Psalms."
+  },
+  mary: {
+    name: "Mary",
+    bio: "Mary, the mother of Jesus, trusted God and humbly accepted His plan to bring the Savior into the world."
+  }
+};
+
+  
 function updateProfileUI(){
   const map = { 
     peter: "Peter", jesus: "Jesus", paul: "Paul",
@@ -1597,6 +1633,14 @@ document.querySelector("#nextRewardText").textContent =
   // Stats
   $("#favStory").textContent = `📖 Favorite Story: ${profile.lastStory || "None yet"}`;
   $("#gamesPlayed").textContent = `🎮 Games Played: ${profile.gamesPlayed || 0}`;
+
+  // Character bio
+if (CHARACTER_INFO[profile.character]) {
+  $("#profileBio").innerHTML = `
+    <h4>About ${CHARACTER_INFO[profile.character].name}</h4>
+    <p>${CHARACTER_INFO[profile.character].bio}</p>
+  `;
+}
 
   updateStarHUD();
 }
