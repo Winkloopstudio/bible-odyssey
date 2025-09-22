@@ -865,7 +865,8 @@ header strong {
       <div style="background:#ddd;border-radius:12px;height:18px;overflow:hidden;">
         <div id="starProgressBar" style="background:linear-gradient(90deg,#ffd84a,#f1b501);height:100%;width:0%;transition:width .4s;"></div>
       </div>
-      <p style="margin:6px 0 0;font-size:14px;color:#555;">Next reward at 10 stars</p>
+     <p id="nextRewardText" style="margin:6px 0 0;font-size:14px;color:#555;">Next reward at 100 stars</p>
+
     </div>
 
     <!-- Stats -->
@@ -1546,9 +1547,11 @@ $$(".avatarChoice").forEach(btn=>{
 });
 
   // Open avatar modal
-  $("#changeAvatarBtn").addEventListener("click",()=>{
-    $("#avatarOverlay").style.display="flex";
-  });
+$("#changeAvatarBtn").addEventListener("click",()=>{
+  console.log("Change Avatar button clicked"); // DEBUG
+  $("#avatarOverlay").style.display="flex";
+});
+
 
   // Close avatar modal
   $("#closeAvatarOverlay").addEventListener("click",()=>{
