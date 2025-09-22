@@ -1244,7 +1244,16 @@ $("#homeBtn").addEventListener("click", () => {
   $("#levelComplete").style.display = "none";
   $("#game").style.display = "none";
   document.body.style.overflow = "";
+
+  // ✅ make sure home screen is visible again
+  $("#homeView").classList.remove("hidden");
+  $("#storybookView").classList.add("hidden");
+
+  // ✅ refresh progress so cleared levels show up
+  renderStories();
+  renderLevels();
 });
+
 
 
 
