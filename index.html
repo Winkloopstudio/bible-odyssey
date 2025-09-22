@@ -1524,9 +1524,9 @@ document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
 });
 
 
-// Change avatar
+// Open avatar modal
 $("#changeAvatarBtn").addEventListener("click",()=>{
-  $("#avatarPicker").style.display="flex";
+  $("#avatarOverlay").style.display="flex";
 });
 
 // Avatar choice
@@ -1535,14 +1535,15 @@ $$(".avatarChoice").forEach(btn=>{
     profile.character = btn.dataset.char;
     saveProfile();
     updateProfileUI();
-    $("#avatarPicker").style.display="none";
+    $("#avatarOverlay").style.display="none";
   });
 });
 
-// Close avatar picker
-$("#closeAvatarPicker").addEventListener("click",()=>{
-  $("#avatarPicker").style.display="none";
+// Close avatar modal
+$("#closeAvatarOverlay").addEventListener("click",()=>{
+  $("#avatarOverlay").style.display="none";
 });
+
 
 /* -------- Add Stars on Level Complete -------- */
 function endGameAndRecord(){
