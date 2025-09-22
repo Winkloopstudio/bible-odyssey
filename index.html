@@ -680,6 +680,15 @@ header strong {
   color: #402d1f; /* dark ink color */
 }
 
+.badge {
+  width: 60px; height: 60px;
+  display:flex; align-items:center; justify-content:center;
+  background:#fff; border-radius:14px;
+  font-size:28px; font-weight:700;
+  box-shadow:0 3px 6px rgba(0,0,0,0.15);
+}
+.badge.locked { opacity:0.3; filter:grayscale(1); }
+.badge span { font-size:12px; margin-top:4px; display:block; }
 
   
 </style>
@@ -944,6 +953,10 @@ header strong {
 
     </div>
 
+<div id="profileStreak" style="margin:20px 0;">
+  <h4>Faith Journey</h4>
+  <p id="streakText">🔥 Current Streak: 0 days</p>
+</div>
 
 
     <!-- Stats -->
@@ -952,6 +965,12 @@ header strong {
       <p id="favStory">📖 Favorite Story: None yet</p>
       <p id="gamesPlayed">🎮 Games Played: 0</p>
     </div>
+
+    <!-- Achievements -->
+<div id="profileBadges" style="margin:20px 0;">
+  <h4>Badges</h4>
+  <div id="badgeGrid" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+</div>
 
     <!-- Trigger -->
     <button id="changeAvatarBtn" class="btn-wide">Change Avatar</button>
@@ -1620,33 +1639,36 @@ function updateProfileUI(){
   $("#profileName").textContent = map[profile.character] || "Adventurer";
   $("#profileStars").textContent = `⭐ ${profile.stars} Stars`;
 
-// Progress bar (steady climb toward big goal)
-const STAR_GOAL = 100; // adjust this if you want bigger/smaller milestones
-const percent = Math.min((profile.stars / STAR_GOAL) * 100, 100);
-$("#starProgressBar").style.width = percent + "%";
+  // Progress bar (steady climb toward big goal)
+  const STAR_GOAL = 100;
+  const percent = Math.min((profile.stars / STAR_GOAL) * 100, 100);
+  $("#starProgressBar").style.width = percent + "%";
 
-// Update reward text
-const nextGoal = STAR_GOAL;
-document.querySelector("#nextRewardText").textContent =
-  profile.stars >= STAR_GOAL
-    ? "🎉 You reached the reward milestone!"
-    : `Next reward at ${nextGoal} stars`;
-
+  // Update reward text
+  const nextGoal = STAR_GOAL;
+  document.querySelector("#nextRewardText").textContent =
+    profile.stars >= STAR_GOAL
+      ? "🎉 You reached the reward milestone!"
+      : `Next reward at ${nextGoal} stars`;
 
   // Stats
   $("#favStory").textContent = `📖 Favorite Story: ${profile.lastStory || "None yet"}`;
   $("#gamesPlayed").textContent = `🎮 Games Played: ${profile.gamesPlayed || 0}`;
 
   // Character bio
-if (CHARACTER_INFO[profile.character]) {
-  $("#profileBio").innerHTML = `
-    <h4>About ${CHARACTER_INFO[profile.character].name}</h4>
-    <p>${CHARACTER_INFO[profile.character].bio}</p>
-  `;
+  if (CHARACTER_INFO[profile.character]) {
+    $("#profileBio").innerHTML = `
+      <h4>About ${CHARACTER_INFO[profile.character].name}</h4>
+      <p>${CHARACTER_INFO[profile.character].bio}</p>
+    `;
+  }
+
+  // HUD and extras
+  updateStarHUD();
+  renderStreak();
+  renderBadges();
 }
 
-  updateStarHUD();
-}
 
 function highlightActiveAvatar() {
   $$(".avatarChoice").forEach(btn=>{
@@ -1724,6 +1746,42 @@ updateProfileUI();
     `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
   $("#levelComplete").style.display = "flex";
 }
+
+  const BADGES = [
+  { id:"ark", icon:"🛶", label:"Ark Builder", unlock:p=>p.gamesPlayed>=10 },
+  { id:"giant", icon:"🪨", label:"Giant Slayer", unlock:p=>p.stars>=50 },
+  { id:"faithful", icon:"🤝", label:"Faithful Friend", unlock:p=>p.streak>=7 }
+];
+
+function renderBadges(){
+  const grid = $("#badgeGrid");
+  grid.innerHTML = "";
+  BADGES.forEach(b=>{
+    const unlocked = b.unlock(profile);
+    const div = document.createElement("div");
+    div.className = "badge" + (unlocked?"":" locked");
+    div.innerHTML = `${b.icon}`;
+    div.title = unlocked? b.label : `Locked: ${b.label}`;
+    grid.appendChild(div);
+  });
+}
+
+  function updateStreak(){
+  const today = new Date().toDateString();
+  if(profile.lastPlayed !== today){
+    const last = new Date(profile.lastPlayed || today);
+    const diff = (new Date(today) - last) / (1000*60*60*24);
+    if(diff === 1){ profile.streak = (profile.streak||0)+1; }
+    else { profile.streak = 1; }
+    profile.lastPlayed = today;
+    saveProfile();
+  }
+}
+
+function renderStreak(){
+  $("#streakText").textContent = `🔥 Current Streak: ${profile.streak||0} days`;
+}
+
 
 </script>
 </body>
