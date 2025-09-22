@@ -703,7 +703,23 @@ header strong {
           <button class="btn-wide red" id="quitBtn">Quit</button>
         </div>
       </div>
+
+      <!-- Level Complete Overlay -->
+<div id="levelComplete" class="overlay">
+  <div class="pause">
+    <h3>🎉 Level Complete!</h3>
+    <p id="levelCompleteMsg">Great job finishing Creation — Level 01!</p>
+    <div class="row">
+      <button class="round blue" id="replayLevel">⟳</button>
+      <button class="round yellow" id="nextLevel">➡</button>
+      <button class="round" id="homeBtn">🏠</button>
+    </div>
+  </div>
+</div>
+
     </section>
+
+  
   </main>
 
   <!-- INFO PANEL -->
@@ -1176,12 +1192,38 @@ function endGameAndRecord(){
   const cleared = progress[s.id]?.clearedLevels || 0;
   progress[s.id] = { clearedLevels: Math.max(cleared, currentLevel) };
   save();
-  // return to home
+
+  // Show celebration overlay
+  $("#levelCompleteMsg").textContent =
+    `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
+
+  $("#levelComplete").style.display = "flex";
+}
+
+$("#replayLevel").addEventListener("click", () => {
+  $("#levelComplete").style.display = "none";
+  startGame(currentLevel);
+});
+
+$("#nextLevel").addEventListener("click", () => {
+  const s = STORIES[currentStoryIdx];
+  if (currentLevel < s.levels) {
+    $("#levelComplete").style.display = "none";
+    startGame(currentLevel + 1);
+  } else {
+    $("#levelComplete").style.display = "none";
+    $("#game").style.display = "none";
+    document.body.style.overflow = "";
+    renderStories();
+    renderLevels();
+  }
+});
+
+$("#homeBtn").addEventListener("click", () => {
+  $("#levelComplete").style.display = "none";
   $("#game").style.display = "none";
   document.body.style.overflow = "";
-  renderStories();
-  renderLevels();
-}
+});
 
 /* Demo: Complete level button */
 $("#finishLevel").addEventListener("click", endGameAndRecord);
