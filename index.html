@@ -612,6 +612,18 @@ header strong {
   transform: scale(1.08);
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
+#profilePanel {
+  position: fixed;
+  inset: 0;
+  background: #fffbe8;
+  z-index: 2000;  /* higher than viewContainer */
+  display: flex;
+  flex-direction: column;
+}
+
+#avatarOverlay {
+  z-index: 3000; /* make sure modal is above profile panel */
+}
 
 
 
