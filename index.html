@@ -1489,8 +1489,8 @@ if (s.video) {
 
   currentPage = 0;
   renderStoryPage();
-  $("#homeView").classList.add("hidden");
-  $("#storybookView").classList.remove("hidden");
+showView("#storybookView");
+
 }
 
 
@@ -1956,22 +1956,47 @@ function updateStarHUD(){
   }
 }
 
+// HOME button
+document.querySelector("[data-nav='home']").addEventListener("click",()=>{
+  $$(".dock button").forEach(b=>b.classList.remove("active"));
+  document.querySelector("[data-nav='home']").classList.add("active");
+  showView("#homeView");
+  renderStories();
+  renderLevels();
+});
 
-// Dock nav → open profile
+// STORIES button (acts same as home for now)
+document.querySelector("[data-nav='stories']").addEventListener("click",()=>{
+  $$(".dock button").forEach(b=>b.classList.remove("active"));
+  document.querySelector("[data-nav='stories']").classList.add("active");
+  showView("#homeView");
+});
+
+// STARS button
 document.querySelector("[data-nav='ach']").addEventListener("click",()=>{
   $$(".dock button").forEach(b=>b.classList.remove("active"));
   document.querySelector("[data-nav='ach']").classList.add("active");
-
-  // Hide other screens
-  $("#homeView").classList.add("hidden");
-  $("#storybookView").classList.add("hidden");
-  $("#profilePanel").classList.add("hidden");
-  $("#game").style.display="none";
-
-  // Show stars screen
-  $("#starsView").classList.remove("hidden");
+  showView("#starsView");
   updateStarsScreen();
 });
+
+// PROFILE button
+document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
+  $$(".dock button").forEach(b=>b.classList.remove("active"));
+  document.querySelector("[data-nav='profile']").classList.add("active");
+  showView("#profilePanel");
+  updateProfileUI();
+});
+
+// STORE button
+document.querySelector("[data-nav='shop']").addEventListener("click",()=>{
+  $$(".dock button").forEach(b=>b.classList.remove("active"));
+  document.querySelector("[data-nav='shop']").classList.add("active");
+  showView("#homeView"); // placeholder until Store exists
+  alert("🛍 Store coming soon!");
+});
+
+
 
 
 
@@ -2077,6 +2102,18 @@ function renderBadges(){
 
 function renderStreak(){
   $("#streakText").textContent = `🔥 Current Streak: ${profile.streak||0} days`;
+}
+
+  function showView(id){
+  // Hide all views
+  ["#homeView","#starsView","#profilePanel","#storybookView"].forEach(sel=>{
+    if($(sel)) $(sel).classList.add("hidden");
+  });
+  // Hide game separately
+  $("#game").style.display = "none";
+
+  // Show the one we asked for
+  $(id).classList.remove("hidden");
 }
 
 
