@@ -798,6 +798,50 @@ header strong {
   color: #7a4f2a;
 }
 
+  .reward-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 14px 0;
+  scroll-snap-type: x mandatory;
+}
+.milestone {
+  flex: 0 0 160px;
+  background: #fffbe8;
+  border-radius: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  padding: 12px;
+  text-align: center;
+  scroll-snap-align: center;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.milestone .icon {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+.milestone.locked {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+.milestone.unlocked {
+  border: 3px solid gold;
+  box-shadow: 0 0 12px gold;
+}
+.milestone.unlocked::after {
+  content: "✅";
+  position: absolute;
+  top: 6px; right: 6px;
+  font-size: 18px;
+}
+
+/* Small polish */
+#starsView h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #7a4f2a;
+}
+
   
 </style>
 </head>
@@ -1030,6 +1074,40 @@ header strong {
   </div>
 </div>
 
+  <!-- STARS SCREEN -->
+<section id="starsView" class="hidden pad">
+  <h2 style="text-align:center; margin:10px 0;">My Stars ✨</h2>
+  <p id="starsTotal" style="text-align:center; font-size:18px; font-weight:700;">
+    ⭐ 0 Stars
+  </p>
+
+  <!-- Rewards Track -->
+  <h3 style="margin:16px 4px;">🎁 Rewards Track</h3>
+  <div class="reward-track" id="rewardTrack">
+    <!-- Milestones injected by JS -->
+  </div>
+
+  <!-- Daily Streak Bonus -->
+  <div class="profile-card">
+    <h4>🔥 Daily Bonus</h4>
+    <p id="dailyBonusText">Come back every day for extra stars!</p>
+  </div>
+
+  <!-- Achievements Overview -->
+  <div class="profile-card">
+    <h4>🏅 Achievements</h4>
+    <p>Unlock badges and milestones by reaching star goals.</p>
+    <div id="starsAchievements" class="badge-grid"></div>
+  </div>
+
+  <!-- Fun Facts Section -->
+  <div class="profile-card">
+    <h4>📖 Bible Fun Fact</h4>
+    <p id="funFactText">Earn 25 stars to unlock your first fun fact!</p>
+  </div>
+</section>
+
+  
 <!-- PROFILE PANEL -->
 <div id="profilePanel" class="hidden">
   <div class="info-header">
@@ -1786,6 +1864,79 @@ function updateProfileUI(){
   renderBadges();
 }
 
+  // Milestone data
+const MILESTONES = [
+  { stars: 10, icon:"🎖", label:"Bright Beginner", reward:"Badge" },
+  { stars: 25, icon:"📖", label:"Fun Fact", reward:"Bible Fact Unlock" },
+  { stars: 50, icon:"🏅", label:"Faithful Learner", reward:"Badge" },
+  { stars: 75, icon:"🌈", label:"Rainbow Promise", reward:"Special Theme" },
+  { stars: 100, icon:"🎉", label:"Bible Heroes Celebration", reward:"Big Reward" }
+];
+
+// Bible Fun Facts (unlocked by milestones)
+const FUN_FACTS = [
+  "The Bible is the best-selling book of all time, with over 5 billion copies distributed.",
+  "Psalm 119 is the longest chapter in the Bible, with 176 verses.",
+  "Jesus used parables — simple stories — to explain deep truths.",
+  "There are 66 books in the Bible, written by over 40 authors."
+];
+
+// Render stars screen
+function updateStarsScreen(){
+  // Total stars
+  $("#starsTotal").textContent = `⭐ ${profile.stars} Stars`;
+
+  // Build milestones
+  const track = $("#rewardTrack");
+  track.innerHTML = "";
+  MILESTONES.forEach(m=>{
+    const unlocked = profile.stars >= m.stars;
+    const div = document.createElement("div");
+    div.className = "milestone " + (unlocked ? "unlocked" : "locked");
+    div.innerHTML = `
+      <div class="icon">${m.icon}</div>
+      <p><strong>${m.stars} Stars</strong></p>
+      <small>${m.label}</small>
+    `;
+    div.addEventListener("click", ()=>{
+      alert(`${unlocked ? "✅ Unlocked:" : "🔒 Locked:"} ${m.reward}`);
+    });
+    track.appendChild(div);
+  });
+
+  // Daily bonus text
+  const today = new Date().toDateString();
+  if(profile.lastPlayed === today){
+    $("#dailyBonusText").textContent = "✅ You already collected today's bonus!";
+  } else {
+    $("#dailyBonusText").textContent = "🎁 Log in today to earn +1 bonus star!";
+    // Award daily login bonus automatically
+    profile.stars += 1;
+    profile.lastPlayed = today;
+    saveProfile();
+    updateProfileUI();
+  }
+
+  // Achievements summary (show same badges here for context)
+  const ach = $("#starsAchievements");
+  ach.innerHTML = "";
+  BADGES.forEach(b=>{
+    const unlocked = b.unlock(profile);
+    const badge = document.createElement("div");
+    badge.className = "badge " + (unlocked ? "unlocked" : "locked");
+    badge.textContent = b.icon;
+    ach.appendChild(badge);
+  });
+
+  // Fun fact unlock
+  if(profile.stars >= 25){
+    const fact = FUN_FACTS[Math.floor(Math.random()*FUN_FACTS.length)];
+    $("#funFactText").textContent = fact;
+  } else {
+    $("#funFactText").textContent = "Earn 25 stars to unlock your first fun fact!";
+  }
+}
+
 
 function highlightActiveAvatar() {
   $$(".avatarChoice").forEach(btn=>{
@@ -1802,15 +1953,21 @@ function updateStarHUD(){
 
 
 // Dock nav → open profile
-document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
+document.querySelector("[data-nav='ach']").addEventListener("click",()=>{
   $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='profile']").classList.add("active");
+  document.querySelector("[data-nav='ach']").classList.add("active");
+
+  // Hide other screens
   $("#homeView").classList.add("hidden");
   $("#storybookView").classList.add("hidden");
+  $("#profilePanel").classList.add("hidden");
   $("#game").style.display="none";
-  $("#profilePanel").classList.remove("hidden");
-  updateProfileUI();
+
+  // Show stars screen
+  $("#starsView").classList.remove("hidden");
+  updateStarsScreen();
 });
+
 
 
 // Avatar choice
