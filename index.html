@@ -2285,37 +2285,47 @@ function updateStarHUD(){
   }
 }
 
+  function setActiveNav(id) {
+  document.querySelectorAll("nav.bottom button").forEach(b => 
+    b.classList.remove("active")
+  );
+  document.querySelector(`[data-nav='${id}']`).classList.add("active");
+}
+
+  
 // HOME button
 document.querySelector("[data-nav='home']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='home']").classList.add("active");
+  setActiveNav("home");
   showView("#homeView");
   renderStories();
   renderLevels();
 });
 
-
+// GAMES
+document.querySelector("[data-nav='games']").addEventListener("click",()=>{
+  setActiveNav("games");
+  showView("#gamesView");
+  renderGames();
+});
+  
 // STARS button
 document.querySelector("[data-nav='ach']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='ach']").classList.add("active");
+  setActiveNav("ach");
   showView("#starsView");
   updateStarsScreen();
 });
 
 // PROFILE button
 document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='profile']").classList.add("active");
+  setActiveNav("profile");
   showView("#profilePanel");
   updateProfileUI();
 });
 
-// STORE button
+
 // STORE button
 document.querySelector("[data-nav='shop']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='shop']").classList.add("active");
+  setActiveNav("shop");
   showView("#storeView");
   renderStore();
 });
@@ -2525,13 +2535,7 @@ function animateProgressBar(newPercent) {
 }
 
 
-  // GAMES button
-document.querySelector("[data-nav='games']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='games']").classList.add("active");
-  showView("#gamesView");
-  renderGames();
-});
+
 
   function renderGames(){
   const grid = $("#gamesGrid");
