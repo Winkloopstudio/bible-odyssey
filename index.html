@@ -1466,20 +1466,34 @@ function renderLevels(){
   const s = STORIES[currentStoryIdx];
   const cleared = progress[s.id]?.clearedLevels || 0;
   grid.innerHTML = "";
-for(let i=1;i<=s.levels;i++){
-  const card = document.createElement("div");
-  card.className = "level-card";
-  card.innerHTML = `
-    <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
-    <div class="level-foot">
-      <span class="level-badge">${s.name} — Game ${i}</span>
-      <button class="big-btn playBtn" data-lvl="${i}">Play ▶</button>
-    </div>
-    ${!levelUnlocked(currentStoryIdx,i)? `<div class="lock-card">🔒 Clear Game ${i-1} first</div>`:""}
-  `;
-  grid.appendChild(card);
+
+  for(let i=1;i<=s.levels;i++){
+    const card = document.createElement("div");
+    card.className = "level-card";
+
+    // --- Labeling logic ---
+    let label;
+    if(i === 1){
+      label = `${s.name} — Story`;
+    } else {
+      label = `${s.name} — Game ${i-1}`;
+    }
+
+    card.innerHTML = `
+      <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
+      <div class="level-foot">
+        <span class="level-badge">${label}</span>
+        <button class="big-btn playBtn" data-lvl="${i}">
+          ${i === 1 ? "Read ▶" : "Play ▶"}
+        </button>
+      </div>
+      ${!levelUnlocked(currentStoryIdx,i)? 
+        `<div class="lock-card">🔒 Clear ${i === 1 ? "previous" : "Game " + (i-2)} first</div>`:""}
+    `;
+    grid.appendChild(card);
+  }
 }
-}
+
 openStoryById(activeStory);
 
 /* -------------- Events: open story from pill -------------- */
