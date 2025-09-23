@@ -964,7 +964,50 @@ main#viewContainer {
   padding-top: 60px; /* push content below header */
 }
 
-  
+  .store-item {
+  background: #fffbe8;
+  border-radius: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.store-thumb {
+  height: 100px;
+  background: linear-gradient(135deg, #facc15, #f59e0b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.store-foot {
+  padding: 10px;
+  text-align: center;
+}
+
+.store-price {
+  font-weight: 700;
+  color: #7a4f2a;
+  margin: 6px 0;
+}
+.store-btn {
+  background: linear-gradient(180deg,#28c145,#1e9b35);
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:6px 10px;
+  font-weight:700;
+  box-shadow:0 4px 0 #167729;
+}
+.store-btn:disabled {
+  background:#ccc;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
 </style>
 </head>
 <body>
@@ -1240,7 +1283,14 @@ main#viewContainer {
   </div>
 </section>
 
-  
+  <!-- STORE SCREEN -->
+<section id="storeView" class="hidden pad">
+  <h2 style="text-align:center; margin:10px 0;">⭐ Star Shop</h2>
+  <p style="text-align:center;">Spend your stars to unlock fun extras!</p>
+
+  <div id="storeGrid" class="cards"></div>
+</section>
+
 
     <!-- PROFILE PANEL -->
 <div id="profilePanel" class="hidden">
@@ -2023,6 +2073,14 @@ const MILESTONES = [
   { stars: 100, icon:"🎉", label:"Bible Heroes Celebration", reward:"Big Reward" }
 ];
 
+  const STORE_ITEMS = [
+  { id:"theme1", icon:"🎨", name:"Color Theme", price:10, desc:"Unlock a fun new app theme!" },
+  { id:"factpack", icon:"📖", name:"Extra Fun Facts", price:15, desc:"Unlock 5 bonus Bible fun facts." },
+  { id:"coloring", icon:"🖌️", name:"Coloring Pages", price:20, desc:"Unlock printable Bible coloring pages." },
+  { id:"quiz", icon:"❓", name:"Bible Quiz Mode", price:25, desc:"Unlock a quiz mini-game!" }
+];
+
+  
 // Bible Fun Facts (unlocked by milestones)
 const FUN_FACTS = [
   "The Bible is the best-selling book of all time, with over 5 billion copies distributed.",
@@ -2162,12 +2220,14 @@ document.querySelector("[data-nav='profile']").addEventListener("click",()=>{
 });
 
 // STORE button
+// STORE button
 document.querySelector("[data-nav='shop']").addEventListener("click",()=>{
   $$(".dock button").forEach(b=>b.classList.remove("active"));
   document.querySelector("[data-nav='shop']").classList.add("active");
-  showView("#homeView"); // placeholder until Store exists
-  alert("🛍 Store coming soon!");
+  showView("#storeView");
+  renderStore();
 });
+
 
 
 
@@ -2401,6 +2461,58 @@ document.querySelector("[data-nav='games']").addEventListener("click",()=>{
     grid.appendChild(card);
   });
 
+function renderStore(){
+  const grid = $("#storeGrid");
+  grid.innerHTML = "";
+
+  STORE_ITEMS.forEach(item=>{
+    const owned = profile.storeItems?.includes(item.id);
+    const affordable = profile.stars >= item.price;
+
+    const div = document.createElement("div");
+    div.className = "store-item";
+
+    div.innerHTML = `
+      <div class="store-thumb">${item.icon}</div>
+      <div class="store-foot">
+        <strong>${item.name}</strong>
+        <p style="font-size:13px; color:#555;">${item.desc}</p>
+        <div class="store-price">⭐ ${item.price} Stars</div>
+        <button class="store-btn" ${owned?"disabled":(!affordable?"disabled":"")} 
+          data-item="${item.id}">
+          ${owned ? "Owned" : affordable ? "Buy" : "Need Stars"}
+        </button>
+      </div>
+    `;
+
+    grid.appendChild(div);
+  });
+
+  // Hook up buy buttons
+  $$(".store-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const id = btn.dataset.item;
+      buyItem(id);
+    });
+  });
+}
+
+    function buyItem(id){
+  const item = STORE_ITEMS.find(i=>i.id===id);
+  if(!item) return;
+
+  if(profile.stars >= item.price && !(profile.storeItems||[]).includes(id)){
+    profile.stars -= item.price;
+    profile.storeItems = profile.storeItems || [];
+    profile.storeItems.push(id);
+    saveProfile();
+    updateProfileUI();
+    renderStore();
+    alert(`✅ You bought ${item.name}!`);
+  }
+}
+
+    
   // Game BUtton
   $$(".playStoryGame").forEach(btn=>{
     btn.addEventListener("click",()=>{
