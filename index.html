@@ -877,9 +877,8 @@ header strong {
   z-index: 1;  /* explicitly below header */
 }
 #starsView {
-  padding-top: 70px; /* keep content visible below header */
-  z-index: 1;        /* ensure content scrolls under header */
-  position: relative; /* needed for z-index to apply */
+  position: relative;
+  z-index: 0;   /* lower than header */
 }
 
   
@@ -894,7 +893,8 @@ main#viewContainer {
   flex: 1;
   overflow: auto;
   position: relative;
-  z-index: 0; /* sits under overlays */
+  z-index: 0;       /* keep under header */
+  padding-top: 60px; /* push content below header */
 }
 
   
