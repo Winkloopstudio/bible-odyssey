@@ -124,11 +124,22 @@
 }
 
   /* Header/Ticker */
-  header{
-    background:linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
-    color:#fff; padding:.7rem .9rem; box-shadow:var(--shadow);
-    display:flex; align-items:center; gap:.7rem; z-index:2;
-  }
+ header {
+  position: fixed;      /* stay fixed at top */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;         /* lock in a height */
+  background: linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
+  color:#fff;
+  padding:.7rem .9rem;
+  box-shadow: var(--shadow);
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  z-index: 1000;        /* higher than any content */
+}
+
 
 header strong {
   font-family: 'Baloo2', sans-serif;
@@ -860,9 +871,15 @@ header strong {
   margin-top: 8px;
   margin-bottom: 10px;
 }
-
-  #starsView {
-  padding-top: 12px;   /* add breathing room under header */
+  
+#starsView, .reward-track, .milestone {
+  position: relative;
+  z-index: 1;  /* explicitly below header */
+}
+#starsView {
+  padding-top: 70px; /* keep content visible below header */
+  z-index: 1;        /* ensure content scrolls under header */
+  position: relative; /* needed for z-index to apply */
 }
 
   
