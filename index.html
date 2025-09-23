@@ -678,10 +678,22 @@ header strong {
   z-index: 3000; /* make sure modal is above profile panel */
 }
 
-  #avatarOverlay .pause {
-  position: relative;
-  padding-top: 40px; /* room for the X */
+#avatarOverlay .pause {
+  max-height: 80vh;      /* prevent overflow */
+  overflow-y: auto;      /* allow scrolling */
 }
+
+.avatarOption.locked img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+.avatarOption.locked span::after {
+  content: "🔒";
+  display: block;
+  font-size: 12px;
+  color: #a00;
+}
+
 
 #closeAvatarOverlay {
   position: absolute;
@@ -2486,6 +2498,7 @@ const STORE_ITEMS = [
   { id:"avatar_esther", icon:"👑", name:"Avatar: Esther", price:15, desc:"Unlock Esther as your profile avatar." },
   { id:"factpack", icon:"📖", name:"Fun Facts Pack", price:15, desc:"Unlock 5 bonus Bible fun facts." },
   { id:"quiz", icon:"❓", name:"Bible Quiz Mode", price:25, desc:"Play a quiz mini-game to test your Bible knowledge." },
+  { id:"disciples", icon:"👥", name:"Disciples Pack", price:50, desc:"Unlock new disciple avatars!" },
   { id:"coloring", icon:"🖌️", name:"Coloring Pages", price:20, desc:"Unlock printable and digital Bible coloring pages." },
   { id:"stickerbook", icon:"🌟", name:"Sticker Book", price:30, desc:"Collect stickers and decorate Bible scenes." },
   { id:"goldcross", icon:"✝️", name:"Golden Cross Trophy", price:100, desc:"A special one-time item to show off your faith journey!" }
@@ -2542,7 +2555,52 @@ function buyItem(id){
   }
 }
 // end render store
-  
+  const ALL_AVATARS = [
+  { id:"peter", name:"Peter", img:"images/avatar-peter.png", pack:"base" },
+  { id:"jesus", name:"Jesus", img:"images/avatar-jesus.png", pack:"base" },
+  { id:"paul", name:"Paul", img:"images/avatar-paul.png", pack:"base" },
+  { id:"noah", name:"Noah", img:"images/avatar-noah.png", pack:"base" },
+  { id:"david", name:"David", img:"images/avatar-david.png", pack:"base" },
+  { id:"mary", name:"Mary", img:"images/avatar-mary.png", pack:"base" },
+
+  // new disciples pack
+  { id:"james", name:"James", img:"images/avatar-james.png", pack:"disciples" },
+  { id:"andrew", name:"Andrew", img:"images/avatar-andrew.png", pack:"disciples" },
+  { id:"thomas", name:"Thomas", img:"images/avatar-thomas.png", pack:"disciples" },
+  { id:"bartholomew", name:"Bartholomew", img:"images/avatar-bartholomew.png", pack:"disciples" },
+  { id:"philip", name:"Philip", img:"images/avatar-philip.png", pack:"disciples" },
+  { id:"john", name:"John", img:"images/avatar-john.png", pack:"disciples" }
+];
+
+  function renderAvatars(){
+  const container = $("#avatarOverlay .pause div");
+  container.innerHTML = "";
+
+  ALL_AVATARS.forEach(a=>{
+    const unlocked = a.pack==="base" || (profile.storeItems||[]).includes(a.pack);
+    const div = document.createElement("div");
+    div.className = "avatarOption" + (unlocked ? "" : " locked");
+    div.dataset.char = a.id;
+    div.innerHTML = `
+      <img src="${a.img}" alt="${a.name}">
+      <span>${a.name}</span>
+    `;
+    
+    if(unlocked){
+      div.addEventListener("click",()=>{
+        profile.character = a.id;
+        saveProfile();
+        updateProfileUI();
+        highlightActiveAvatar();
+        $("#avatarOverlay").style.display="none";
+      });
+    }
+    container.appendChild(div);
+  });
+
+  highlightActiveAvatar();
+}
+// end render avatars
 </script>
 </body>
 </html>
