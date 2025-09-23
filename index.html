@@ -1980,6 +1980,18 @@ const FUN_FACTS = [
   "There are 66 books in the Bible, written by over 40 authors."
 ];
 
+const BADGES = [
+  { id:"ark", icon:"🛶", label:"Ark Builder", desc:"Play 10 games.", unlock:p=>p.gamesPlayed >= 10 },
+  { id:"giant", icon:"🪨", label:"Giant Slayer", desc:"Earn 50 stars.", unlock:p=>p.stars >= 50 },
+  { id:"faithful", icon:"🤝", label:"Faithful Friend", desc:"Play 7 days in a row.", unlock:p=>p.streak >= 7 },
+
+  // NEW ONES
+  { id:"bookworm", icon:"📚", label:"Bookworm", desc:"Finish 3 different stories.", unlock:p=>(p.storiesCompleted || 0) >= 3 },
+  { id:"worldtraveler", icon:"🌍", label:"World Traveler", desc:"Play stories from 5 different books of the Bible.", unlock:p=>(p.booksPlayed?.length || 0) >= 5 },
+  { id:"sharpshooter", icon:"🏹", label:"Sharpshooter", desc:"Defeat Goliath in David’s story.", unlock:p=>p.lastStory === "David & Goliath" },
+  { id:"rainbow", icon:"🌈", label:"Rainbow Keeper", desc:"Finish Noah’s Ark story.", unlock:p=>p.lastStory === "Noah’s Ark" }
+];
+  
 // Render stars screen
 function updateStarsScreen(){
   // Total stars
@@ -2081,12 +2093,6 @@ document.querySelector("[data-nav='home']").addEventListener("click",()=>{
   renderLevels();
 });
 
-// STORIES button (acts same as home for now)
-document.querySelector("[data-nav='stories']").addEventListener("click",()=>{
-  $$(".dock button").forEach(b=>b.classList.remove("active"));
-  document.querySelector("[data-nav='stories']").classList.add("active");
-  showView("#homeView");
-});
 
 // STARS button
 document.querySelector("[data-nav='ach']").addEventListener("click",()=>{
@@ -2179,17 +2185,7 @@ function endGameAndRecord(){
 }
 
 
-const BADGES = [
-  { id:"ark", icon:"🛶", label:"Ark Builder", desc:"Play 10 games.", unlock:p=>p.gamesPlayed >= 10 },
-  { id:"giant", icon:"🪨", label:"Giant Slayer", desc:"Earn 50 stars.", unlock:p=>p.stars >= 50 },
-  { id:"faithful", icon:"🤝", label:"Faithful Friend", desc:"Play 7 days in a row.", unlock:p=>p.streak >= 7 },
 
-  // NEW ONES
-  { id:"bookworm", icon:"📚", label:"Bookworm", desc:"Finish 3 different stories.", unlock:p=>(p.storiesCompleted || 0) >= 3 },
-  { id:"worldtraveler", icon:"🌍", label:"World Traveler", desc:"Play stories from 5 different books of the Bible.", unlock:p=>(p.booksPlayed?.length || 0) >= 5 },
-  { id:"sharpshooter", icon:"🏹", label:"Sharpshooter", desc:"Defeat Goliath in David’s story.", unlock:p=>p.lastStory === "David & Goliath" },
-  { id:"rainbow", icon:"🌈", label:"Rainbow Keeper", desc:"Finish Noah’s Ark story.", unlock:p=>p.lastStory === "Noah’s Ark" }
-];
 
 
 
