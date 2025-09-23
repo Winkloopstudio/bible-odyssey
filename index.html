@@ -234,6 +234,7 @@ header strong {
   align-items:center;
   justify-content:space-between;
   gap:8px;
+  font-size:14px;
   padding:.6rem .7rem;
   background:#1a1a1a;
   overflow:hidden;           /* keep anything from hanging out */
@@ -251,7 +252,9 @@ header strong {
   border: 2px solid #e6b800;     
   box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
   text-shadow: 1px 1px 2px rgba(255,255,255,0.4); 
-  white-space: nowrap;
+    white-space: normal;    /* allow wrapping */
+  line-height: 1.2;       /* tighter vertical spacing */
+  text-align: center;     /* center align text */
 
   /* 👇 NEW bits to fix text cutoff */
   flex: 1;               
@@ -270,7 +273,11 @@ header strong {
   background: #1a1a1a;
 }
 
-
+.level-badge small {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;         /* force onto new line */
+}
 
 
   .lock-card{position:absolute; inset:0; display:grid; place-items:center; background:#0008; color:#fff; font-weight:800}
@@ -1515,12 +1522,13 @@ function renderLevels(){
     card.className = "level-card";
 
     // --- Labeling logic ---
-    let label;
-    if(i === 1){
-      label = `${s.name} — Story`;
-    } else {
-      label = `${s.name} — Game ${i-1}`;
-    }
+   let label;
+if (i === 1) {
+  label = `${s.name}<br><small>Story</small>`;
+} else {
+  label = `${s.name}<br><small>Game ${i-1}</small>`;
+}
+
 
     card.innerHTML = `
       <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
