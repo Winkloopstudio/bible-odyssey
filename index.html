@@ -2364,7 +2364,7 @@ function renderStreak(){
 
 function showView(id){
   // Hide all views
-  ["#homeView","#gamesView","#starsView","#profilePanel","#storybookView"].forEach(sel=>{
+  ["#homeView","#starsView","#profilePanel","#storybookView","#storeView","#gamesView"].forEach(sel=>{
     if($(sel)) $(sel).classList.add("hidden");
   });
   // Hide game separately
@@ -2373,6 +2373,7 @@ function showView(id){
   // Show the one we asked for
   $(id).classList.remove("hidden");
 }
+
 
 
   function launchConfetti() {
@@ -2484,6 +2485,7 @@ function renderStore(){
         </button>
       </div>
     `;
+console.log("Rendering store with", STORE_ITEMS.length, "items");
 
     grid.appendChild(div);
   });
