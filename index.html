@@ -1612,11 +1612,19 @@ if(t.matches("[data-open]")){
 
 
   // play level
-  if(t.classList.contains("playBtn")){
-    const lvl = Number(t.dataset.lvl);
-    if(!levelUnlocked(currentStoryIdx,lvl)) return;
+// play level
+if(t.classList.contains("playBtn")){
+  const lvl = Number(t.dataset.lvl);
+  if(!levelUnlocked(currentStoryIdx,lvl)) return;
+
+  if(lvl === 1){
+    // 📖 open the storybook instead of a game
+    openStorybook(activeStory);
+  } else {
     startGame(lvl);
   }
+}
+
 
 });
 
