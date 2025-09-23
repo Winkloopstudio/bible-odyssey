@@ -2073,13 +2073,6 @@ const MILESTONES = [
   { stars: 100, icon:"🎉", label:"Bible Heroes Celebration", reward:"Big Reward" }
 ];
 
-  const STORE_ITEMS = [
-  { id:"theme1", icon:"🎨", name:"Color Theme", price:10, desc:"Unlock a fun new app theme!" },
-  { id:"factpack", icon:"📖", name:"Extra Fun Facts", price:15, desc:"Unlock 5 bonus Bible fun facts." },
-  { id:"coloring", icon:"🖌️", name:"Coloring Pages", price:20, desc:"Unlock printable Bible coloring pages." },
-  { id:"quiz", icon:"❓", name:"Bible Quiz Mode", price:25, desc:"Unlock a quiz mini-game!" }
-];
-
   
 // Bible Fun Facts (unlocked by milestones)
 const FUN_FACTS = [
@@ -2479,11 +2472,17 @@ document.querySelector("[data-nav='games']").addEventListener("click",()=>{
 
   // Example store catalog
 const STORE_ITEMS = [
-  { id: "theme1", name: "Sunrise Theme", price: 10, icon: "🌅", desc: "A bright morning theme" },
-  { id: "theme2", name: "Rainbow Theme", price: 20, icon: "🌈", desc: "Colorful rainbow background" },
-  { id: "factpack", name: "Fun Facts Pack", price: 25, icon: "📖", desc: "Unlocks random Bible Fun Facts" },
-  { id: "avatar", name: "Extra Avatar", price: 30, icon: "👤", desc: "Adds a new profile character" }
+  { id:"theme1", icon:"🌅", name:"Sunrise Theme", price:10, desc:"A bright morning app theme." },
+  { id:"theme2", icon:"🌈", name:"Rainbow Theme", price:20, desc:"Colorful rainbow background." },
+  { id:"avatar_moses", icon:"🧔", name:"Avatar: Moses", price:15, desc:"Unlock Moses as your profile avatar." },
+  { id:"avatar_esther", icon:"👑", name:"Avatar: Esther", price:15, desc:"Unlock Esther as your profile avatar." },
+  { id:"factpack", icon:"📖", name:"Fun Facts Pack", price:15, desc:"Unlock 5 bonus Bible fun facts." },
+  { id:"quiz", icon:"❓", name:"Bible Quiz Mode", price:25, desc:"Play a quiz mini-game to test your Bible knowledge." },
+  { id:"coloring", icon:"🖌️", name:"Coloring Pages", price:20, desc:"Unlock printable and digital Bible coloring pages." },
+  { id:"stickerbook", icon:"🌟", name:"Sticker Book", price:30, desc:"Collect stickers and decorate Bible scenes." },
+  { id:"goldcross", icon:"✝️", name:"Golden Cross Trophy", price:100, desc:"A special one-time item to show off your faith journey!" }
 ];
+
 
 function renderStore(){
   const grid = $("#storeGrid");
