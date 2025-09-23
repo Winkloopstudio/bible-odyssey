@@ -2462,6 +2462,15 @@ document.querySelector("[data-nav='games']").addEventListener("click",()=>{
     grid.appendChild(card);
   });
 
+// Example store catalog
+const STORE_ITEMS = [
+  { id: "theme1", name: "Sunrise Theme", price: 10, icon: "🌅", desc: "A bright morning theme" },
+  { id: "theme2", name: "Rainbow Theme", price: 20, icon: "🌈", desc: "Colorful rainbow background" },
+  { id: "factpack", name: "Fun Facts Pack", price: 25, icon: "📖", desc: "Unlocks random Bible Fun Facts" },
+  { id: "avatar", name: "Extra Avatar", price: 30, icon: "👤", desc: "Adds a new profile character" }
+];
+
+    
 function renderStore(){
   const grid = $("#storeGrid");
   grid.innerHTML = "";
