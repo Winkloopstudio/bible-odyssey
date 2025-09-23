@@ -124,21 +124,47 @@
 }
 
   /* Header/Ticker */
- header {
-  position: fixed;      /* stay fixed at top */
+header {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;         /* lock in a height */
-  background: linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
-  color:#fff;
-  padding:.7rem .9rem;
+  height: 60px;
+
+  /* Modernized style */
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
   box-shadow: var(--shadow);
-  display:flex;
-  align-items:center;
-  gap:.7rem;
-  z-index: 1000;        /* higher than any content */
+
+  color: #fff;
+  padding: .7rem .9rem;
+  display: flex;
+  justify-content: space-between; /* space out title & buttons */
+  align-items: center;
+  gap: .7rem;
+
+  z-index: 1000;
 }
+
+
+header h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+header button {
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+
 
 
 header strong {
@@ -180,11 +206,44 @@ header strong {
   main{flex:1; overflow:auto; position:relative}
 
   /* Bottom Nav (Number Crunch style) */
-  nav.bottom{
-    position:fixed; left:0; right:0; bottom:0; z-index:3;
-    background:#c68652;  /* warm clay bar behind */
-    padding:.5rem .6rem .9rem; 
-  }
+nav.bottom {
+  background: #fff;
+  border-radius: 18px;
+  margin: 0 12px 12px;
+  padding: 6px 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+nav.bottom button {
+  flex: 1;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  color: #444;
+}
+
+nav.bottom button.active {
+  color: #f59e0b;
+}
+
+nav.bottom button.active::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  margin-top: 4px;
+}
+
   .dock{
     background:#e9c6a1;border-radius:18px; display:grid; grid-template-columns:repeat(5,1fr);
     gap:.4rem; padding:.45rem; box-shadow:0 6px 10px rgba(0,0,0,.18) inset, var(--shadow);
