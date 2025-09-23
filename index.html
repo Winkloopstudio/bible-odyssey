@@ -872,15 +872,24 @@ header strong {
   margin-bottom: 10px;
 }
   
-#starsView, .reward-track, .milestone {
-  position: relative;
-  z-index: 1;  /* explicitly below header */
-}
-#starsView {
-  position: relative;
-  z-index: 0;   /* lower than header */
-}
 
+#starsView {
+  position: fixed;       /* anchor to viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  background: #fffbe8;   /* same bg as your other cards/views */
+  z-index: 5;            /* above main container, below overlays */
+  display: none;         /* hidden by default */
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 16px;
+}
+  
+#starsView:not(.hidden) {
+  display: flex;
+}
   
   @keyframes sparkle {
   0%, 100% { opacity: 1; }
