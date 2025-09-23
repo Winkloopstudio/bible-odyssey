@@ -832,7 +832,8 @@ header strong {
 }
  
  .milestone {
-  flex: 0 0 160px;
+  flex: 0 0 160px;       /* 👈 lock width at 160px */
+  min-width: 160px;      /* 👈 ensure they never shrink smaller */
   background: #fffbe8;
   border-radius: 14px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
