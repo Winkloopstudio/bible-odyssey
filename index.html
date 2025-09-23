@@ -206,8 +206,7 @@ header strong {
 
 #gamesView,
 #starsView,
-#storeView,
-#profilePanel {
+#storeView, {
   margin-top: 60px;     /* let main handle spacing */
 }
 
@@ -834,18 +833,27 @@ nav.bottom button.active {
 }
 
 #profilePanel {
-  position: fixed;       /* anchor to viewport */
-  top: 60px;
+  position: absolute;
+  top: 60px;       /* exactly under header */
   left: 0;
   right: 0;
-  bottom: 100px;
-  background: #fffbe8;   /* same bg as your other cards/views */
-  z-index: 5;            /* above main container, below overlays */
-  display: none;         /* hidden by default */
+  bottom: 100px;   /* above nav */
+  background: #fffbe8;
+  z-index: 1;
+  display: none;
   flex-direction: column;
   overflow-y: auto;
-  padding: 16px;
+
+  /* reduce the default padding */
+  padding: 0 16px 16px;
 }
+
+/* Remove the "double header" margin inside profile */
+#profilePanel h2 {
+  margin-top: 12px;  /* smaller gap below orange bar */
+  text-align: center;
+}
+  
 #profilePanel:not(.hidden) {
   display: flex;
 }
@@ -1394,7 +1402,7 @@ main#viewContainer {
 
 
     <!-- PROFILE PANEL -->
-<div id="profilePanel" class="hidden pad">
+<section id="profilePanel" class="hidden pad">
   <h2 style="text-align:center; margin:10px 0;">My Profile</h2>
 
   <div class="info-content" style="text-align:center;">
@@ -1443,7 +1451,7 @@ main#viewContainer {
     <!-- Action -->
     <button id="changeAvatarBtn" class="btn-wide">Change Avatar</button>
   </div>
-</div>
+</section>
 
 <!-- Badge Info Modal -->
 <div id="badgeModal" class="overlay">
