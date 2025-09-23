@@ -1384,41 +1384,12 @@ main#viewContainer {
   <div class="pause" style="max-width:420px; position:relative; padding-top:40px;">
     <button id="closeAvatarOverlay">✕</button>
     <h3>Choose Your Character</h3>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:12px;">
-      
-      <div class="avatarOption" data-char="peter">
-        <img src="images/avatar-peter.png" alt="Peter">
-        <span>Peter</span>
-      </div>
-      
-      <div class="avatarOption" data-char="jesus">
-        <img src="images/avatar-jesus.png" alt="Jesus">
-        <span>Jesus</span>
-      </div>
-      
-      <div class="avatarOption" data-char="paul">
-        <img src="images/avatar-paul.png" alt="Paul">
-        <span>Paul</span>
-      </div>
-      
-      <div class="avatarOption" data-char="noah">
-        <img src="images/avatar-noah.png" alt="Noah">
-        <span>Noah</span>
-      </div>
-      
-      <div class="avatarOption" data-char="david">
-        <img src="images/avatar-david.png" alt="David">
-        <span>David</span>
-      </div>
-      
-      <div class="avatarOption" data-char="mary">
-        <img src="images/avatar-mary.png" alt="Mary">
-        <span>Mary</span>
-      </div>
-      
+    <div id="avatarGrid" style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:12px;">
+     
     </div>
   </div>
 </div>
+
 
 
 
@@ -2263,9 +2234,10 @@ $$(".avatarOption").forEach(opt=>{
 
   // Open avatar modal
 $("#changeAvatarBtn").addEventListener("click",()=>{
-  console.log("Change Avatar button clicked"); // DEBUG
+  renderAvatars();
   $("#avatarOverlay").style.display="flex";
 });
+
 
 
   // Close avatar modal
@@ -2572,10 +2544,9 @@ function buyItem(id){
   { id:"john", name:"John", img:"images/avatar-john.png", pack:"disciples" }
 ];
 
-  function renderAvatars(){
-  const container = $("#avatarOverlay .pause div");
+ function renderAvatars(){
+  const container = $("#avatarGrid");
   container.innerHTML = "";
-
   ALL_AVATARS.forEach(a=>{
     const unlocked = a.pack==="base" || (profile.storeItems||[]).includes(a.pack);
     const div = document.createElement("div");
@@ -2585,7 +2556,6 @@ function buyItem(id){
       <img src="${a.img}" alt="${a.name}">
       <span>${a.name}</span>
     `;
-    
     if(unlocked){
       div.addEventListener("click",()=>{
         profile.character = a.id;
@@ -2597,9 +2567,9 @@ function buyItem(id){
     }
     container.appendChild(div);
   });
-
   highlightActiveAvatar();
 }
+
 // end render avatars
 </script>
 </body>
