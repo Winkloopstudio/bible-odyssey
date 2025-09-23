@@ -823,24 +823,32 @@ header strong {
   color: #7a4f2a;
 }
 
-  .reward-track {
+.reward-track {
   display: flex;
   gap: 14px;
-  overflow-x: auto;
+  overflow-x: auto;    /* already set */
   padding: 14px 0;
   scroll-snap-type: x mandatory;
 }
+
 .milestone {
-  flex: 0 0 160px;
+  flex: 0 0 160px;      /* fixed card width */
   background: #fffbe8;
   border-radius: 14px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   padding: 12px;
   text-align: center;
   scroll-snap-align: center;
-  position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
+
+  .reward-track::after {
+  content: "⬅️ ➡️";
+  font-size: 12px;
+  color: #999;
+  align-self: center;
+  margin-left: 8px;
+}
+
 .milestone .icon {
   font-size: 36px;
   margin-bottom: 6px;
