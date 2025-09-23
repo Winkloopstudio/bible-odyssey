@@ -826,22 +826,19 @@ header strong {
 .reward-track {
   display: flex;
   gap: 14px;
-  overflow-x: auto;    /* already set */
-  padding: 14px 0;
+  overflow-x: auto;
+  padding: 14px;
   scroll-snap-type: x mandatory;
 }
-
 .milestone {
-  flex: 0 0 160px;      /* fixed card width */
+  flex: 0 0 160px;
   background: #fffbe8;
   border-radius: 14px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   padding: 12px;
   text-align: center;
   scroll-snap-align: center;
-  position: relative;   /* needed for ::after positioning */
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
 }
 
 .milestone:hover {
