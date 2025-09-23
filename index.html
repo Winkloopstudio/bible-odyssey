@@ -2462,7 +2462,22 @@ document.querySelector("[data-nav='games']").addEventListener("click",()=>{
     grid.appendChild(card);
   });
 
-// Example store catalog
+    
+  // Game BUtton
+  $$(".playStoryGame").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const id = btn.dataset.story;
+      const idx = STORIES.findIndex(s=>s.id===id);
+      if(idx>=0) {
+        currentStoryIdx = idx;
+        startGame(1); // launch its game directly
+      }
+    });
+  });
+}
+// end render games
+
+  // Example store catalog
 const STORE_ITEMS = [
   { id: "theme1", name: "Sunrise Theme", price: 10, icon: "🌅", desc: "A bright morning theme" },
   { id: "theme2", name: "Rainbow Theme", price: 20, icon: "🌈", desc: "Colorful rainbow background" },
@@ -2470,7 +2485,6 @@ const STORE_ITEMS = [
   { id: "avatar", name: "Extra Avatar", price: 30, icon: "👤", desc: "Adds a new profile character" }
 ];
 
-    
 function renderStore(){
   const grid = $("#storeGrid");
   grid.innerHTML = "";
@@ -2494,8 +2508,6 @@ function renderStore(){
         </button>
       </div>
     `;
-console.log("Rendering store with", STORE_ITEMS.length, "items");
-
     grid.appendChild(div);
   });
 
@@ -2508,7 +2520,7 @@ console.log("Rendering store with", STORE_ITEMS.length, "items");
   });
 }
 
-    function buyItem(id){
+function buyItem(id){
   const item = STORE_ITEMS.find(i=>i.id===id);
   if(!item) return;
 
@@ -2522,21 +2534,7 @@ console.log("Rendering store with", STORE_ITEMS.length, "items");
     alert(`✅ You bought ${item.name}!`);
   }
 }
-
-    
-  // Game BUtton
-  $$(".playStoryGame").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const id = btn.dataset.story;
-      const idx = STORIES.findIndex(s=>s.id===id);
-      if(idx>=0) {
-        currentStoryIdx = idx;
-        startGame(1); // launch its game directly
-      }
-    });
-  });
-}
-
+// end render store
   
 </script>
 </body>
