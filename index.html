@@ -874,21 +874,20 @@ header strong {
   
 
 #starsView {
-  top: 0;
+  position: fixed;
+  top: 60px;             /* under header */
   left: 0;
   right: 0;
-  bottom: 100px;
-  background: #fffbe8;   /* same bg as your other cards/views */
-  z-index: 5;            /* above main container, below overlays */
-  display: none;         /* hidden by default */
+  bottom: 100px;         /* above nav */
+  background: #fffbe8;
+  z-index: 5;
+  display: none;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: auto;      /* own scrollbar */
   padding: 16px;
 }
-  
-#starsView:not(.hidden) {
-  display: flex;
-}
+#starsView:not(.hidden) { display: flex; }
+
   
   @keyframes sparkle {
   0%, 100% { opacity: 1; }
