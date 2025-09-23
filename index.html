@@ -240,33 +240,36 @@ header strong {
 }
 
 /* Gold label — now flexible and truncates correctly */
-.level-badge{
-  flex:1 1 auto;
-  min-width:0;               /* 🔑 let it shrink in flex */
-  text-overflow:ellipsis;
-  overflow:hidden;
-  white-space:nowrap;
+..level-badge {
+  background: linear-gradient(180deg, #ffe259, #facc15); /* gold gradient */
+  color: #3a2a00;                
+  font-weight: 800;              
+  font-size: 14px;               
+  letter-spacing: 0.3px;         
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #e6b800;     
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.4); 
+  white-space: nowrap;
 
-  /* your “cool” styling */
-  background:linear-gradient(180deg,#ffe259,#facc15);
-  color:#3a2a00;
-  font-weight:800;
-  font-size:13px;
-  letter-spacing:.3px;
-  padding:.35rem .6rem;
-  border-radius:8px;
-  border:2px solid #e6b800;
-  box-shadow:inset 0 -1px 0 rgba(0,0,0,.06), 0 2px 4px rgba(0,0,0,.2);
+  /* 👇 NEW bits to fix text cutoff */
+  flex: 1;               
+  overflow: hidden;      
+  text-overflow: ellipsis;
 }
+
 
 /* Keep the button from squishing and make it fit the small tile */
-.level-foot .big-btn{
-  flex:0 0 auto;
-  padding:10px 12px;
-  line-height:1;
-  border-radius:12px;
-  white-space:nowrap;
+.level-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: .6rem .7rem;
+  background: #1a1a1a;
 }
+
 
 
 
