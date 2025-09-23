@@ -1145,6 +1145,16 @@ main#viewContainer {
 
   </div>
 </div>
+  
+<!-- GAMES SCREEN -->
+<section id="gamesView" class="hidden pad">
+  <h2 style="text-align:center; margin:10px 0;">Games & Activities 🎮</h2>
+  <p style="text-align:center;">Play unlocked story games or try extra fun activities!</p>
+
+  <div id="gamesGrid" class="cards">
+    <!-- Filled dynamically with unlocked games/activities -->
+  </div>
+</section>
 
   <!-- STARS SCREEN -->
 <section id="starsView" class="hidden pad">
@@ -1174,7 +1184,7 @@ main#viewContainer {
   </div>
 
     <!-- Rewards Track -->
-  <h3 style="margin:16px 4px;">🎁 Rewards Track</h3>
+  <h3 style="margin:16px 4px;">🎁 Milestones Rewards Track</h3>
   <div class="reward-track" id="rewardTrack">
     <!-- Milestones injected by JS -->
   </div>
@@ -1304,7 +1314,7 @@ main#viewContainer {
   <nav class="bottom hidden">
     <div class="dock">
       <button class="active" data-nav="home"><span class="ico">🏠</span><span>Home</span></button>
-      <button data-nav="stories"><span class="ico">📚</span><span>Stories</span></button>
+      <button data-nav="games"><span class="ico">🎮</span><span>Games</span></button>
       <button data-nav="ach"><span class="ico">⭐</span><span>Stars</span></button>
       <button data-nav="profile"><span class="ico">👤</span><span>Profile</span></button>
       <button data-nav="shop"><span class="ico">🏬</span><span>Store</span></button>
@@ -1456,19 +1466,19 @@ function renderLevels(){
   const s = STORIES[currentStoryIdx];
   const cleared = progress[s.id]?.clearedLevels || 0;
   grid.innerHTML = "";
-  for(let i=1;i<=s.levels;i++){
-    const card = document.createElement("div");
-    card.className = "level-card";
-    card.innerHTML = `
-      <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
-      <div class="level-foot">
-        <span class="level-badge">LEVEL ${String(i).padStart(2,"0")}</span>
-        <button class="big-btn playBtn" data-lvl="${i}">Play ▶</button>
-      </div>
-      ${!levelUnlocked(currentStoryIdx,i)? `<div class="lock-card">🔒 Clear Level ${String(i-1).padStart(2,"0")} first</div>`:""}
-    `;
-    grid.appendChild(card);
-  }
+for(let i=1;i<=s.levels;i++){
+  const card = document.createElement("div");
+  card.className = "level-card";
+  card.innerHTML = `
+    <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
+    <div class="level-foot">
+      <span class="level-badge">${s.name} — Game ${i}</span>
+      <button class="big-btn playBtn" data-lvl="${i}">Play ▶</button>
+    </div>
+    ${!levelUnlocked(currentStoryIdx,i)? `<div class="lock-card">🔒 Clear Game ${i-1} first</div>`:""}
+  `;
+  grid.appendChild(card);
+}
 }
 openStoryById(activeStory);
 
@@ -2297,6 +2307,51 @@ function animateProgressBar(newPercent) {
 
   requestAnimationFrame(step);
 }
+
+
+  // GAMES button
+document.querySelector("[data-nav='games']").addEventListener("click",()=>{
+  $$(".dock button").forEach(b=>b.classList.remove("active"));
+  document.querySelector("[data-nav='games']").classList.add("active");
+  showView("#gamesView");
+  renderGames();
+});
+
+  function renderGames(){
+  const grid = $("#gamesGrid");
+  grid.innerHTML = "";
+
+  STORIES.forEach((s,i)=>{
+    const cleared = progress[s.id]?.clearedLevels || 0;
+    const unlocked = cleared >= s.levels; // fully beat the story
+    const card = document.createElement("div");
+    card.className = "level-card";
+
+    card.innerHTML = `
+      <div class="level-thumb" style="background:url('${s.art}') center/cover no-repeat;"></div>
+      <div class="level-foot">
+        <span class="level-badge">${s.name}</span>
+        <button class="big-btn playStoryGame" data-story="${s.id}" ${!unlocked ? "disabled" : ""}>
+          ${unlocked ? "Play Game" : "Locked"}
+        </button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Hook up new buttons
+  $$(".playStoryGame").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const id = btn.dataset.story;
+      const idx = STORIES.findIndex(s=>s.id===id);
+      if(idx>=0) {
+        currentStoryIdx = idx;
+        startGame(1); // launch its game directly
+      }
+    });
+  });
+}
+
   
 </script>
 </body>
