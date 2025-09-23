@@ -693,25 +693,24 @@ header strong {
   width: 90px;
 }
 
-.avatarOption img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  transition: transform 0.2s, box-shadow 0.2s;
+.avatarOption.locked img {
+  filter: grayscale(100%) brightness(0.7); /* grey + dim */
+  opacity: 0.6;                            /* subtle fade */
 }
 
-/* Locked overlay */
 .avatarOption.locked::after {
   content: "🔒";
   position: absolute;
-  bottom: 8px;   /* sits on the image */
-  right: 12px;
-  font-size: 20px;
-  background: rgba(255,255,255,0.85);
+  bottom: 22px;  /* 👈 move higher to sit ON the avatar circle */
+  right: 14px;
+  font-size: 18px;
+  background: rgba(255,255,255,0.9);
   border-radius: 50%;
-  padding: 2px 4px;
+  padding: 2px 5px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  pointer-events: none; /* lock is visual only */
 }
+
 
 
 
