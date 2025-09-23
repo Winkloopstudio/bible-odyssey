@@ -878,6 +878,7 @@ header strong {
   flex-direction: column;
   overflow-y: auto;      /* own scrollbar */
   padding: 16px;
+  padding-bottom:100px; 
 }
 
 #starsView:not(.hidden) { 
@@ -1152,11 +1153,6 @@ main#viewContainer {
     ⭐ 0 Stars
   </p>
 
-  <!-- Rewards Track -->
-  <h3 style="margin:16px 4px;">🎁 Rewards Track</h3>
-  <div class="reward-track" id="rewardTrack">
-    <!-- Milestones injected by JS -->
-  </div>
 
   <!-- Daily Streak Bonus -->
   <div class="profile-card">
@@ -1176,7 +1172,15 @@ main#viewContainer {
     <h4>📖 Bible Fun Fact</h4>
     <p id="funFactText">Earn 25 stars to unlock your first fun fact!</p>
   </div>
+
+    <!-- Rewards Track -->
+  <h3 style="margin:16px 4px;">🎁 Rewards Track</h3>
+  <div class="reward-track" id="rewardTrack">
+    <!-- Milestones injected by JS -->
+  </div>
 </section>
+
+  
 
     <!-- PROFILE PANEL -->
 <div id="profilePanel" class="hidden">
