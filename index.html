@@ -2056,7 +2056,10 @@ const CHARACTER_INFO = {
   john: {
     name: "John",
     bio: "John, the beloved disciple, wrote the Gospel of John and Revelation, and emphasized God’s love."
-  }
+  },
+    esther: { name:"Esther", bio:"Esther was a courageous queen who saved her people by standing before the king and revealing the plot against the Jews." },
+  deborah: { name:"Deborah", bio:"Deborah was a prophetess and judge of Israel. She showed wisdom, courage, and led her people to victory." },
+  ruth: { name:"Ruth", bio:"Ruth was faithful to her mother-in-law Naomi and trusted God. She became the great-grandmother of King David." }
 };
 
 
@@ -2517,6 +2520,7 @@ const STORE_ITEMS = [
   { id:"factpack", icon:"📖", name:"Fun Facts Pack", price:15, desc:"Unlock 5 bonus Bible fun facts." },
   { id:"quiz", icon:"❓", name:"Bible Quiz Mode", price:25, desc:"Play a quiz mini-game to test your Bible knowledge." },
   { id:"disciples", icon:"👥", name:"Disciples Pack", price:50, desc:"Unlock new disciple avatars!" },
+  { id:"women", icon:"👩‍🦰", name:"Women of the Bible Pack", price:50, desc:"Unlock Esther, Deborah, and Ruth as avatars." },
   { id:"coloring", icon:"🖌️", name:"Coloring Pages", price:20, desc:"Unlock printable and digital Bible coloring pages." },
   { id:"stickerbook", icon:"🌟", name:"Sticker Book", price:30, desc:"Collect stickers and decorate Bible scenes." },
   { id:"goldcross", icon:"✝️", name:"Golden Cross Trophy", price:100, desc:"A special one-time item to show off your faith journey!" }
@@ -2587,7 +2591,12 @@ function buyItem(id){
   { id:"thomas", name:"Thomas", img:"images/avatar-thomas.png", pack:"disciples" },
   { id:"bartholomew", name:"Bartholomew", img:"images/avatar-bartholomew.png", pack:"disciples" },
   { id:"philip", name:"Philip", img:"images/avatar-philip.png", pack:"disciples" },
-  { id:"john", name:"John", img:"images/avatar-john.png", pack:"disciples" }
+  { id:"john", name:"John", img:"images/avatar-john.png", pack:"disciples" },
+
+      // women of the bible pack
+  { id:"esther", name:"Esther", img:"images/avatar-esther.png", pack:"women" },
+  { id:"deborah", name:"Deborah", img:"images/avatar-deborah.png", pack:"women" },
+  { id:"ruth", name:"Ruth", img:"images/avatar-ruth.png", pack:"women" }
 ];
 
  function renderAvatars(){
