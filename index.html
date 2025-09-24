@@ -368,6 +368,12 @@ nav.bottom button.active {
   #game{position:fixed;inset:0; background:#e8f8ff; display:none; flex-direction:column}
   /* Game HUD Top Bar */
 .game-top {
+  display: flex;                        /* flexbox for even spacing */
+  justify-content: space-between;       /* title left, controls right */
+  align-items: center;                  /* vertical centering */
+  padding: 10px 14px;                   /* balanced spacing */
+  height: 60px;                         /* 🔑 lock consistent height */
+
   background: linear-gradient(90deg, #38bdf8, #0ea5e9);
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
@@ -385,7 +391,9 @@ nav.bottom button.active {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;                  /* prevent wrapping */
 }
+
 #hudTitle::before {
   content: "📖"; /* decorative icon */
 }
