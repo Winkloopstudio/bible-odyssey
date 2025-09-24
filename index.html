@@ -1156,6 +1156,40 @@ main#viewContainer {
   cursor:not-allowed;
 }
 
+  /* Creation Game 1 */
+#lightDarkArea {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(90deg, #000 50%, #fff 50%);
+  border-radius: 16px;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+#progressWrap {
+  width: 80%;
+  height: 22px;
+  margin: 0 auto;
+  background: #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#progressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #facc15, #f59e0b);
+  transition: width 0.2s;
+}
+
+  
 </style>
 </head>
 <body>
@@ -1247,7 +1281,16 @@ main#viewContainer {
 </div>
 
       <div class="game-stage">
-    
+    <div id="creationGame1" class="hidden">
+  <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
+  <p style="text-align:center;">Tap to separate the light from the darkness!</p>
+
+  <div id="lightDarkArea"></div>
+  <div id="progressWrap">
+    <div id="progressFill"></div>
+  </div>
+</div>
+
       </div>
 
       <!-- Pause Overlay -->
@@ -1284,9 +1327,6 @@ main#viewContainer {
 
   
   </main>
-
-  <!-- INFO PANEL -->
-<!-- INFO PANEL -->
 <!-- INFO PANEL -->
 <div id="infoPanel" class="hidden">
   <div class="info-header">
@@ -1987,13 +2027,58 @@ function startGame(level) {
   // Clear anything left over in stage
   $(".game-stage").innerHTML = "";
 
-  // If this is the first level and it should auto-complete (storybook reading)
+  // ✅ If this is the first level and it should auto-complete (storybook reading)
   if (level === 1 && s.autoCompleteFirst) {
     endGameAndRecord();   // instantly mark complete
-  } else {
-    // For now, still simulate mini-game with 10s timer (until real gameplay is added)
-    gameTimer = setTimeout(endGameAndRecord, 10000);
+    return;
   }
+
+  // ✅ Special case: Creation, Game 1
+  if (s.id === "creation" && level === 2) {
+    startCreationGame1();
+    return;
+  }
+
+  // ⏳ Default fallback (placeholder mini-game)
+  gameTimer = setTimeout(endGameAndRecord, 10000);
+}
+
+
+  // Creation Game 1
+  function startCreationGame1() {
+  $(".game-stage").innerHTML = `
+    <div id="creationGame1">
+      <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
+      <p style="text-align:center;">Tap to separate the light from the darkness!</p>
+
+      <div id="lightDarkArea">Tap!</div>
+      <div id="progressWrap"><div id="progressFill"></div></div>
+    </div>
+  `;
+
+  let progress = 0;
+  const area = $("#lightDarkArea");
+  const bar = $("#progressFill");
+
+  area.addEventListener("click", () => {
+    progress += 10;
+    if (progress > 100) progress = 100;
+    bar.style.width = progress + "%";
+
+    // Flash background toggle
+    if (progress % 20 === 0) {
+      area.style.background =
+        area.style.background.includes("black")
+          ? "linear-gradient(90deg, #fff 50%, #000 50%)"
+          : "linear-gradient(90deg, #000 50%, #fff 50%)";
+    }
+
+    if (progress >= 100) {
+      setTimeout(() => {
+        endGameAndRecord();
+      }, 400);
+    }
+  });
 }
 
 
