@@ -514,6 +514,24 @@ nav.bottom button.active {
   box-shadow: 0 3px 5px rgba(0,0,0,0.25) inset;
 }
 
+#closeAvatarOverlay {
+  position: absolute;
+  top: -12px;    /* pull above card */
+  right: -12px;  /* pull outside edge */
+  background: #ef4444;
+  border-radius: 50%;
+  border: 4px solid #fff;  /* white outline like pause modal X */
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;   /* ensure above content */
+}
 
 
   
