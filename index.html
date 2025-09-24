@@ -1160,18 +1160,39 @@ main#viewContainer {
 #lightDarkArea {
   width: 100%;
   height: 220px;
-  background: linear-gradient(90deg, #000 50%, #fff 50%);
   border-radius: 16px;
   margin: 20px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 22px;
-  font-weight: 800;
-  cursor: pointer;
-  user-select: none;
+  background: linear-gradient(to top, #001f3f, #111);
+  position: relative;
+  overflow: hidden;
 }
+
+#sun {
+  font-size: 60px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#moon {
+  font-size: 50px;
+  color: #eee;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+#stars {
+  position: absolute;
+  color: #fffacd;
+  font-size: 20px;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.3; transform: scale(0.9);}
+  100% { opacity: 1; transform: scale(1.1);}
+}
+
 
 #progressWrap {
   width: 80%;
@@ -1281,15 +1302,20 @@ main#viewContainer {
 </div>
 
       <div class="game-stage">
-    <div id="creationGame1" class="hidden">
+        
+<div id="creationGame1">
   <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
-  <p style="text-align:center;">Tap to separate the light from the darkness!</p>
+  <p style="text-align:center;">Tap to bring the light into the world!</p>
 
-  <div id="lightDarkArea"></div>
-  <div id="progressWrap">
-    <div id="progressFill"></div>
+  <div id="lightDarkArea">
+    <div id="sun">☀️</div>
+    <div id="moon">🌙</div>
+    <div id="stars">✨✨✨</div>
   </div>
+
+  <div id="progressWrap"><div id="progressFill"></div></div>
 </div>
+
 
       </div>
 
@@ -2961,6 +2987,23 @@ function buyItem(id){
 }
 
 // end render avatars
+
+  area.addEventListener("click", () => {
+  progress += 20;
+  if (progress > 100) progress = 100;
+  bar.style.width = progress + "%";
+
+  if (progress >= 100) {
+    $("#sun").style.opacity = 1;
+    $("#sun").style.transform = "scale(1.2)";
+    $("#stars").style.display = "none";
+    area.style.background = "linear-gradient(to top, #87ceeb, #fff)";
+    setTimeout(() => {
+      endGameAndRecord();
+    }, 800);
+  }
+});
+
 </script>
 </body>
 </html>
