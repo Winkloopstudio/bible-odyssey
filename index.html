@@ -1258,7 +1258,7 @@ main#viewContainer {
 }
 
 
-#sun, #moon, #stars {
+#sun, #moon,  {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1279,15 +1279,24 @@ main#viewContainer {
 }
 
 #stars {
-  font-size: 22px;
+  position: absolute;
+  inset: 0;              /* fill the whole sky area */
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  font-size: 12px;
   color: #fff;
-  animation: twinkle 1.5s infinite alternate;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
 }
 
 @keyframes twinkle {
-  from { opacity: 1; transform: scale(1); }
-  to   { opacity: 0.6; transform: scale(1.2); }
+  from { opacity: 0.2; transform: scale(0.9); }
+  to   { opacity: 1;   transform: scale(1.1); }
 }
+
 
 .cloud {
   position: absolute;
@@ -1482,7 +1491,7 @@ main#viewContainer {
   
   <div id="lightDarkArea">
     <div id="moon">🌙</div>
-    <div id="stars">✨✨✨</div>
+    <div id="stars"></div>
     <div id="sun">☀️</div>
     <div class="cloud cloud1">☁️</div>
     <div class="cloud cloud2">☁️</div>
@@ -2325,6 +2334,22 @@ function startCreationGame1() {
   });
 }
 
+// Generate stars
+function generateStars(count = 40) {
+  const container = document.getElementById("stars");
+  container.innerHTML = "";
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement("span");
+    star.textContent = "✦"; // or ✨/★
+    star.className = "star";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.fontSize = (8 + Math.random() * 12) + "px";
+    star.style.animationDuration = (1.5 + Math.random() * 2) + "s";
+    container.appendChild(star);
+  }
+}
+generateStars();
 
 
 function launchConfettiSparkles() {
