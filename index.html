@@ -1440,6 +1440,82 @@ main#viewContainer {
   margin-top: 16px;
 }
 
+  .victory-card {
+  background: #fffbe8;
+  border-radius: 24px;
+  padding: 28px 20px;
+  text-align: center;
+  max-width: 360px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  animation: pop 0.6s ease;
+}
+
+.victory-card h2 {
+  font-size: 26px;
+  color: #7a4f2a;
+  margin-bottom: 10px;
+}
+
+.victory-card p {
+  font-size: 18px;
+  margin-bottom: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.victory-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 14px;
+}
+
+.victory-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 20px;
+  padding: 18px 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.victory-btn span {
+  display: block;
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+.victory-btn:hover {
+  transform: scale(1.08);
+}
+
+.victory-btn.blue {
+  background: linear-gradient(180deg,#59c0ff,#2f8fe0);
+}
+.victory-btn.green {
+  background: linear-gradient(180deg,#34d399,#059669);
+}
+.victory-btn.yellow {
+  background: linear-gradient(180deg,#facc15,#eab308);
+  color: #3a2a00;
+}
+
+#nextCountdown {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+  
 </style>
 </head>
 <body>
@@ -1526,7 +1602,7 @@ main#viewContainer {
   <div><strong id="hudTitle">Creation</strong></div>
   <div style="display:flex;align-items:center;gap:12px;">
     <span id="hudStars" style="font-weight:bold;font-size:18px;">⭐ 0</span>
-    <button id="pauseBtn" class="big-btn">⏸ Pause</button>
+    <button id="pauseBtn">⏸ Pause</button>
   </div>
 </div>
 
@@ -1572,16 +1648,21 @@ main#viewContainer {
 
       <!-- Level Complete Overlay -->
 <div id="levelComplete" class="overlay">
-  <div class="complete">
-    <h3>🎉 Level Complete!</h3>
+  <div class="victory-card">
+    <h2>🎉 Level Complete!</h2>
     <p id="levelCompleteMsg">Great job finishing Creation — Level 01!</p>
-    <div class="row">
-      <button class="round blue" id="replayLevel">⟳</button>
-      <button class="round yellow" id="nextLevel">➡</button>
-      <button class="round" id="homeBtn">🏠</button>
+
+    <div class="victory-buttons">
+      <button id="replayLevel" class="victory-btn blue">🔁<span>Replay</span></button>
+      <button id="nextLevel" class="victory-btn green">
+        ⏭ <span id="nextLabel">Next</span>
+        <small id="nextCountdown"></small>
+      </button>
+      <button id="homeBtn" class="victory-btn yellow">🏠<span>Home</span></button>
     </div>
   </div>
 </div>
+
 
 
     </section>
