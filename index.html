@@ -1163,9 +1163,10 @@ main#viewContainer {
 }
 
 #lightDarkArea {
-  width: 260px;
-  height: 200px;
-  margin: 0 auto 16px;
+   width: 90%;           
+  max-width: 340px;      
+  height: 260px;
+  margin: 0 auto 20px;
   border-radius: 20px;
   border: 4px solid #ffd84a;
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
@@ -1226,11 +1227,13 @@ main#viewContainer {
   background: #ddd;
   border-radius: 12px;
   height: 18px;
-  max-width: 260px;    /* match game area */
+  max-width: 340px;
   width: 100%;
-  margin: 12px auto 0; /* center it */
-  overflow: hidden;
+  margin: 12px auto 0;
+  overflow: hidden;       /* 🔑 keeps yellow perfectly inside */
+  padding: 0;             /* remove extra spacing */
 }
+
 .progress-bar {
   height: 100%;
   width: 0%;
@@ -1240,11 +1243,12 @@ main#viewContainer {
     #facc15,
     #ffd84a
   );
-  background-size: 200% 100%;       /* allow shimmer movement */
-  border-radius: 12px;
+  background-size: 200% 100%;
   transition: width .4s;
   animation: shimmer 2s linear infinite;
+  border-radius: 0;       /* 🔑 remove double rounding */
 }
+
 
 @keyframes shimmer {
   from { background-position: 200% 0; }
