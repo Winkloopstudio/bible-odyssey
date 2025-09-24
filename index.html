@@ -3537,32 +3537,6 @@ function buyItem(id){
   }, 1000);
 }
 
-document.querySelectorAll(".mound").forEach(mound => {
-  mound.addEventListener("click", () => {
-    let stage = +mound.dataset.stage;
-    if (stage < 3) stage++;
-    mound.dataset.stage = stage;
-    mound.className = `mound stage${stage}`;
-  });
-});
-
-document.querySelectorAll(".flower").forEach(flower => {
-  flower.addEventListener("click", () => {
-    let stage = +flower.dataset.stage;
-    if (stage < 2) stage++;
-    flower.dataset.stage = stage;
-    flower.className = `flower stage${stage}`;
-  });
-});
-
-let waterLevel = 0;
-document.getElementById("trench").addEventListener("click", () => {
-  waterLevel++;
-  document.getElementById("waterFill").style.height = (waterLevel * 20) + "px";
-  if (waterLevel >= 5) {
-    alert("🌊 Seas created!");
-  }
-});
 
 </script>
 </body>
