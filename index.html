@@ -1243,15 +1243,36 @@ main#viewContainer {
   background: #ddd;
   border-radius: 12px;
   height: 18px;
-  width: 70%;
-  margin: 0 auto;
+  max-width: 260px;    /* match game area */
+  width: 100%;
+  margin: 12px auto 0; /* center it */
   overflow: hidden;
 }
 .progress-bar {
-  background: linear-gradient(90deg,#ffd84a,#facc15);
   height: 100%;
   width: 0%;
+  background: linear-gradient(
+    90deg,
+    #ffd84a,
+    #facc15,
+    #ffd84a
+  );
+  background-size: 200% 100%;       /* allow shimmer movement */
+  border-radius: 12px;
   transition: width .4s;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+
+#creationGame1 .progress-wrap {
+  width: 100%;                 /* take full width of parent */
+  max-width: 260px;             /* same as #lightDarkArea */
+  margin: 12px auto 0 auto;     /* center it below */
 }
 
 .instructions {
