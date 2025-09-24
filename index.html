@@ -2397,7 +2397,9 @@ $("#replayRibbon").addEventListener("click", () => {
   }
 });
 
- 
+ let currentLevel = 1;
+let gameTimer = null; // track active timer
+
 /* -------------- Game Flow (placeholder mini-game) -------------- */
 function startGame(level) {
   // 🔄 Reset old state
