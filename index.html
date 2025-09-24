@@ -2188,7 +2188,7 @@ function startCreationGame1() {
   });
 }
 
-let progress = 0;
+let gameProgress = 0;
 const progressBar = document.getElementById("progressBar");
 const area = document.getElementById("lightDarkArea");
 const sun = document.getElementById("sun");
@@ -2196,30 +2196,27 @@ const moon = document.getElementById("moon");
 const stars = document.getElementById("stars");
 
 area.addEventListener("click", () => {
-  if (progress >= 100) return;
+  if (gameProgress >= 100) return;
 
-  progress += 20;
-  progressBar.style.width = progress + "%";
+  gameProgress += 20;
+  progressBar.style.width = gameProgress + "%";
 
-  if (progress < 100) {
+  if (gameProgress < 100) {
+    const percent = gameProgress / 100;
     // gradually brighten sky
-    const percent = progress / 100;
     const color1 = `rgb(${0+percent*200}, ${25+percent*180}, ${51+percent*150})`;
     const color2 = `rgb(${0+percent*255}, ${51+percent*200}, ${102+percent*200})`;
     area.style.background = `linear-gradient(to top, ${color1}, ${color2})`;
 
-    // fade out moon/stars
     moon.style.opacity = 1 - percent;
     stars.style.opacity = 1 - percent;
-
-    // fade in sun
     sun.style.opacity = percent;
     sun.style.transform = `translate(-50%, -50%) scale(${0.5+percent*0.5})`;
   } else {
-    // 🎉 Complete → confetti burst
     launchConfetti();
   }
 });
+
 
 function launchConfetti() {
   for (let i = 0; i < 20; i++) {
