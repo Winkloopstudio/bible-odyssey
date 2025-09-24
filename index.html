@@ -2070,13 +2070,17 @@ function startGame(level) {
 
 
   // Creation Game 1
-  function startCreationGame1() {
+function startCreationGame1() {
   $(".game-stage").innerHTML = `
     <div id="creationGame1">
       <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
       <p style="text-align:center;">Tap to separate the light from the darkness!</p>
 
-      <div id="lightDarkArea">Tap!</div>
+      <div id="lightDarkArea">
+        <div id="sun">☀️</div>
+        <div id="moon">🌙</div>
+        <div id="stars">✨✨✨</div>
+      </div>
       <div id="progressWrap"><div id="progressFill"></div></div>
     </div>
   `;
@@ -2086,25 +2090,29 @@ function startGame(level) {
   const bar = $("#progressFill");
 
   area.addEventListener("click", () => {
-    progress += 10;
+    progress += 20;
     if (progress > 100) progress = 100;
     bar.style.width = progress + "%";
 
-    // Flash background toggle
-    if (progress % 20 === 0) {
-      area.style.background =
-        area.style.background.includes("black")
-          ? "linear-gradient(90deg, #fff 50%, #000 50%)"
-          : "linear-gradient(90deg, #000 50%, #fff 50%)";
-    }
-
     if (progress >= 100) {
+      // 🌞 Show sun and animate
+      $("#sun").style.opacity = 1;
+      $("#sun").style.transform = "scale(1.2)";
+
+      // 🌙✨ Hide night elements
+      $("#stars").style.display = "none";
+      $("#moon").style.display = "none";
+
+      // ☀️ Bright sky background
+      area.style.background = "linear-gradient(to top, #87ceeb, #fff)";
+
       setTimeout(() => {
         endGameAndRecord();
-      }, 400);
+      }, 800);
     }
   });
 }
+
 
 
 $("#replayLevel").addEventListener("click", () => {
@@ -2988,21 +2996,7 @@ function buyItem(id){
 
 // end render avatars
 
-  area.addEventListener("click", () => {
-  progress += 20;
-  if (progress > 100) progress = 100;
-  bar.style.width = progress + "%";
-
-  if (progress >= 100) {
-    $("#sun").style.opacity = 1;
-    $("#sun").style.transform = "scale(1.2)";
-    $("#stars").style.display = "none";
-    area.style.background = "linear-gradient(to top, #87ceeb, #fff)";
-    setTimeout(() => {
-      endGameAndRecord();
-    }, 800);
-  }
-});
+  
 
 </script>
 </body>
