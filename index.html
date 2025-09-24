@@ -3091,9 +3091,8 @@ function endGameAndRecord() {
   updateProfileUI();
 
   // 🎉 Update message
-  $("#levelCompleteMsg").textContent =
-    `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2, "0")}!`;
-  $("#levelComplete").style.display = "flex";
+showLevelComplete(`Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`);
+
 
   // 🔽 Insert action buttons
   const actions = document.querySelector("#levelComplete .next-actions");
@@ -3422,7 +3421,26 @@ function buyItem(id){
 
 // end render avatars
 
-  
+  function showLevelComplete(message) {
+  const overlay = document.getElementById("levelComplete");
+  document.getElementById("levelCompleteMsg").textContent = message;
+  overlay.style.display = "flex";
+
+  // Countdown for Next button
+  let timeLeft = 5;
+  const countdown = document.getElementById("nextCountdown");
+  countdown.textContent = `(${timeLeft})`;
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    countdown.textContent = `(${timeLeft})`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      document.getElementById("nextLevel").click(); // auto next
+    }
+  }, 1000);
+}
+
 
 </script>
 </body>
