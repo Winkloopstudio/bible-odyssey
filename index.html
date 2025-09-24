@@ -516,8 +516,8 @@ nav.bottom button.active {
 
 #closeAvatarOverlay {
   position: absolute;
-  top: -12px;    /* pull above card */
-  right: -12px;  /* pull outside edge */
+  top: 0px;    /* pull above card */
+  right: 0px;  /* pull outside edge */
   background: #ef4444;
   border-radius: 50%;
   border: 4px solid #fff;  /* white outline like pause modal X */
@@ -1798,7 +1798,85 @@ if (s.video) {
       { text: "At last, the rain stopped, and the Ark rested on the mountains of Ararat.", art: "images/noah7.png" },
       { text: "God placed a rainbow in the sky as a promise never to flood the whole earth again.", art: "images/noah8.png" }
     ];
-  } else {
+  } 
+    } else if (storyId === "david") {
+    storyPages = [
+      { text: "The Israelites were afraid of a giant named Goliath.", art: "images/david1.png" },
+      { text: "Goliath shouted, 'Send someone to fight me!' every day.", art: "images/david2.png" },
+      { text: "Young David came to bring food to his brothers at the battle.", art: "images/david3.png" },
+      { text: "David trusted God and said, 'I will fight the giant!'", art: "images/david4.png" },
+      { text: "King Saul gave David armor, but it was too heavy.", art: "images/david5.png" },
+      { text: "David took only his sling and five smooth stones.", art: "images/david6.png" },
+      { text: "David said, 'The Lord will help me!' and slung a stone at Goliath.", art: "images/david7.png" },
+      { text: "The giant fell, and God gave victory to His people!", art: "images/david8.png" }
+    ];
+  } else if (storyId === "daniel") {
+    storyPages = [
+      { text: "Daniel prayed to God every day, even when others said not to.", art: "images/daniel1.png" },
+      { text: "The king’s helpers tricked him into making a law: no praying!", art: "images/daniel2.png" },
+      { text: "Daniel still prayed, and they told the king.", art: "images/daniel3.png" },
+      { text: "The king was sad, but Daniel was thrown into a lions’ den.", art: "images/daniel4.png" },
+      { text: "That night, the king could not sleep.", art: "images/daniel5.png" },
+      { text: "God sent an angel to shut the lions’ mouths.", art: "images/daniel6.png" },
+      { text: "In the morning, Daniel was safe!", art: "images/daniel7.png" },
+      { text: "The king praised God, who rescued Daniel.", art: "images/daniel8.png" }
+    ];
+  } else if (storyId === "jonah") {
+    storyPages = [
+      { text: "God told Jonah to go preach in Nineveh.", art: "images/jonah1.png" },
+      { text: "Jonah ran away and boarded a ship.", art: "images/jonah2.png" },
+      { text: "A big storm came, and the sailors were afraid.", art: "images/jonah3.png" },
+      { text: "Jonah said, 'Throw me into the sea and it will calm.'", art: "images/jonah4.png" },
+      { text: "A giant fish swallowed Jonah!", art: "images/jonah5.png" },
+      { text: "Inside the fish, Jonah prayed to God.", art: "images/jonah6.png" },
+      { text: "After three days, the fish spit Jonah onto dry land.", art: "images/jonah7.png" },
+      { text: "Jonah obeyed God and went to Nineveh.", art: "images/jonah8.png" }
+    ];
+  } else if (storyId === "nativity") {
+    storyPages = [
+      { text: "An angel told Mary she would have a baby — God’s Son!", art: "images/nativity1.png" },
+      { text: "Joseph was told in a dream to care for Mary and the child.", art: "images/nativity2.png" },
+      { text: "They traveled to Bethlehem, but there was no room in the inn.", art: "images/nativity3.png" },
+      { text: "Jesus was born in a stable, laid in a manger.", art: "images/nativity4.png" },
+      { text: "Angels sang, 'Glory to God in the highest!'", art: "images/nativity5.png" },
+      { text: "Shepherds ran to see baby Jesus.", art: "images/nativity6.png" },
+      { text: "Wise men followed a star and brought gifts.", art: "images/nativity7.png" },
+      { text: "Jesus, the Savior, was born for the world!", art: "images/nativity8.png" }
+    ];
+  } else if (storyId === "miracles") {
+    storyPages = [
+      { text: "Jesus healed the sick and gave sight to the blind.", art: "images/miracles1.png" },
+      { text: "He calmed a storm with just His words.", art: "images/miracles2.png" },
+      { text: "He fed 5,000 people with five loaves and two fish.", art: "images/miracles3.png" },
+      { text: "A woman touched His cloak, and she was healed.", art: "images/miracles4.png" },
+      { text: "He walked on water to reach His friends.", art: "images/miracles5.png" },
+      { text: "Jesus even raised Lazarus from the dead!", art: "images/miracles6.png" },
+      { text: "People saw His power and praised God.", art: "images/miracles7.png" },
+      { text: "Jesus’ miracles showed His love and authority.", art: "images/miracles8.png" }
+    ];
+  } else if (storyId === "samaritan") {
+    storyPages = [
+      { text: "Jesus told a story about loving others.", art: "images/samaritan1.png" },
+      { text: "A man was hurt by robbers on the road.", art: "images/samaritan2.png" },
+      { text: "A priest walked by but did not help.", art: "images/samaritan3.png" },
+      { text: "A Levite also passed and did nothing.", art: "images/samaritan4.png" },
+      { text: "A Samaritan stopped and cared for him.", art: "images/samaritan5.png" },
+      { text: "He bandaged his wounds and took him to an inn.", art: "images/samaritan6.png" },
+      { text: "Jesus said, 'Be like the good Samaritan. Love your neighbor.'", art: "images/samaritan7.png" },
+      { text: "We show love by helping others in need.", art: "images/samaritan8.png" }
+    ];
+  } else if (storyId === "easter") {
+    storyPages = [
+      { text: "Jesus was arrested though He had done no wrong.", art: "images/easter1.png" },
+      { text: "He carried a cross to Calvary.", art: "images/easter2.png" },
+      { text: "Soldiers placed a crown of thorns on His head.", art: "images/easter3.png" },
+      { text: "Jesus died on the cross to save us from sin.", art: "images/easter4.png" },
+      { text: "His friends placed Him in a tomb.", art: "images/easter5.png" },
+      { text: "On the third day, the stone was rolled away!", art: "images/easter6.png" },
+      { text: "Jesus was alive — He rose from the dead!", art: "images/easter7.png" },
+      { text: "Because of Jesus, we have hope forever.", art: "images/easter8.png" }
+    ];
+} else {
     storyPages = [{ text: s.name, art: s.art }];
   }
 
@@ -2017,28 +2095,83 @@ const HIGHLIGHTS_GLOBAL = {
 
 // Story-specific keywords
 const HIGHLIGHTS_STORY = {
-  "creation": {
+  creation: {
     "Adam": "hl-person",
     "Eve": "hl-person",
     "Day": "hl-light",
     "Night": "hl-dark",
- "waters": "hl-water",
-"sky": "hl-sky"
+    "waters": "hl-water",
+    "sky": "hl-sky"
   },
-"noah": {
-  "Noah": "hl-person",
-  "Ark": "hl-object",
-  "Flood": "hl-water",
-  "Rainbow": "hl-promise",
-  "Animal": "hl-person"
-},
-  "david": {
+  noah: {
+    "Noah": "hl-person",
+    "Ark": "hl-object",
+    "Flood": "hl-water",
+    "Rainbow": "hl-promise",
+    "Animal": "hl-person"
+  },
+  david: {
     "David": "hl-person",
     "Goliath": "hl-enemy",
-    "Stone": "hl-object"
+    "King Saul": "hl-person",
+    "stone": "hl-object",
+    "sling": "hl-object"
   },
-  // ...add more per story
+  daniel: {
+    "Daniel": "hl-person",
+    "King": "hl-person",
+    "law": "hl-object",
+    "lions": "hl-enemy",
+    "angel": "hl-spirit"
+  },
+  jonah: {
+    "Jonah": "hl-person",
+    "Nineveh": "hl-object",
+    "ship": "hl-object",
+    "storm": "hl-water",
+    "fish": "hl-object",
+    "prayed": "hl-pray"
+  },
+  nativity: {
+    "Mary": "hl-person",
+    "Joseph": "hl-person",
+    "Jesus": "hl-jesus",
+    "angel": "hl-spirit",
+    "Bethlehem": "hl-earth",
+    "Shepherds": "hl-person",
+    "Wise men": "hl-person",
+    "star": "hl-light"
+  },
+  miracles: {
+    "Jesus": "hl-jesus",
+    "blind": "hl-dark",
+    "storm": "hl-water",
+    "loaves": "hl-object",
+    "fish": "hl-object",
+    "Lazarus": "hl-person",
+    "healed": "hl-faith"
+  },
+  samaritan: {
+    "Jesus": "hl-jesus",
+    "Samaritan": "hl-person",
+    "priest": "hl-person",
+    "Levite": "hl-person",
+    "neighbor": "hl-love",
+    "love": "hl-love"
+  },
+  easter: {
+    "Jesus": "hl-jesus",
+    "cross": "hl-object",
+    "Calvary": "hl-earth",
+    "crown": "hl-object",
+    "thorns": "hl-object",
+    "tomb": "hl-object",
+    "stone": "hl-object",
+    "alive": "hl-light",
+    "hope": "hl-faith"
+  }
 };
+
 
   function highlightText(text, storyId) {
   let highlighted = text;
