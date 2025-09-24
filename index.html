@@ -1419,6 +1419,27 @@ main#viewContainer {
   to   { opacity: 0; transform: translateY(-40px) scale(0.5); }
 }
 
+  .complete {
+  background: #fffbe8;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 340px;
+}
+
+.complete h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #7a4f2a;
+}
+
+.complete .row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+}
+
 </style>
 </head>
 <body>
@@ -1551,7 +1572,7 @@ main#viewContainer {
 
       <!-- Level Complete Overlay -->
 <div id="levelComplete" class="overlay">
-  <div class="pause">
+  <div class="complete">
     <h3>🎉 Level Complete!</h3>
     <p id="levelCompleteMsg">Great job finishing Creation — Level 01!</p>
     <div class="row">
@@ -1561,6 +1582,7 @@ main#viewContainer {
     </div>
   </div>
 </div>
+
 
     </section>
 
