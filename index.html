@@ -1234,12 +1234,12 @@ main#viewContainer {
     #ffd84a
   );
   background-size: 200% 100%;
-  transition: width .4s;
   animation: shimmer 2s linear infinite;
   border-radius: 0;       /* 🔑 remove double rounding */
+   transition: width 0.4s cubic-bezier(.68,-0.55,.27,1.55);
 }
 
-
+  
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to   { background-position: -200% 0; }
@@ -1268,7 +1268,30 @@ main#viewContainer {
   width: 0%;
   height: 100%;
 }
- 
+
+  /* Moon wobble */
+#moon {
+  animation: moonWobble 5s ease-in-out infinite;
+}
+@keyframes moonWobble {
+  0%,100% { transform: translate(-50%, -50%) rotate(-5deg); }
+  50%     { transform: translate(-50%, -50%) rotate(5deg); }
+}
+
+
+
+/* Tap sparkles */
+.sparkle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  animation: sparkleFloat 1s ease forwards;
+}
+@keyframes sparkleFloat {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-40px) scale(0.5); }
+}
+
 </style>
 </head>
 <body>
@@ -2136,17 +2159,14 @@ function startGame(level) {
 function startCreationGame1() {
   $(".game-stage").innerHTML = `
     <div id="creationGame1">
-      <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
-      <p class="instructions" style="text-align:center;">Tap to bring the light into the world!</p>
-
+      <h2>🌅 Day 1 — Light & Darkness</h2>
+      <p class="instructions">Tap to bring the light into the world!</p>
       <div id="lightDarkArea">
         <div id="sun">☀️</div>
         <div id="moon">🌙</div>
         <div id="stars">✨✨✨</div>
       </div>
-
-      <!-- ✅ Added progress bar container -->
-      <div class="progress-wrap" style="margin-top:14px;">
+      <div class="progress-wrap">
         <div id="progressBar" class="progress-bar"></div>
       </div>
     </div>
@@ -2165,14 +2185,14 @@ function startCreationGame1() {
   stars.style.opacity = 1;
   bar.style.width = "0%";
 
-  area.addEventListener("click", () => {
-    progress += 10;
-    if (progress > 100) progress = 100;
+  area.addEventListener("click", (e) => {
+    // Update progress
+    progress = Math.min(progress + 10, 100);
     bar.style.width = progress + "%";
 
     const ratio = progress / 100;
 
-    // background: night → day
+    // Background shift: night → day
     const night = [0, 0, 30];
     const day = [135, 206, 235];
     const r = Math.round(night[0] + (day[0] - night[0]) * ratio);
@@ -2180,27 +2200,39 @@ function startCreationGame1() {
     const b = Math.round(night[2] + (day[2] - night[2]) * ratio);
     area.style.background = `rgb(${r},${g},${b})`;
 
-    // fade stars & moon
+    // Fade moon & stars
     stars.style.opacity = 1 - ratio;
     moon.style.opacity = 1 - ratio;
 
-    // fade sun in + scale, keep centered
+    // Sun glow in
     sun.style.opacity = ratio;
-    sun.style.transform = `translate(-50%, -50%) scale(${0.5 + ratio * 0.5})`;
+    sun.style.transform = `translate(-50%, -50%) scale(${0.6 + ratio * 0.6})`;
 
-    // tap bounce feedback
+    // Tap sparkles
+    for (let i = 0; i < 3; i++) {
+      const sp = document.createElement("div");
+      sp.textContent = ["✨","🌟","💫"][Math.floor(Math.random()*3)];
+      sp.className = "sparkle";
+      sp.style.left = (e.offsetX + Math.random()*20-10) + "px";
+      sp.style.top = (e.offsetY + Math.random()*20-10) + "px";
+      area.appendChild(sp);
+      setTimeout(() => sp.remove(), 1000);
+    }
+
+    // Wiggle feedback
     area.style.transform = "scale(1.02)";
     setTimeout(() => { area.style.transform = "scale(1)"; }, 120);
 
-    // finish when full
+    // Win condition
     if (progress >= 100) {
       setTimeout(() => {
         launchConfettiSparkles();
-        endGameAndRecord(); // ✅ mark level complete
+        endGameAndRecord();
       }, 800);
     }
   });
 }
+
 
 
 function launchConfettiSparkles() {
