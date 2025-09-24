@@ -2399,31 +2399,46 @@ $("#replayRibbon").addEventListener("click", () => {
 
  
 /* -------------- Game Flow (placeholder mini-game) -------------- */
-let currentLevel = 1;
-let gameTimer = null; // track active timer
+function startGame(level) {
+  // 🔄 Reset old state
+  if (gameTimer) {
+    clearTimeout(gameTimer);
+    gameTimer = null;
+  }
 
-// ✅ Special cases: Creation games
-if (s.id === "creation") {
-  if (level === 1) {
-    // If you want Level 1 to be a story-only auto-complete, leave as is
-    if (s.autoComplete) {
-      endGameAndRecord();
+  currentLevel = level;
+  const s = STORIES[currentStoryIdx];
+
+  $("#hudTitle").textContent = `${s.name} — Level ${String(level).padStart(2,"0")}`;
+  $("#game").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  // Clear stage each time
+  $(".game-stage").innerHTML = "";
+
+  // ✅ Creation story levels
+  if (s.id === "creation") {
+    if (level === 1 && s.autoComplete) {
+      endGameAndRecord();   // auto-finish if just story reading
       return;
     }
-    // Otherwise you could add a mini-game for level 1 later
+    else if (level === 2) {
+      // Day 1: Light/Dark
+      startCreationGame1();
+      return;
+    }
+    else if (level === 3) {
+      // Day 3: Grow & Seas
+      document.querySelectorAll("#creationGame1, #creationDay3").forEach(el => el.classList.add("hidden"));
+      document.getElementById("creationDay3").classList.remove("hidden");
+      return;
+    }
   }
-  else if (level === 2) {
-    // Light/Dark mini-game
-    startCreationGame1();
-    return;
-  }
-  else if (level === 3) {
-    // 🌱 Grow & Seas mini-game
-    document.querySelectorAll("#creationGame1, #creationDay3").forEach(el => el.classList.add("hidden"));
-    document.getElementById("creationDay3").classList.remove("hidden");
-    return;
-  }
+
+  // ⏳ Default fallback (placeholder mini-game)
+  gameTimer = setTimeout(endGameAndRecord, 10000);
 }
+
 
 
   // ⏳ Default fallback (placeholder mini-game)
