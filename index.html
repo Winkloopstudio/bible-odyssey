@@ -459,7 +459,13 @@ nav.bottom button.active {
   to   { transform: translateX(30px); }
 }
 
-.big-btn {
+.big-btn{background:#fff; border:none; padding:12px 14px; border-radius:14px; box-shadow:var(--shadow); font-weight:800}
+
+.big-btn:hover {
+  transform: scale(1.02);
+}
+
+  #game .big-btn {
   font-size: 20px;
   padding: 14px 28px;
   border-radius: 14px;
@@ -472,10 +478,9 @@ nav.bottom button.active {
   transition: transform 0.2s;
 }
 
-.big-btn:hover {
+#game .big-btn:hover {
   transform: scale(1.05);
 }
-
 .next-btn {
   background: linear-gradient(90deg, #34d399, #10b981); /* green gradient */
   color: white;
@@ -2363,10 +2368,10 @@ function generateStars(count = 40) {
   
   for (let i = 0; i < count; i++) {
     const star = document.createElement("span");
-    star.textContent = "✦"; // or ✨/★
+    star.textContent = "✦";
     star.className = "star";
     
-    // Use pixel math instead of % to keep stars in bounds
+    // Pixel-based placement keeps stars inside visible bounds
     star.style.top = Math.random() * area.clientHeight + "px";
     star.style.left = Math.random() * area.clientWidth + "px";
     
