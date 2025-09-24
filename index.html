@@ -1244,8 +1244,8 @@ main#viewContainer {
 }
 
 #lightDarkArea {
-   width: 90%;           
-  max-width: 340px;      
+  width: 90%;
+  max-width: 340px;
   height: 260px;
   margin: 0 auto 20px;
   border-radius: 20px;
@@ -1254,8 +1254,9 @@ main#viewContainer {
   position: relative;
   overflow: hidden;
   background: linear-gradient(to top, #001933, #003366); /* night */
-  transition: background 2s linear;
+  transition: background 1s ease; /* 🔑 smooth background changes */
 }
+
 
 #sun, #moon, #stars {
   position: absolute;
@@ -2278,7 +2279,7 @@ function startCreationGame1() {
 
   area.addEventListener("click", (e) => {
     // Update progress
-    progress = Math.min(progress + 10, 100);
+    progress = Math.min(progress + 4, 100);
     bar.style.width = progress + "%";
 
     const ratio = progress / 100;
