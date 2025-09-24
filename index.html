@@ -2074,7 +2074,7 @@ function startCreationGame1() {
   $(".game-stage").innerHTML = `
     <div id="creationGame1">
       <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
-      <p style="text-align:center;">Tap to separate the light from the darkness!</p>
+      <p style="text-align:center;">Tap to bring the light into the world!</p>
 
       <div id="lightDarkArea">
         <div id="sun">☀️</div>
@@ -2088,30 +2088,56 @@ function startCreationGame1() {
   let progress = 0;
   const area = $("#lightDarkArea");
   const bar = $("#progressFill");
+  const sun = $("#sun");
+  const moon = $("#moon");
+  const stars = $("#stars");
+
+  // initial states
+  sun.style.opacity = 0;
+  moon.style.opacity = 1;
+  stars.style.opacity = 1;
 
   area.addEventListener("click", () => {
-    progress += 20;
+    progress += 10;
     if (progress > 100) progress = 100;
     bar.style.width = progress + "%";
 
+    // 🌌 Gradual transition
+    const ratio = progress / 100;
+
+    // background: night → sky
+    const night = [0, 0, 30];       // deep navy
+    const day = [135, 206, 235];    // light sky blue
+    const r = Math.round(night[0] + (day[0] - night[0]) * ratio);
+    const g = Math.round(night[1] + (day[1] - night[1]) * ratio);
+    const b = Math.round(night[2] + (day[2] - night[2]) * ratio);
+    area.style.background = `rgb(${r},${g},${b})`;
+
+    // fade stars out
+    stars.style.opacity = 1 - ratio;
+
+    // fade moon out
+    moon.style.opacity = 1 - ratio;
+
+    // fade sun in + scale bounce
+    sun.style.opacity = ratio;
+    sun.style.transform = `scale(${1 + 0.2 * ratio})`;
+
+    // 🌟 Tap feedback animation
+    area.style.transform = "scale(1.02)";
+    setTimeout(() => {
+      area.style.transform = "scale(1)";
+    }, 120);
+
+    // ✅ Finish when full
     if (progress >= 100) {
-      // 🌞 Show sun and animate
-      $("#sun").style.opacity = 1;
-      $("#sun").style.transform = "scale(1.2)";
-
-      // 🌙✨ Hide night elements
-      $("#stars").style.display = "none";
-      $("#moon").style.display = "none";
-
-      // ☀️ Bright sky background
-      area.style.background = "linear-gradient(to top, #87ceeb, #fff)";
-
       setTimeout(() => {
         endGameAndRecord();
       }, 800);
     }
   });
 }
+
 
 
 
