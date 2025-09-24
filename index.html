@@ -1279,7 +1279,7 @@ main#viewContainer {
 }
 
 
-#sun, #moon,  {
+#sun, #moon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2357,20 +2357,26 @@ function startCreationGame1() {
 
 // Generate stars
 function generateStars(count = 40) {
+  const area = document.getElementById("lightDarkArea");
   const container = document.getElementById("stars");
   container.innerHTML = "";
+  
   for (let i = 0; i < count; i++) {
     const star = document.createElement("span");
     star.textContent = "✦"; // or ✨/★
     star.className = "star";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
+    
+    // Use pixel math instead of % to keep stars in bounds
+    star.style.top = Math.random() * area.clientHeight + "px";
+    star.style.left = Math.random() * area.clientWidth + "px";
+    
     star.style.fontSize = (8 + Math.random() * 12) + "px";
     star.style.animationDuration = (1.5 + Math.random() * 2) + "s";
     container.appendChild(star);
   }
 }
 generateStars();
+
 
 
 function launchConfettiSparkles() {
