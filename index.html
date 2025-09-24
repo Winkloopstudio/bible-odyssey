@@ -2201,7 +2201,7 @@ function startCreationGame1() {
     // finish when full
     if (progress >= 100) {
       setTimeout(() => {
-        launchConfetti();   // 🎉 fire off sparkles
+        launchConfettiSparkles();
         endGameAndRecord(); // ✅ mark level complete
       }, 800);
     }
@@ -2635,7 +2635,7 @@ MILESTONES.forEach(m=>{
 
   // 🎉 Trigger confetti when you land exactly on this milestone
   if (profile.stars === m.stars) {
-    launchConfetti();
+    launchConfettiStars();
   }
 
 div.addEventListener("click", ()=>{
