@@ -309,25 +309,13 @@ nav.bottom button.active {
 }
 
 /* Gold label — now flexible and truncates correctly */
-.level-badge {
-  background: linear-gradient(180deg, #ffe259, #facc15); /* gold gradient */
-  color: #3a2a00;                
+.level-badge {              
   font-weight: 800;              
   font-size: 15px;               
   letter-spacing: 0.3px;         
-  padding: 0.25rem 0.6rem;
-  border-radius: 8px;
-  border: 2px solid #e6b800;     
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.4); 
     white-space: normal;    /* allow wrapping */
-  line-height: 1.2;       /* tighter vertical spacing */
   text-align: center;     /* center align text */
-
-  /* 👇 NEW bits to fix text cutoff */
-  flex: 1;               
-  overflow: hidden;      
-  text-overflow: ellipsis;
+ text-overflow: ellipsis;
 }
 
 
@@ -943,12 +931,7 @@ position:absolute;
   overflow: hidden;
   margin: 8px 0;
 }
-.progress-bar div {
-  background: linear-gradient(90deg,#ffd84a,#f1b501);
-  height: 100%;
-  width: 0%;
-  transition: width .4s;
-}
+
 
 .muted {
   font-size: 13px;
@@ -1287,7 +1270,11 @@ main#viewContainer {
   50% { transform: translateY(-6px); }
 }
 
-  
+ #starProgressBar {
+  width: 0%;
+  height: 100%;
+}
+ 
 </style>
 </head>
 <body>
@@ -2135,7 +2122,7 @@ function startGame(level) {
   $(".game-stage").innerHTML = "";
 
   // ✅ If this is the first level and it should auto-complete (storybook reading)
-  if (level === 1 && s.autoCompleteFirst) {
+ if (level === 1 && s.autoComplete) {
     endGameAndRecord();   // instantly mark complete
     return;
   }
@@ -2222,7 +2209,7 @@ function startCreationGame1() {
 }
 
 
-function launchConfetti() {
+function launchConfettiSparkles() {
   for (let i = 0; i < 20; i++) {
     const conf = document.createElement("div");
     conf.textContent = "✨";
@@ -2914,7 +2901,7 @@ function showView(id){
 
 
 
-  function launchConfetti() {
+  function launchConfettiStars() {
   for (let i = 0; i < 40; i++) {
     const conf = document.createElement("div");
     conf.textContent = "⭐";
