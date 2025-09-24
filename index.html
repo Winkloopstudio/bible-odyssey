@@ -459,7 +459,28 @@ nav.bottom button.active {
   to   { transform: translateX(30px); }
 }
 
-  .big-btn{background:#fff; border:none; padding:12px 14px; border-radius:14px; box-shadow:var(--shadow); font-weight:800}
+.big-btn {
+  font-size: 20px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  border: none;
+  margin: 10px;
+  cursor: pointer;
+  font-family: 'Baloo2', sans-serif;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.big-btn:hover {
+  transform: scale(1.05);
+}
+
+.next-btn {
+  background: linear-gradient(90deg, #34d399, #10b981); /* green gradient */
+  color: white;
+}
+
 
   /* Pause menu (glossy like your ref) */
 .overlay {
@@ -2932,36 +2953,68 @@ $("#changeAvatarBtn").addEventListener("click",()=>{
 
 
 /* -------- Add Stars on Level Complete -------- */
-function endGameAndRecord(){
+function endGameAndRecord() {
   const s = STORIES[currentStoryIdx];
   const cleared = progress[s.id]?.clearedLevels || 0;
   progress[s.id] = { clearedLevels: Math.max(cleared, currentLevel) };
   save();
 
-  // ⭐ Reward stars (for now: 1 per level)
-  profile.stars += 1;   // <– keep only ONE line
+  // ⭐ Reward stars
+  profile.stars += 1;
 
   profile.gamesPlayed = (profile.gamesPlayed || 0) + 1;
   profile.lastStory = s.name;
 
-  // ✅ Increment completed stories/books if level is last in story
+  // ✅ Increment completed stories/books if this was the last level
   if (currentLevel === s.levels) {
     profile.storiesCompleted = (profile.storiesCompleted || 0) + 1;
-
-    
     if (!profile.booksPlayed.includes(s.id)) {
       profile.booksPlayed.push(s.id);
     }
-    
   }
 
   saveProfile();
   updateProfileUI();
 
+  // 🎉 Update message
   $("#levelCompleteMsg").textContent =
-    `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2,"0")}!`;
+    `Great job finishing ${s.name} — Level ${String(currentLevel).padStart(2, "0")}!`;
   $("#levelComplete").style.display = "flex";
+
+  // 🔽 Insert action buttons
+  const actions = document.querySelector("#levelComplete .next-actions");
+  if (actions) actions.remove(); // clear old ones
+
+  const div = document.createElement("div");
+  div.className = "next-actions";
+  div.innerHTML = `
+    <button id="nextBtn" class="big-btn next-btn">▶ Next Game</button>
+    <button id="replayBtn" class="big-btn">🔄 Replay</button>
+    <button id="homeBtn" class="big-btn">🏠 Home</button>
+  `;
+  $("#levelComplete").appendChild(div);
+
+  // Hook events
+  $("#nextBtn").addEventListener("click", () => startGame(currentLevel + 1));
+  $("#replayBtn").addEventListener("click", () => startGame(currentLevel));
+  $("#homeBtn").addEventListener("click", () => switchView("homeView"));
+
+  // ✅ Auto-advance after 3 seconds if another level exists
+  if (s.levels && currentLevel < s.levels) {
+    let countdown = 3;
+    const nextBtn = $("#nextBtn");
+    const timer = setInterval(() => {
+      nextBtn.textContent = `▶ Next Game (${countdown})`;
+      countdown--;
+      if (countdown < 0) {
+        clearInterval(timer);
+        startGame(currentLevel + 1);
+      }
+    }, 1000);
+  }
 }
+
+
 
 
 
