@@ -1157,58 +1157,103 @@ main#viewContainer {
 }
 
   /* Creation Game 1 */
+#creationGame1 {
+  text-align: center;
+  padding: 20px;
+}
+
+#creationGame1 h2 {
+  font-size: 24px;
+  font-family: 'Baloo2', sans-serif;
+  color: #7a4f2a;
+  background: linear-gradient(90deg, #ffd84a, #facc15);
+  padding: 6px 16px;
+  border-radius: 14px;
+  display: inline-block;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.instructions {
+  font-size: 16px;
+  color: #5a3520;
+  margin: 10px 0 14px;
+}
+
 #lightDarkArea {
-  width: 100%;
-  height: 220px;
-  border-radius: 16px;
-  margin: 20px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to top, #001f3f, #111);
+  width: 260px;
+  height: 200px;
+  margin: 0 auto 16px;
+  border-radius: 20px;
+  border: 4px solid #ffd84a;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
   position: relative;
   overflow: hidden;
+  background: linear-gradient(to top, #001933, #003366); /* night */
+  transition: background 2s linear;
+}
+
+#sun, #moon, #stars {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #sun {
-  font-size: 60px;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-#moon {
   font-size: 50px;
-  color: #eee;
-  position: absolute;
-  top: 40px;
-  left: 40px;
+  opacity: 0;
+  text-shadow: 0 0 20px #ffd84a, 0 0 40px #ffb300;
+  transition: opacity 1s, transform 0.5s;
 }
+
+#moon {
+  font-size: 44px;
+  color: #fff;
+  text-shadow: 0 0 10px #88f, 0 0 20px #44c;
+}
+
 #stars {
-  position: absolute;
-  color: #fffacd;
-  font-size: 20px;
-  animation: twinkle 2s infinite alternate;
+  font-size: 22px;
+  color: #fff;
+  animation: twinkle 1.5s infinite alternate;
 }
+
 @keyframes twinkle {
-  0% { opacity: 0.3; transform: scale(0.9);}
-  100% { opacity: 1; transform: scale(1.1);}
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0.6; transform: scale(1.2); }
 }
 
+.cloud {
+  position: absolute;
+  font-size: 32px;
+  opacity: 0.7;
+  top: 30%;
+  animation: drift 20s linear infinite;
+}
+.cloud1 { left: -50px; animation-delay: 0s; }
+.cloud2 { left: -100px; top: 60%; animation-delay: 10s; }
 
-#progressWrap {
-  width: 80%;
-  height: 22px;
-  margin: 0 auto;
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(350px); }
+}
+
+/* Progress bar */
+.progress-wrap {
   background: #ddd;
   border-radius: 12px;
+  height: 18px;
+  width: 70%;
+  margin: 0 auto;
   overflow: hidden;
 }
-
-#progressFill {
+.progress-bar {
+  background: linear-gradient(90deg,#ffd84a,#facc15);
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #facc15, #f59e0b);
-  transition: width 0.2s;
+  transition: width .4s;
 }
+
 
   
 </style>
@@ -1303,18 +1348,23 @@ main#viewContainer {
 
       <div class="game-stage">
         
-<div id="creationGame1">
-  <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
-  <p style="text-align:center;">Tap to bring the light into the world!</p>
-
+<div id="creationGame1" class="mini-game hidden">
+  <h2>🌅 Day 1 — Light & Darkness</h2>
+  <p class="instructions">Tap to bring the light into the world!</p>
+  
   <div id="lightDarkArea">
-    <div id="sun">☀️</div>
     <div id="moon">🌙</div>
     <div id="stars">✨✨✨</div>
+    <div id="sun">☀️</div>
+    <div class="cloud cloud1">☁️</div>
+    <div class="cloud cloud2">☁️</div>
   </div>
-
-  <div id="progressWrap"><div id="progressFill"></div></div>
+  
+  <div class="progress-wrap">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
 </div>
+
 
 
       </div>
@@ -2138,6 +2188,58 @@ function startCreationGame1() {
   });
 }
 
+let progress = 0;
+const progressBar = document.getElementById("progressBar");
+const area = document.getElementById("lightDarkArea");
+const sun = document.getElementById("sun");
+const moon = document.getElementById("moon");
+const stars = document.getElementById("stars");
+
+area.addEventListener("click", () => {
+  if (progress >= 100) return;
+
+  progress += 20;
+  progressBar.style.width = progress + "%";
+
+  if (progress < 100) {
+    // gradually brighten sky
+    const percent = progress / 100;
+    const color1 = `rgb(${0+percent*200}, ${25+percent*180}, ${51+percent*150})`;
+    const color2 = `rgb(${0+percent*255}, ${51+percent*200}, ${102+percent*200})`;
+    area.style.background = `linear-gradient(to top, ${color1}, ${color2})`;
+
+    // fade out moon/stars
+    moon.style.opacity = 1 - percent;
+    stars.style.opacity = 1 - percent;
+
+    // fade in sun
+    sun.style.opacity = percent;
+    sun.style.transform = `translate(-50%, -50%) scale(${0.5+percent*0.5})`;
+  } else {
+    // 🎉 Complete → confetti burst
+    launchConfetti();
+  }
+});
+
+function launchConfetti() {
+  for (let i = 0; i < 20; i++) {
+    const conf = document.createElement("div");
+    conf.textContent = "✨";
+    conf.style.position = "fixed";
+    conf.style.left = Math.random() * window.innerWidth + "px";
+    conf.style.top = "-20px";
+    conf.style.fontSize = "20px";
+    conf.style.transition = "transform 2s ease, opacity 2s ease";
+    document.body.appendChild(conf);
+
+    requestAnimationFrame(() => {
+      conf.style.transform = `translateY(${window.innerHeight+100}px) rotate(${Math.random()*720}deg)`;
+      conf.style.opacity = "0";
+    });
+
+    setTimeout(()=>conf.remove(), 2200);
+  }
+}
 
 
 
