@@ -1254,6 +1254,17 @@ main#viewContainer {
   transition: width .4s;
 }
 
+.instructions {
+  font-size: 16px;
+  color: #5a3520;
+  margin: 10px 0 14px;
+  animation: bounceTap 1.6s infinite;
+}
+
+@keyframes bounceTap {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
   
 </style>
@@ -2124,20 +2135,19 @@ function startCreationGame1() {
   $(".game-stage").innerHTML = `
     <div id="creationGame1">
       <h2 style="text-align:center; margin-bottom:10px;">Day 1 – Light & Darkness</h2>
-      <p style="text-align:center;">Tap to bring the light into the world!</p>
+      <p class="instructions" style="text-align:center;">Tap to bring the light into the world!</p>
 
       <div id="lightDarkArea">
         <div id="sun">☀️</div>
         <div id="moon">🌙</div>
         <div id="stars">✨✨✨</div>
       </div>
-      <div id="progressWrap"><div id="progressFill"></div></div>
     </div>
   `;
 
   let progress = 0;
   const area = $("#lightDarkArea");
-  const bar = $("#progressFill");
+  const bar = $("#progressBar");   // ✅ FIXED
   const sun = $("#sun");
   const moon = $("#moon");
   const stars = $("#stars");
@@ -2146,40 +2156,36 @@ function startCreationGame1() {
   sun.style.opacity = 0;
   moon.style.opacity = 1;
   stars.style.opacity = 1;
+  bar.style.width = "0%";
 
   area.addEventListener("click", () => {
     progress += 10;
     if (progress > 100) progress = 100;
     bar.style.width = progress + "%";
 
-    // 🌌 Gradual transition
     const ratio = progress / 100;
 
-    // background: night → sky
-    const night = [0, 0, 30];       // deep navy
-    const day = [135, 206, 235];    // light sky blue
+    // background: night → day
+    const night = [0, 0, 30];
+    const day = [135, 206, 235];
     const r = Math.round(night[0] + (day[0] - night[0]) * ratio);
     const g = Math.round(night[1] + (day[1] - night[1]) * ratio);
     const b = Math.round(night[2] + (day[2] - night[2]) * ratio);
     area.style.background = `rgb(${r},${g},${b})`;
 
-    // fade stars out
+    // fade stars & moon
     stars.style.opacity = 1 - ratio;
-
-    // fade moon out
     moon.style.opacity = 1 - ratio;
 
-    // fade sun in + scale bounce
+    // fade sun in + scale, keep centered
     sun.style.opacity = ratio;
-    sun.style.transform = `scale(${1 + 0.2 * ratio})`;
+    sun.style.transform = `translate(-50%, -50%) scale(${0.5 + ratio * 0.5})`;
 
-    // 🌟 Tap feedback animation
+    // tap bounce feedback
     area.style.transform = "scale(1.02)";
-    setTimeout(() => {
-      area.style.transform = "scale(1)";
-    }, 120);
+    setTimeout(() => { area.style.transform = "scale(1)"; }, 120);
 
-    // ✅ Finish when full
+    // finish when full
     if (progress >= 100) {
       setTimeout(() => {
         endGameAndRecord();
@@ -2187,6 +2193,7 @@ function startCreationGame1() {
     }
   });
 }
+
 
 let gameProgress = 0;
 const progressBar = document.getElementById("progressBar");
