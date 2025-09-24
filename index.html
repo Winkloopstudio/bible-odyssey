@@ -2402,34 +2402,29 @@ $("#replayRibbon").addEventListener("click", () => {
 let currentLevel = 1;
 let gameTimer = null; // track active timer
 
-function startGame(level) {
-  // 🔄 Reset old state
-  if (gameTimer) {
-    clearTimeout(gameTimer);
-    gameTimer = null;
+// ✅ Special cases: Creation games
+if (s.id === "creation") {
+  if (level === 1) {
+    // If you want Level 1 to be a story-only auto-complete, leave as is
+    if (s.autoComplete) {
+      endGameAndRecord();
+      return;
+    }
+    // Otherwise you could add a mini-game for level 1 later
   }
-
-  currentLevel = level;
-  const s = STORIES[currentStoryIdx];
-
-  $("#hudTitle").textContent = `${s.name} — Level ${String(level).padStart(2,"0")}`;
-  $("#game").style.display = "flex";
-  document.body.style.overflow = "hidden";
-
-  // Clear anything left over in stage
-  $(".game-stage").innerHTML = "";
-
-  // ✅ If this is the first level and it should auto-complete (storybook reading)
- if (level === 1 && s.autoComplete) {
-    endGameAndRecord();   // instantly mark complete
-    return;
-  }
-
-  // ✅ Special case: Creation, Game 1
-  if (s.id === "creation" && level === 2) {
+  else if (level === 2) {
+    // Light/Dark mini-game
     startCreationGame1();
     return;
   }
+  else if (level === 3) {
+    // 🌱 Grow & Seas mini-game
+    document.querySelectorAll("#creationGame1, #creationDay3").forEach(el => el.classList.add("hidden"));
+    document.getElementById("creationDay3").classList.remove("hidden");
+    return;
+  }
+}
+
 
   // ⏳ Default fallback (placeholder mini-game)
   gameTimer = setTimeout(endGameAndRecord, 10000);
