@@ -366,8 +366,91 @@ nav.bottom button.active {
 
   /* Game area */
   #game{position:fixed;inset:0; background:#e8f8ff; display:none; flex-direction:column}
-  .game-top{display:flex; align-items:center; justify-content:space-between; padding:.6rem .7rem; background:#0ea5e9; color:#fff}
-  .game-stage{flex:1; display:grid; place-items:center; padding:14px}
+  /* Game HUD Top Bar */
+.game-top {
+  background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+
+  font-family: 'Baloo2', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 1px 2px 3px rgba(0,0,0,0.35);
+}
+
+#hudTitle {
+  font-size: 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#hudTitle::before {
+  content: "📖"; /* decorative icon */
+}
+
+#hudStars {
+  font-size: 18px;
+  font-weight: 800;
+  text-shadow: 0 0 6px gold, 0 0 12px orange;
+}
+
+#pauseBtn {
+  background: linear-gradient(145deg, #f97316, #ea580c);
+  border: none;
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#pauseBtn:hover {
+  transform: scale(1.05);
+}
+
+  .game-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #87ceeb, #e0f7ff);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 10px;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Example floating background clouds */
+.game-stage::before {
+  content: "☁️";
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  font-size: 40px;
+  opacity: 0.6;
+  animation: floatClouds 20s linear infinite;
+}
+.game-stage::after {
+  content: "☁️";
+  position: absolute;
+  top: 40%;
+  right: 15%;
+  font-size: 50px;
+  opacity: 0.6;
+  animation: floatClouds 25s linear infinite reverse;
+}
+
+@keyframes floatClouds {
+  from { transform: translateX(-30px); }
+  to   { transform: translateX(30px); }
+}
+
   .big-btn{background:#fff; border:none; padding:12px 14px; border-radius:14px; box-shadow:var(--shadow); font-weight:800}
 
   /* Pause menu (glossy like your ref) */
