@@ -1490,7 +1490,9 @@ function startCreationPuzzle(easyMode = false) {
       <h2>Day 3 — Land & Seas</h2>
       <p class="instructions">Tap two tiles to swap them and complete the picture!</p>
       <div id="puzzleGrid" class="puzzle-grid"></div>
-      <button id="toggleModeBtn" class="big-btn">Switch to ${easyMode ? "Hard (3x3)" : "Easy (2x2)"} Mode</button>
+      <button id="toggleModeBtn" class="big-btn">
+        Switch to ${easyMode ? "Hard (3x3)" : "Easy (2x2)"} Mode
+      </button>
     </div>
   `;
 
@@ -1547,12 +1549,16 @@ function startCreationPuzzle(easyMode = false) {
       firstTile.classList.remove("selected");
       firstTile = null;
 
-      // Win check
+      // ✅ Win check
       if (checkPuzzleSolved(grid, size)) {
+        grid.classList.add("solved");        // glow effect
+        grid.style.pointerEvents = "none";   // lock puzzle
+
+        launchConfettiSparkles();
+
         setTimeout(() => {
-          launchConfettiSparkles();
           endGameAndRecord();
-        }, 500);
+        }, 4000); // 4s delay before popup
       }
     }
   });
@@ -1563,16 +1569,11 @@ function startCreationPuzzle(easyMode = false) {
   });
 }
 
-if (checkPuzzleSolved(grid, size)) {
-  grid.classList.add("solved"); // trigger glow effect
-
-  // fire confetti right away for fun
-  launchConfettiSparkles();
-
-  // wait 3 seconds before showing "Level Complete"
-  setTimeout(() => {
-    endGameAndRecord();
-  }, 4000);
+// Helper to check if puzzle is solved
+function checkPuzzleSolved(grid, size) {
+  const tiles = [...grid.children];
+  return tiles.every((tile, idx) =>
+    tile.style.backgroundPosition ===
+    `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
+  );
 }
-
-
