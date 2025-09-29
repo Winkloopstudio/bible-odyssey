@@ -1546,5 +1546,28 @@ main#viewContainer {
   }
 }
  
+#puzzleGame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center text & button horizontally */
+  justify-content: flex-start;
+  text-align: center;    /* center headings and instructions text */
+  gap: 10px;             /* space between items */
+}
+
+#puzzleGame h2 {
+  margin-top: 0;
+}
+
+#puzzleGame .instructions {
+  max-width: 90%;
+  margin-bottom: 10px;
+}
+
+#toggleModeBtn {
+  margin-top: 15px;
+  align-self: center;
+}
+
 
 
