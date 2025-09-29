@@ -455,11 +455,11 @@ function startGame(level) {
       startCreationGame1();
       return;
     }
-    else if (level === 3) {
-      // Day 3: Grow & Seas
-      startCreationPuzzle();
-      return;
-    }
+   else if (level === 3) {
+  startCreationPuzzle(false);  // false = hard (3x3), true = easy (2x2)
+  return;
+}
+
   }
   // ⏳ Default fallback (placeholder mini-game)
   gameTimer = setTimeout(endGameAndRecord, 10000);
@@ -1530,26 +1530,26 @@ function buyItem(id){
   }, 1000);
 }
 
-function startCreationPuzzle() {
+function startCreationPuzzle(easyMode = false) {
   $(".game-stage").innerHTML = `
     <div id="puzzleGame">
       <h2>Day 3 — Land & Seas</h2>
       <p class="instructions">Tap two tiles to swap them and complete the picture!</p>
       <div id="puzzleGrid" class="puzzle-grid"></div>
+      <button id="toggleModeBtn" class="big-btn">Switch to ${easyMode ? "Hard (3x3)" : "Easy (2x2)"} Mode</button>
     </div>
   `;
 
   const grid = document.getElementById("puzzleGrid");
-  const size = 3; // 3x3 puzzle
+  const size = easyMode ? 2 : 3; // 2x2 for easy, 3x3 for hard
   let tiles = [];
 
-  // Split image into tiles
+  // Build tiles
   for (let i = 0; i < size * size; i++) {
     const tile = document.createElement("div");
     tile.className = "puzzle-tile";
     tile.dataset.index = i;
 
-    // Background position for correct placement
     const row = Math.floor(i / size);
     const col = i % size;
     tile.style.backgroundImage = "url('images/creation-day3.png')";
@@ -1559,16 +1559,16 @@ function startCreationPuzzle() {
     tiles.push(tile);
   }
 
-  // Shuffle tiles (simple Fisher–Yates)
+  // Shuffle tiles
   for (let i = tiles.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
   }
 
-  // Render tiles
+  // Render shuffled tiles
   tiles.forEach(tile => grid.appendChild(tile));
 
-  // Tap-to-swap logic
+  // Swap logic
   let firstTile = null;
   grid.addEventListener("click", (e) => {
     const tile = e.target.closest(".puzzle-tile");
@@ -1578,7 +1578,6 @@ function startCreationPuzzle() {
       firstTile = tile;
       tile.classList.add("selected");
     } else {
-      // Swap backgrounds
       const temp = tile.style.backgroundPosition;
       tile.style.backgroundPosition = firstTile.style.backgroundPosition;
       firstTile.style.backgroundPosition = temp;
@@ -1586,7 +1585,7 @@ function startCreationPuzzle() {
       firstTile.classList.remove("selected");
       firstTile = null;
 
-      // Check for win
+      // Win check
       if (checkPuzzleSolved(grid, size)) {
         setTimeout(() => {
           launchConfettiSparkles();
@@ -1594,6 +1593,11 @@ function startCreationPuzzle() {
         }, 500);
       }
     }
+  });
+
+  // Toggle easy/hard button
+  document.getElementById("toggleModeBtn").addEventListener("click", () => {
+    startCreationPuzzle(!easyMode);
   });
 }
 
