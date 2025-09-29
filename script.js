@@ -1563,10 +1563,16 @@ function startCreationPuzzle(easyMode = false) {
   });
 }
 
-function checkPuzzleSolved(grid, size) {
-  const tiles = [...grid.children];
-  return tiles.every((tile, idx) =>
-    tile.style.backgroundPosition ===
-    `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
-  );
+if (checkPuzzleSolved(grid, size)) {
+  grid.classList.add("solved"); // trigger glow effect
+
+  // fire confetti right away for fun
+  launchConfettiSparkles();
+
+  // wait 3 seconds before showing "Level Complete"
+  setTimeout(() => {
+    endGameAndRecord();
+  }, 4000);
 }
+
+
