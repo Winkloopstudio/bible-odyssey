@@ -544,52 +544,6 @@ function startCreationGame1() {
   });
 }
 
-  function startCreationGame2() {
-  $(".game-stage").innerHTML = `
-    <div id="creationDay3">
-      <h2>Day 3 — Land & Seas</h2>
-      <p class="instructions">Tap the dirt to grow plants, then fill the trench with water!</p>
-      <div class="mound" data-stage="0"></div>
-      <div class="flower" data-stage="0"></div>
-      <div id="trench"></div>
-      <div id="waterFill"></div>
-    </div>
-  `;
-
-  // reset water
-  let waterLevel = 0;
-
-  // hooks
-  document.querySelectorAll(".mound").forEach(mound => {
-    mound.addEventListener("click", () => {
-      let stage = +mound.dataset.stage;
-      if (stage < 3) stage++;
-      mound.dataset.stage = stage;
-      mound.className = `mound stage${stage}`;
-    });
-  });
-
-  document.querySelectorAll(".flower").forEach(flower => {
-    flower.addEventListener("click", () => {
-      let stage = +flower.dataset.stage;
-      if (stage < 2) stage++;
-      flower.dataset.stage = stage;
-      flower.className = `flower stage${stage}`;
-    });
-  });
-
-  document.getElementById("trench").addEventListener("click", () => {
-    waterLevel++;
-    document.getElementById("waterFill").style.height = (waterLevel * 20) + "px";
-    if (waterLevel >= 5) {
-      setTimeout(() => {
-        launchConfettiSparkles();
-        endGameAndRecord();
-      }, 500);
-    }
-  });
-}
-
 // Generate stars
 function generateStars(count = 40) {
   const area = document.getElementById("lightDarkArea");
@@ -1608,3 +1562,4 @@ function checkPuzzleSolved(grid, size) {
     `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
   );
 }
+
