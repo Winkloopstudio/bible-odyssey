@@ -1498,6 +1498,10 @@ function startCreationPuzzle(easyMode = false) {
   const size = easyMode ? 2 : 3; // 2x2 for easy, 3x3 for hard
   let tiles = [];
 
+  // 🔑 Tell the grid how many rows/columns to use
+  grid.style.gridTemplateColumns = `repeat(${size}, 90px)`;
+  grid.style.gridTemplateRows = `repeat(${size}, 90px)`;
+
   // Build tiles
   for (let i = 0; i < size * size; i++) {
     const tile = document.createElement("div");
@@ -1555,11 +1559,4 @@ function startCreationPuzzle(easyMode = false) {
   });
 }
 
-function checkPuzzleSolved(grid, size) {
-  const tiles = [...grid.children];
-  return tiles.every((tile, idx) =>
-    tile.style.backgroundPosition ===
-    `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
-  );
-}
 
