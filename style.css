@@ -1509,90 +1509,17 @@ main#viewContainer {
   color: #444;
 }
 
-/* Dirt mound */
-.mound {
-  width: 120px;
-  height: 80px;
-  background: #8b4513;
-  border-radius: 60px 60px 20px 20px;
-  margin: 0 auto;
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.mound:hover {
-  transform: scale(1.05);
-}
-
-/* Mound growth stages */
-.mound.stage1 { background: #8b5a2b; }
-.mound.stage2 { background: #7c3f00; }
-.mound.stage3::after {
-  content: "🌳";
-  font-size: 40px;
-  position: absolute;
-  top: -45px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Flower */
-.flower {
-  width: 40px;
-  height: 40px;
-  margin: 20px auto;
-  cursor: pointer;
-  position: relative;
-}
-.flower.stage0::after { content: "🌱"; font-size: 30px; }
-.flower.stage1::after { content: "🌸"; font-size: 35px; }
-.flower.stage2::after { content: "🌼"; font-size: 38px; }
-
-/* Water trench */
-#trench {
-  width: 80%;
-  height: 40px;
-  background: #b0a48c;
-  border-radius: 8px;
-  margin: 30px auto 0;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: inset 0 3px 5px rgba(0,0,0,0.3);
-}
-#trench::before {
-  content: "💧 Tap to fill with water!";
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #333;
-}
-
-/* Rising water inside trench */
-#waterFill {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background: linear-gradient(to top, #1e90ff, #87cefa);
-  transition: height 0.5s ease;
-}
-
 .puzzle-grid {
   display: grid;
-  grid-template-columns: repeat(3, 90px);
-  grid-template-rows: repeat(3, 90px);
   gap: 4px;
   margin-top: 20px;
+  justify-content: center;
 }
 
-.puzzle-tile {
+.puzzle-grid .puzzle-tile {
   width: 90px;
   height: 90px;
-  background-size: 300% 300%;
+  background-size: cover;
   border: 2px solid #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
@@ -1605,3 +1532,4 @@ main#viewContainer {
 }
 
   
+
