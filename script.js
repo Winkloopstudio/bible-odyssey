@@ -1498,9 +1498,12 @@ function startCreationPuzzle(easyMode = false) {
   const size = easyMode ? 2 : 3; // 2x2 for easy, 3x3 for hard
   let tiles = [];
 
-  // 🔑 Tell the grid how many rows/columns to use
+  // 🔑 Set grid layout
   grid.style.gridTemplateColumns = `repeat(${size}, 90px)`;
   grid.style.gridTemplateRows = `repeat(${size}, 90px)`;
+
+  // ✅ Use Day 3 story art (creation4.png) as puzzle image
+  const puzzleImage = "images/creation4.png";
 
   // Build tiles
   for (let i = 0; i < size * size; i++) {
@@ -1510,9 +1513,10 @@ function startCreationPuzzle(easyMode = false) {
 
     const row = Math.floor(i / size);
     const col = i % size;
-    tile.style.backgroundImage = "url('images/creation-day3.png')";
+    tile.style.backgroundImage = `url('${puzzleImage}')`;
     tile.style.backgroundSize = `${size * 100}% ${size * 100}%`;
     tile.style.backgroundPosition = `${(-col * 100)}% ${(-row * 100)}%`;
+    tile.style.backgroundColor = "#eee"; // fallback if image missing
 
     tiles.push(tile);
   }
@@ -1559,4 +1563,10 @@ function startCreationPuzzle(easyMode = false) {
   });
 }
 
-
+function checkPuzzleSolved(grid, size) {
+  const tiles = [...grid.children];
+  return tiles.every((tile, idx) =>
+    tile.style.backgroundPosition ===
+    `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
+  );
+}
