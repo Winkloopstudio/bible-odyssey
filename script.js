@@ -457,7 +457,7 @@ function startGame(level) {
     }
     else if (level === 3) {
       // Day 3: Grow & Seas
-     startCreationGame2();
+      startCreationPuzzle();
       return;
     }
   }
@@ -1529,3 +1529,74 @@ function buyItem(id){
     }
   }, 1000);
 }
+
+function startCreationPuzzle() {
+  $(".game-stage").innerHTML = `
+    <div id="puzzleGame">
+      <h2>Day 3 — Land & Seas</h2>
+      <p class="instructions">Tap two tiles to swap them and complete the picture!</p>
+      <div id="puzzleGrid" class="puzzle-grid"></div>
+    </div>
+  `;
+
+  const grid = document.getElementById("puzzleGrid");
+  const size = 3; // 3x3 puzzle
+  let tiles = [];
+
+  // Split image into tiles
+  for (let i = 0; i < size * size; i++) {
+    const tile = document.createElement("div");
+    tile.className = "puzzle-tile";
+    tile.dataset.index = i;
+
+    // Background position for correct placement
+    const row = Math.floor(i / size);
+    const col = i % size;
+    tile.style.backgroundImage = "url('images/creation-day3.png')";
+    tile.style.backgroundSize = `${size * 100}% ${size * 100}%`;
+    tile.style.backgroundPosition = `${(-col * 100)}% ${(-row * 100)}%`;
+
+    tiles.push(tile);
+  }
+
+  // Shuffle tiles (simple Fisher–Yates)
+  for (let i = tiles.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+  }
+
+  // Render tiles
+  tiles.forEach(tile => grid.appendChild(tile));
+
+  // Tap-to-swap logic
+  let firstTile = null;
+  grid.addEventListener("click", (e) => {
+    const tile = e.target.closest(".puzzle-tile");
+    if (!tile) return;
+
+    if (!firstTile) {
+      firstTile = tile;
+      tile.classList.add("selected");
+    } else {
+      // Swap backgrounds
+      const temp = tile.style.backgroundPosition;
+      tile.style.backgroundPosition = firstTile.style.backgroundPosition;
+      firstTile.style.backgroundPosition = temp;
+
+      firstTile.classList.remove("selected");
+      firstTile = null;
+
+      // Check for win
+      if (checkPuzzleSolved(grid, size)) {
+        setTimeout(() => {
+          launchConfettiSparkles();
+          endGameAndRecord();
+        }, 500);
+      }
+    }
+  });
+}
+
+function checkPuzzleSolved(grid, size) {
+  const tiles = [...grid.children];
+  return t
