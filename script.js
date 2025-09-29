@@ -1599,4 +1599,8 @@ function startCreationPuzzle() {
 
 function checkPuzzleSolved(grid, size) {
   const tiles = [...grid.children];
-  return t
+  return tiles.every((tile, idx) =>
+    tile.style.backgroundPosition ===
+    `${-(idx % size) * 100}% ${-(Math.floor(idx / size)) * 100}%`
+  );
+}
