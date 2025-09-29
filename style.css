@@ -1531,5 +1531,20 @@ main#viewContainer {
   transform: scale(1.05);
 }
 
-  
+ .puzzle-grid.solved .puzzle-tile {
+  animation: glowPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    border-color: gold;
+  }
+  to {
+    box-shadow: 0 0 16px rgba(255, 215, 0, 1);
+    border-color: orange;
+  }
+}
+ 
+
 
